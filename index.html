@@ -116,7 +116,7 @@ body.order-mode .price-clickable::after{content:'🛒 в корзину' !import
 .cq-chip-block .chip-blocks{font-size:9px;opacity:.75;}
 .cq-chip-block.selected .chip-blocks{opacity:.85;}
 .cq-footer{display:flex;gap:8px;padding:10px 16px;border-top:1px solid var(--border);background:var(--surface-alt);}
-.cart-qty-inp{width:54px;padding:3px 4px;border:1px solid var(--border);border-radius:var(--radius);font-size:var(--fz-md);font-family:'Inter',sans-serif;color:var(--text-primary);background:var(--surface);text-align:center;transition:border-color 120ms,box-shadow 120ms;-moz-appearance:textfield;appearance:textfield;}.cart-qty-inp::-webkit-outer-spin-button,.cart-qty-inp::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}.cart-qty-inp:hover{border-color:var(--border-strong);}.cart-qty-inp:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,111,212,.12);outline:none;}.cart-qty-inp.qty-warn{border-color:var(--amber);}.cart-qty-warn{display:none;font-size:10px;color:var(--amber-dark);margin-top:2px;white-space:nowrap;}.cart-qty-warn.show{display:block;}
+.cart-qty-inp{width:52px;padding:3px 4px;border:1px solid transparent;border-radius:var(--radius);font-size:var(--fz-md);font-family:'Inter',sans-serif;color:var(--text-primary);background:transparent;text-align:center;transition:border-color 120ms,background 120ms;-moz-appearance:textfield;appearance:textfield;}.cart-qty-inp::-webkit-outer-spin-button,.cart-qty-inp::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 .cart-qty-inp:hover{border-color:var(--border-strong);background:var(--surface);}
 .cart-qty-inp:focus{outline:none;border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 2px rgba(59,111,212,.12);}
 #cartQtyInput{display:none;}
@@ -8333,29 +8333,7 @@ document.addEventListener('click', function(e) {
         itemName = (n || row.names[0]).name || '';
       }
     }
-    // find suggestFactor: if unit item, look for block factor from sibling suppliers in same row
-    var suggestFactor = divFactor; // default: own divFactor (>1 for block items, 1 for units)
-    if (divFactor === 1 && typeof _vsData !== 'undefined' && typeof allColumns !== 'undefined') {
-      var _vsRow = _vsData.find(function(r){ return r.barcode === mainBarcode || r.barcode === supplierBarcode; });
-      if (_vsRow && _vsRow.values) {
-        allColumns.forEach(function(c) {
-          if (c.key === colKey || suggestFactor > 1) return;
-          var _vals = _vsRow.values.get(c.key);
-          if (_vals && _vals.length > 0) {
-            _vals.forEach(function(v) {
-              if (v._autoDiv && v._autoDivFactor > 1 && suggestFactor === 1) {
-                suggestFactor = v._autoDivFactor;
-              }
-            });
-          }
-        });
-        // also check packQty directly
-        if (suggestFactor === 1 && _vsRow.packQty && _vsRow.packQty > 1) {
-          suggestFactor = _vsRow.packQty;
-        }
-      }
-    }
-    _cartPending = { supplierBarcode: supplierBarcode, colKey: colKey, priceDisplay: priceDisplay, mainBarcode: mainBarcode, supplierName: supplierName, itemName: itemName, divFactor: divFactor, suggestFactor: suggestFactor };
+    _cartPending = { supplierBarcode: supplierBarcode, colKey: colKey, priceDisplay: priceDisplay, mainBarcode: mainBarcode, supplierName: supplierName, itemName: itemName, divFactor: divFactor };
     // check if already in cart -> pre-fill qty (show in units, i.e. blocks * factor)
     var existQty = 1;
     if (cart[supplierName]) {
@@ -8458,37 +8436,20 @@ document.addEventListener('click', function(e) {
       }
     } else {
       qtyLabel.textContent = 'Количество';
+      divHint.style.display = 'none';
       manualInp.step = 1;
       manualInp.min = 1;
       manualHint.textContent = '';
       chipsEl.classList.remove('cq-chips--block');
-      var sf = (_cartPending && _cartPending.suggestFactor > 1) ? _cartPending.suggestFactor : 1;
-      if (sf > 1) {
-        divHint.style.display = 'flex';
-        divHint.innerHTML = 'Другой поставщик продаёт блоками по <b>' + sf + ' шт.</b> — показаны кратные значения';
-        // chips as multiples of sf (values in units)
-        for (var i = 1; i <= 1000; i++) {
-          var v2 = i * sf;
-          var chip2 = document.createElement('button');
-          chip2.type = 'button';
-          chip2.className = 'cq-chip';
-          chip2.dataset.val = v2;
-          chip2.textContent = v2;
-          chip2.onclick = (function(val){ return function(){ _selectChip(val); }; })(v2);
-          chipsEl.appendChild(chip2);
-        }
-      } else {
-        divHint.style.display = 'none';
-        // plain 1–1000
-        for (var i = 1; i <= 1000; i++) {
-          var chip2 = document.createElement('button');
-          chip2.type = 'button';
-          chip2.className = 'cq-chip';
-          chip2.dataset.val = i;
-          chip2.textContent = i;
-          chip2.onclick = (function(val){ return function(){ _selectChip(val); }; })(i);
-          chipsEl.appendChild(chip2);
-        }
+      // Full grid 1–1000
+      for (var i = 1; i <= 1000; i++) {
+        var chip2 = document.createElement('button');
+        chip2.type = 'button';
+        chip2.className = 'cq-chip';
+        chip2.dataset.val = i;
+        chip2.textContent = i;
+        chip2.onclick = (function(val){ return function(){ _selectChip(val); }; })(i);
+        chipsEl.appendChild(chip2);
       }
     }
     // pre-select
@@ -8520,9 +8481,8 @@ document.addEventListener('click', function(e) {
       ex.price = p.priceDisplay;
       ex.divFactor = divFactor > 1 ? divFactor : undefined;
       ex.mainBarcode = p.mainBarcode || p.supplierBarcode;
-      ex.suggestFactor = (p.suggestFactor && p.suggestFactor > 1) ? p.suggestFactor : undefined;
     } else {
-      cart[p.supplierName].items.push({ barcode: p.supplierBarcode, mainBarcode: p.mainBarcode || p.supplierBarcode, name: p.itemName, price: p.priceDisplay, qty: qtyToStore, divFactor: divFactor > 1 ? divFactor : undefined, suggestFactor: (p.suggestFactor && p.suggestFactor > 1) ? p.suggestFactor : undefined });
+      cart[p.supplierName].items.push({ barcode: p.supplierBarcode, mainBarcode: p.mainBarcode || p.supplierBarcode, name: p.itemName, price: p.priceDisplay, qty: qtyToStore, divFactor: divFactor > 1 ? divFactor : undefined });
     }
     saveCart();
     updateCartBadge();
@@ -8845,27 +8805,15 @@ document.addEventListener('click', function(e) {
     var idx = parseInt(inp.getAttribute('data-idx'), 10);
     var price = parseFloat(inp.getAttribute('data-price'));
     var df = parseInt(inp.getAttribute('data-divfactor'), 10) || 1;
-    var sf = parseInt(inp.getAttribute('data-suggestfactor'), 10) || 0;
     if (!cart[supName] || !cart[supName].items[idx]) return;
+    if (cart[supName].items[idx].qty === qty) return; // no change
     cart[supName].items[idx].qty = qty;
     saveCart();
     updateCartBadge();
-    // divisibility warning
-    var checkFactor = df > 1 ? df : sf;
-    var isNotMultiple = checkFactor > 1 && qty % checkFactor !== 0;
-    inp.classList.toggle('qty-warn', isNotMultiple);
-    var td = inp.closest('td');
-    if (td) {
-      var warnEl = td.querySelector('.cart-qty-warn');
-      if (warnEl) {
-        warnEl.textContent = isNotMultiple ? ('⚠ не кратно ' + checkFactor) : '';
-        warnEl.classList.toggle('show', isNotMultiple);
-      }
-      var unitsEl = td.querySelector('.cart-block-units');
-      if (unitsEl) unitsEl.textContent = (qty * df) + ' шт.';
-    }
     var tr = inp.closest('tr');
     if (tr) {
+      var unitsEl = tr.querySelector('.cart-block-units');
+      if (unitsEl) unitsEl.textContent = (qty * df) + '\u00a0шт.';
       var sumCell = tr.querySelector('.cart-sum-cell');
       if (sumCell) sumCell.textContent = isNaN(price) ? '' : (price * qty * df).toFixed(2);
     }
