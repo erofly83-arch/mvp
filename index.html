@@ -120,6 +120,22 @@ body.order-mode .price-clickable::after{content:'🛒 в корзину' !import
 .cart-qty-inp:hover{border-color:var(--border-strong);background:var(--surface);}
 .cart-qty-inp:focus{outline:none;border-color:var(--accent);background:var(--surface);box-shadow:0 0 0 2px rgba(59,111,212,.12);}
 #cartQtyInput{display:none;}
+/* Pack size selector */
+#cqPackSelect{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:4px 0 2px;border-bottom:1px solid var(--border);margin-bottom:2px;}
+.cqs-label{font-size:var(--fz-xs);font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.5px;flex-shrink:0;white-space:nowrap;}
+.cqs-btns{display:flex;flex-wrap:wrap;gap:5px;}
+.cqs-btn{padding:3px 12px;border:1px solid var(--border-strong);border-radius:99px;background:var(--surface);font-size:var(--fz-sm);font-weight:600;color:var(--text-primary);cursor:pointer!important;transition:background 100ms,border-color 100ms,color 100ms;line-height:1.6;font-family:'Inter',sans-serif;}
+.cqs-btn:hover{background:var(--accent-lite);border-color:var(--accent);color:var(--accent);}
+.cqs-btn.active{background:var(--accent);border-color:var(--accent-dark);color:#fff;}
+.cqs-btn--none{font-weight:400;color:var(--text-muted);}
+.cqs-btn--none:hover{background:var(--surface-alt);border-color:var(--border-strong);color:var(--text-secondary);}
+.cqs-btn--none.active{background:var(--surface-alt);border-color:var(--border-strong);color:var(--text-secondary);font-weight:600;}
+.cq-block-src{font-size:9px;font-weight:400;color:#92400E;opacity:0.8;margin-left:4px;}
+/* Fix: reset pointer cursor inside cart qty modal — only real controls keep it */
+.cart-qty-box,.cq-header,.cq-body,.cq-product,.cq-name,.cq-meta,.cq-barcode,.cq-price,.cq-warn,.cq-block-badge,.cq-qty-section,.cq-qty-header,.cq-qty-label,.cq-selected-pill,.cq-manual-row,.cq-manual-hint,.cq-chips-wrap,.cq-chips,.cq-footer{cursor:default;}
+/* ── Ячейка уже добавлена в корзину ──────────────────────────────────────── */
+.price-in-cart{background:#FEF9C3 !important;border-radius:3px;color:#92400E !important;font-weight:700;}
+body.order-mode .price-in-cart::after{content:'✓ в корзине' !important;}
 
 /* ── Cart main modal ─────────────────────────────────────────────────────── */
 #cartModal{position:fixed;inset:0;background:rgba(26,29,35,.5);display:none;align-items:center;justify-content:center;z-index:10025;padding:16px;overflow:hidden}
@@ -2509,15 +2525,17 @@ return { barcode: item.barcode, packQty, autoDivFactor,
                     const _divF = vObj._autoDiv ? (vObj._autoDivFactor || item.packQty || 1) : 1;
                     const _cMin = (_cellMin !== null && numValue !== null) ? _cellMin : 0;
                     const _cMax = (_cellMax !== null && numValue !== null) ? _cellMax : 0;
+                    const _inCart = window._cartedKeys && window._cartedKeys.has(barcodeForCopy + '|' + col.key);
+                    const _cartCls = _inCart ? ' price-in-cart' : '';
                     let innerHtml;
                     if (isAbsMin) {
-                        innerHtml = `<span class="price-val is-abs-min price-clickable" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})" title="Минимальная цена в строке">${displayValue}</span>${autoBadge}`;
+                        innerHtml = `<span class="price-val is-abs-min price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})" title="Минимальная цена в строке">${displayValue}</span>${autoBadge}`;
                     } else if (isMin) {
-                        innerHtml = `<span class="price-val is-min price-clickable" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})">${displayValue}</span>${autoBadge}`;
+                        innerHtml = `<span class="price-val is-min price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})">${displayValue}</span>${autoBadge}`;
                     } else if (isMax && numValue) {
-                        innerHtml = `<span class="price-clickable" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})">${displayValue}</span>${autoBadge}<div class="div-wrapper" title="Цена указана за блок?"><div class="div-icon">÷</div><select class="div-select" onchange="dividePrice('${item.barcode}','${col.key}',${vIndex},this.value);this.value=''"><option value="" disabled selected>÷</option>${_DIV_OPTIONS}</select></div>`;
+                        innerHtml = `<span class="price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})">${displayValue}</span>${autoBadge}<div class="div-wrapper" title="Цена указана за блок?"><div class="div-icon">÷</div><select class="div-select" onchange="dividePrice('${item.barcode}','${col.key}',${vIndex},this.value);this.value=''"><option value="" disabled selected>÷</option>${_DIV_OPTIONS}</select></div>`;
                     } else {
-                        innerHtml = `<span class="price-clickable" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})">${displayValue}</span>${autoBadge}`;
+                        innerHtml = `<span class="price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})">${displayValue}</span>${autoBadge}`;
                     }
                     cellContent += `<div class="value-variant">${innerHtml}</div>`;
                 });
@@ -8196,8 +8214,19 @@ document.addEventListener('click', function(e) {
       </div>
       <!-- price warning -->
       <div id="cqPriceWarn" class="cq-warn" style="display:none"></div>
+      <!-- division needed warning -->
+      <div id="cqDivNeeded" style="display:none;background:#FEF3C7;border:1px solid #FDE68A;border-left:3px solid #F59E0B;border-radius:4px;padding:7px 11px;font-size:11px;color:#78350F;line-height:1.5;margin-bottom:2px;">
+        ⚠ У этого товара цена, похоже, указана <b>за блок/упаковку</b>, а не за штуку.<br>
+        Чтобы считалось верно — разделите цену вручную через кнопку <b>÷</b> в таблице,<br>
+        или выберите размер блока ниже (тогда деление применится только для этого заказа).
+      </div>
       <!-- block hint -->
       <div id="cqDivHint" class="cq-block-badge" style="display:none"></div>
+      <!-- pack size selector (shown when ambiguous detection) -->
+      <div id="cqPackSelect" style="display:none">
+        <span class="cqs-label">Размер блока</span>
+        <div class="cqs-btns" id="cqsButtons"></div>
+      </div>
       <!-- qty picker -->
       <div class="cq-qty-section">
         <div class="cq-qty-header">
@@ -8225,10 +8254,6 @@ document.addEventListener('click', function(e) {
       <button class="btn btn-secondary" style="flex:1;" onclick="closeCartQtyModal()">Отмена</button>
       <button class="btn btn-success" style="flex:2;" onclick="confirmCartQty()">В корзину</button>
     </div>
-    <!-- legacy panels kept hidden -->
-    <div id="cqNotDivisible" class="cart-not-divisible" style="display:none"></div>
-    <div id="cqConfirmPanel" style="display:none"></div>
-    <div class="cart-qty-footer" style="display:none"></div>
   </div>
 </div>
 
@@ -8258,14 +8283,26 @@ document.addEventListener('click', function(e) {
   var cart = {};
 
   function saveCart() {
-    try { sessionStorage.setItem('pm_cart', JSON.stringify(cart)); } catch(e) {}
+    // Bug #7 fix: use localStorage so cart persists across tabs (consistent with orderMode storage)
+    try { localStorage.setItem('pm_cart', JSON.stringify(cart)); } catch(e) {}
+    _rebuildCartedKeys();
   }
   function loadCart() {
     try {
-      var s = sessionStorage.getItem('pm_cart');
+      var s = localStorage.getItem('pm_cart');
       if (s) { var d = JSON.parse(s); if (d && typeof d === 'object') cart = d; }
     } catch(e) {}
+    _rebuildCartedKeys();
     updateCartBadge();
+  }
+  function _rebuildCartedKeys() {
+    var s = new Set();
+    Object.values(cart).forEach(function(sup) {
+      sup.items.forEach(function(it) {
+        if (it.barcode && it.colKey) s.add(it.barcode + '|' + it.colKey);
+      });
+    });
+    window._cartedKeys = s;
   }
   loadCart();
 
@@ -8280,6 +8317,9 @@ document.addEventListener('click', function(e) {
     var n = getTotalItems();
     badge.textContent = n;
     badge.classList.toggle('has-items', n > 0);
+    // Bug #2 fix: re-evaluate cartBtn disabled state based on item count
+    var btn = document.getElementById('cartBtn');
+    if (btn) btn.disabled = !window._orderModeState && n === 0;
   }
 
   // ---- order mode ----
@@ -8298,7 +8338,9 @@ document.addEventListener('click', function(e) {
         : 'Режим заказа выключен — кликните на любую цену, чтобы скопировать штрихкод этого товара от данного поставщика');
     }
     var btn = document.getElementById('cartBtn');
-    if (btn) btn.disabled = !on;
+    // Bug #2 fix: cart button is accessible whenever there are items in the cart,
+    // regardless of orderMode. orderMode only controls price-click behavior.
+    if (btn) btn.disabled = !on && getTotalItems() === 0;
   }
   window.setOrderMode = function(val) {
     orderMode = !!val;
@@ -8310,6 +8352,229 @@ document.addEventListener('click', function(e) {
   });
   _applyOrderModeUI(orderMode);
 
+  // ---- pack size detection ----
+  function _detectPackSize(item, colFileName) {
+    // Priority 1: packQty from My Price match (most reliable)
+    if (item.packQty && item.packQty > 1 && item.packQty <= 200) {
+      return { confidence: 'exact', qty: item.packQty, candidates: [item.packQty], source: 'myprice' };
+    }
+
+    // Parse a single name string -> [{n, w}] sorted by weight desc
+    // Returns ALL plausible candidates with confidence weights
+    function _parsePackFromName(name) {
+      if (!name) return [];
+      var s = String(name).toLowerCase();
+      var scores = {}; // n -> max weight
+
+      function add(raw, w) {
+        var n = parseInt(raw, 10);
+        if (isNaN(n) || n < 2 || n > 500) return;
+        if (!scores[n] || scores[n] < w) scores[n] = w;
+      }
+
+      // Исключаем паллетные числа: "пал.117", "в пал. 36"
+      var excluded = {};
+      var pe = /(?:в\s+)?пал(?:лет(?:е|а)?|ет(?:е|а)?)?\.?\s*(\d+)/g, pm;
+      while ((pm = pe.exec(s)) !== null) excluded[parseInt(pm[1], 10)] = 1;
+
+      function addSafe(raw, w) { var n = parseInt(raw, 10); if (!excluded[n]) add(raw, w); }
+
+      var m;
+      // Вес 100 — явная метка "шт": самый надёжный признак
+      m = s.match(/\((\d+)\s*шт/);
+      if (m) addSafe(m[1], 100);
+      var re1 = /(\d+)\s*шт\.?(?:[\s,;)\/# ]|$)/g;
+      while ((m = re1.exec(s)) !== null) addSafe(m[1], 100);
+
+      // Вес 90 — "уп", "блок", "бл"
+      m = s.match(/уп(?:ак)?\.?\s*(\d+)/);   if (m) addSafe(m[1], 90);
+      m = s.match(/блок\s*(\d+)/);            if (m) addSafe(m[1], 90);
+      m = s.match(/бл\.?\s*(\d+)/);           if (m) addSafe(m[1], 85);
+
+      // Вес 80 — дробь "1/N"
+      m = s.match(/1\/(\d+)/);                if (m) addSafe(m[1], 80);
+
+      // Вес 65-78 — мультипликативный формат "1х100х20", "АхВхС"
+      // Извлекаем ВСЕ числа из цепочки, пропускаем ведущую "1"
+      var xchain = /(?:^|[\s(,])(\d+)\s*[xх]\s*(\d+)(?:\s*[xх]\s*(\d+))?/gi;
+      while ((m = xchain.exec(s)) !== null) {
+        var p1 = parseInt(m[1]), p2 = parseInt(m[2]), p3 = m[3] ? parseInt(m[3]) : null;
+        var parts = p3 !== null ? [p1, p2, p3] : [p1, p2];
+        var len = parts.length;
+        parts.forEach(function(v, i) {
+          if (v === 1) return; // ведущая "1x" — пропускаем
+          // В цепочке из 3: C (последний) → 78, B (средний) → 72, A (первый) → 65
+          var w = len === 3 ? [65, 72, 78][i] : (i === len - 1 ? 75 : 65);
+          addSafe(v, w);
+        });
+      }
+      // Одиночный "xN" (не попавший в xchain)
+      var xsingle = /[xх]\s*(\d+)(?:[\s,;)\/# ]|$)/g;
+      while ((m = xsingle.exec(s)) !== null) addSafe(m[1], 70);
+
+      // Вес 50 — голое число в скобках "(48)" — умеренная уверенность
+      var parPat = /\((\d+)\)/g;
+      while ((m = parPat.exec(s)) !== null) addSafe(m[1], 50);
+
+      // Вес 45 — "/N" (последний вариант)
+      var slashPat = /\/(\d+)(?:[\s,;)\/# ]|$)/g;
+      while ((m = slashPat.exec(s)) !== null) addSafe(m[1], 45);
+
+      return Object.keys(scores)
+        .map(function(k) { return { n: parseInt(k, 10), w: scores[k] }; })
+        .sort(function(a, b) { return b.w - a.w || a.n - b.n; });
+    }
+
+    // Агрегируем взвешенные кандидаты со всех вариантов названий
+    // Текущий поставщик получает множитель x2
+    var aggScores = {};
+    if (item.names) {
+      item.names.forEach(function(nm) {
+        var boost = (nm.fileName === colFileName) ? 2.0 : 1.0;
+        _parsePackFromName(nm.name).forEach(function(c) {
+          aggScores[c.n] = (aggScores[c.n] || 0) + c.w * boost;
+        });
+      });
+    }
+
+    var ranked = Object.keys(aggScores)
+      .map(function(k) { return { n: parseInt(k, 10), s: aggScores[k] }; })
+      .sort(function(a, b) { return b.s - a.s || a.n - b.n; });
+
+    if (ranked.length === 0) return { confidence: 'none', qty: 1, candidates: [], source: 'none' };
+
+    var topN = ranked[0].n;
+    var candidates = ranked.map(function(r) { return r.n; });
+    // "exact" только если единственный кандидат, иначе "ambiguous" -> UI покажет все варианты
+    var conf = candidates.length === 1 ? 'exact' : 'ambiguous';
+    return { confidence: conf, qty: topN, candidates: candidates, source: 'name' };
+  }
+
+  // ---- qty modal shared helpers (module-level — used by priceClick AND cqSelectPack) ----
+  function _cqUpdatePill(val) {
+    var df = (_cartPending && _cartPending.divFactor > 1) ? _cartPending.divFactor : 1;
+    var pill = document.getElementById('cqSelectedPill');
+    if (!pill) return;
+    if (df > 1) {
+      var bl = Math.round(val / df);
+      pill.textContent = val + ' шт. · ' + bl + ' бл.';
+    } else {
+      pill.textContent = val + ' шт.';
+    }
+  }
+
+  function _cqSelectChip(val) {
+    var inp = document.getElementById('cartQtyInput');
+    var manualInp = document.getElementById('cqManualInput');
+    var chipsEl = document.getElementById('cqChips');
+    if (inp) inp.value = val;
+    if (manualInp) manualInp.value = val;
+    _cqUpdatePill(val);
+    if (chipsEl) chipsEl.querySelectorAll('.cq-chip').forEach(function(c) {
+      c.classList.toggle('selected', parseInt(c.dataset.val, 10) === val);
+    });
+  }
+
+  function _cqRebuildChips(df) {
+    var chipsEl = document.getElementById('cqChips');
+    var divHint = document.getElementById('cqDivHint');
+    var manualInp = document.getElementById('cqManualInput');
+    var manualHint = document.getElementById('cqManualHint');
+    if (!chipsEl) return;
+    chipsEl.innerHTML = '';
+    if (df > 1) {
+      if (divHint) {
+        divHint.style.display = 'flex';
+        var src = _cartPending ? _cartPending._packSource : '';
+        var cands = (_cartPending && _cartPending._packCandidates) ? _cartPending._packCandidates : [];
+        var srcHtml = src === 'myprice' ? ' <span class="cq-block-src">из прайса</span>'
+                    : src === 'name'    ? ' <span class="cq-block-src">из названия</span>'
+                    : '';
+        var otherCands = cands.filter(function(c){ return c !== df; });
+        var otherHtml = (otherCands.length > 0 && src !== 'myprice')
+          ? ' <span class="cq-block-src" style="opacity:0.65">также: ' + otherCands.join(', ') + ' шт.</span>'
+          : '';
+        divHint.innerHTML = 'Блок: <b>' + df + ' шт.</b>' + srcHtml + otherHtml;
+      }
+      if (manualInp) { manualInp.step = df; manualInp.min = df; }
+      if (manualHint) manualHint.textContent = '';
+      chipsEl.classList.add('cq-chips--block');
+      for (var n = 1; n <= 1000; n++) {
+        var v = n * df;
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'cq-chip cq-chip-block';
+        chip.dataset.val = v;
+        chip.innerHTML = '<span class="chip-units">' + v + '</span><span class="chip-blocks">' + n + ' бл.</span>';
+        chip.onclick = (function(val){ return function(){ _cqSelectChip(val); }; })(v);
+        chipsEl.appendChild(chip);
+      }
+    } else {
+      if (divHint) divHint.style.display = 'none';
+      if (manualInp) { manualInp.step = 1; manualInp.min = 1; }
+      if (manualHint) manualHint.textContent = '';
+      chipsEl.classList.remove('cq-chips--block');
+      for (var i = 1; i <= 1000; i++) {
+        var chip2 = document.createElement('button');
+        chip2.type = 'button';
+        chip2.className = 'cq-chip';
+        chip2.dataset.val = i;
+        chip2.textContent = i;
+        chip2.onclick = (function(val){ return function(){ _cqSelectChip(val); }; })(i);
+        chipsEl.appendChild(chip2);
+      }
+    }
+  }
+
+  // Called when user manually picks a pack size from the ambiguous selector
+  window.cqSelectPack = function(qty) {
+    if (!_cartPending) return;
+    qty = parseInt(qty, 10) || 1;
+    _cartPending.divFactor = qty;
+    // Highlight active button
+    var packSelEl = document.getElementById('cqPackSelect');
+    if (packSelEl) {
+      packSelEl.querySelectorAll('.cqs-btn').forEach(function(b) {
+        b.classList.toggle('active', parseInt(b.dataset.qty, 10) === qty);
+      });
+    }
+    // Rebuild chip grid
+    _cqRebuildChips(qty);
+    // Restore or default qty
+    var existQty = 1;
+    var sup = _cartPending.supplierName;
+    var bc = _cartPending.supplierBarcode;
+    if (cart[sup]) {
+      var ex = cart[sup].items.find(function(i){ return i.barcode === bc; });
+      if (ex) existQty = qty > 1 ? ex.qty * qty : ex.qty;
+    }
+    var preVal = qty > 1 ? Math.max(qty, existQty > 1 ? existQty : qty) : Math.max(1, existQty);
+    _cqSelectChip(preVal);
+    setTimeout(function() {
+      var chips = document.getElementById('cqChips');
+      if (chips) { var sel = chips.querySelector('.cq-chip.selected'); if (sel) sel.scrollIntoView({ block: 'nearest' }); }
+    }, 20);
+  };
+
+  // ---- qty modal helpers (module-level — defined once, use _cartPending) ----
+  window.cqManualChange = function() {
+    var manualInp2 = document.getElementById('cqManualInput');
+    var val = parseInt(manualInp2.value, 10);
+    if (isNaN(val) || val < 1) return;
+    var df = (_cartPending && _cartPending.divFactor > 1) ? _cartPending.divFactor : 1;
+    if (df > 1) val = Math.max(df, Math.round(val / df) * df);
+    _cqSelectChip(val);
+  };
+
+  window.cqManualStep = function(dir) {
+    var df = (_cartPending && _cartPending.divFactor > 1) ? _cartPending.divFactor : 1;
+    var step = df > 1 ? df : 1;
+    var inp2 = document.getElementById('cartQtyInput');
+    var cur = parseInt((inp2 ? inp2.value : '1'), 10) || step;
+    var next = Math.max(step, cur + dir * step);
+    _cqSelectChip(next);
+  };
+
   // ---- price click handler ----
   window.priceClick = function(supplierBarcode, colKey, priceDisplay, mainBarcode, divFactor, cellMin, cellMax) {
     if (!orderMode) {
@@ -8318,24 +8583,39 @@ document.addEventListener('click', function(e) {
       return;
     }
     divFactor = (divFactor && divFactor > 1) ? parseInt(divFactor, 10) : 1;
+    var originalDivFactor = divFactor; // сохраняем ДО детекции — нужно для предупреждения
     cellMin = parseFloat(cellMin) || 0;
     cellMax = parseFloat(cellMax) || 0;
     // order mode: open qty dialog
     var col = null;
     if (typeof allColumns !== 'undefined') col = allColumns.find(function(c){ return c.key === colKey; });
-    var supplierName = col ? (col.fileName || col.displayName || colKey) : colKey;
-    // get item name
+    var supplierName = col ? (col.displayName || col.fileName || colKey) : colKey;
+    // get item name + detect pack size for items without explicit divFactor
     var itemName = '';
+    var _detectedPack = { confidence: 'none', qty: 1, candidates: [], source: 'none' };
     if (typeof _vsData !== 'undefined') {
       var row = _vsData.find(function(r){ return r.barcode === mainBarcode || r.barcode === supplierBarcode; });
       if (row && row.names && row.names.length > 0) {
         var n = col ? row.names.find(function(x){ return x.fileName === col.fileName; }) : null;
         itemName = (n || row.names[0]).name || '';
       }
+      // If no explicit divFactor from cell, try to detect pack size
+      if (divFactor <= 1 && row) {
+        _detectedPack = _detectPackSize(row, col ? col.fileName : null);
+        if (_detectedPack.confidence !== 'none') {
+          divFactor = _detectedPack.qty;
+        }
+      } else if (divFactor > 1) {
+        // divFactor came from auto-division — mark as exact from price
+        _detectedPack = { confidence: 'exact', qty: divFactor, candidates: [divFactor], source: 'myprice' };
+      }
     }
-    _cartPending = { supplierBarcode: supplierBarcode, colKey: colKey, priceDisplay: priceDisplay, mainBarcode: mainBarcode, supplierName: supplierName, itemName: itemName, divFactor: divFactor };
+    _cartPending = { supplierBarcode: supplierBarcode, colKey: colKey, priceDisplay: priceDisplay,
+      mainBarcode: mainBarcode, supplierName: supplierName, itemName: itemName, divFactor: divFactor,
+      _packSource: _detectedPack.source, _packConfidence: _detectedPack.confidence,
+      _packCandidates: _detectedPack.candidates || [] };
     // check if already in cart -> pre-fill qty (show in units, i.e. blocks * factor)
-    var existQty = 1;
+    var existQty = 0;
     if (cart[supplierName]) {
       var ex = cart[supplierName].items.find(function(i){ return i.barcode === supplierBarcode; });
       if (ex) existQty = divFactor > 1 ? ex.qty * divFactor : ex.qty;
@@ -8350,117 +8630,83 @@ document.addEventListener('click', function(e) {
     if (priceWarn) {
       priceWarn.style.display = 'none';
       priceWarn.textContent = '';
-      if (cellMin > 0 && cellMax > 0 && cellMin !== cellMax) {
-        if (clickedNum > cellMin) {
+      var _dec = (typeof PRICE_DECIMALS !== 'undefined') ? PRICE_DECIMALS : 1;
+      var clickedRounded = parseFloat(clickedNum.toFixed(_dec));
+      var cellMinRounded = parseFloat(cellMin.toFixed(_dec));
+      var cellMaxRounded = parseFloat(cellMax.toFixed(_dec));
+      var cellMinDisplay = cellMin.toFixed(_dec).replace(/\.0+$/, '');
+      if (cellMinRounded > 0 && cellMaxRounded > 0 && cellMinRounded !== cellMaxRounded) {
+        if (clickedRounded > cellMinRounded) {
           priceWarn.style.display = 'block';
           priceWarn.style.background = '#FEF2F2';
           priceWarn.style.borderColor = '#FECACA';
           priceWarn.style.color = '#991B1B';
-          priceWarn.textContent = '⚠ У этого поставщика есть цена ниже: ' + cellMin;
-        } else if (clickedNum === cellMin && (cellMax - cellMin) / cellMax > 0.1) {
+          priceWarn.textContent = '⚠ У этого поставщика есть цена ниже: ' + cellMinDisplay;
+        } else if (clickedRounded === cellMinRounded && (cellMaxRounded - cellMinRounded) / cellMaxRounded > 0.1) {
           priceWarn.style.display = 'block';
           priceWarn.style.background = '#FFFBEB';
           priceWarn.style.borderColor = '#FDE68A';
           priceWarn.style.color = '#92400E';
-          priceWarn.textContent = '⚠ Цена на ' + Math.round((cellMax - cellMin) / cellMax * 100) + '% ниже другой цены поставщика — возможно товар с истекающим сроком годности.';
+          priceWarn.textContent = '⚠ Цена на ' + Math.round((cellMaxRounded - cellMinRounded) / cellMaxRounded * 100) + '% ниже другой цены поставщика — возможно товар с истекающим сроком годности.';
         }
       }
     }
-    // qty label, hint & populate chips
-    var qtyLabel = document.getElementById('cqQtyLabel');
-    var divHint = document.getElementById('cqDivHint');
-    var chipsEl = document.getElementById('cqChips');
-    var inp = document.getElementById('cartQtyInput');
-    var manualInp = document.getElementById('cqManualInput');
-    var manualHint = document.getElementById('cqManualHint');
-    chipsEl.innerHTML = '';
+    // Предупреждение: цена похоже за блок, но деление не применено
+    var divNeededEl = document.getElementById('cqDivNeeded');
+    if (divNeededEl) {
+      // Показываем если: не было явного divFactor из ячейки, но детектор нашёл кандидатов из названия
+      var needsWarn = (originalDivFactor <= 1)
+                   && _detectedPack.candidates && _detectedPack.candidates.length > 0
+                   && _detectedPack.source === 'name';
+      divNeededEl.style.display = needsWarn ? 'block' : 'none';
+    }
+    // qty label, hint & populate chips — use module-level helpers
+    // (cqManualChange and cqManualStep defined at module level above priceClick)
 
-    function _updatePill(val) {
-      var df = (_cartPending && _cartPending.divFactor > 1) ? _cartPending.divFactor : 1;
-      var pill = document.getElementById('cqSelectedPill');
-      if (df > 1) {
-        var bl = val / df;
-        pill.textContent = val + '\u00a0шт. · ' + bl + '\u00a0бл.';
+    // Показываем селектор размера блока всегда, когда есть кандидаты
+    // (не только при ambiguous) — предлагаем все варианты, не утверждаем
+    var packSelEl = document.getElementById('cqPackSelect');
+    var cqsButtons = document.getElementById('cqsButtons');
+    if (packSelEl && cqsButtons) {
+      var hasCandidates = _detectedPack.candidates && _detectedPack.candidates.length > 0
+                          && _detectedPack.source !== 'myprice';
+      if (hasCandidates) {
+        cqsButtons.innerHTML = '';
+        _detectedPack.candidates.forEach(function(cand) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'cqs-btn' + (cand === divFactor ? ' active' : '');
+          b.dataset.qty = cand;
+          b.textContent = cand + '\u00a0шт.';
+          b.onclick = (function(q){ return function(){ window.cqSelectPack(q); }; })(cand);
+          cqsButtons.appendChild(b);
+        });
+        // "без блока" — пользователь может отказаться от блочного режима
+        var bNone = document.createElement('button');
+        bNone.type = 'button';
+        bNone.className = 'cqs-btn cqs-btn--none' + (divFactor <= 1 ? ' active' : '');
+        bNone.dataset.qty = 1;
+        bNone.textContent = 'без блока';
+        bNone.onclick = function(){ window.cqSelectPack(1); };
+        cqsButtons.appendChild(bNone);
+        packSelEl.style.display = 'flex';
       } else {
-        pill.textContent = val + '\u00a0шт.';
+        packSelEl.style.display = 'none';
       }
     }
 
-    function _selectChip(val) {
-      inp.value = val;
-      manualInp.value = val;
-      _updatePill(val);
-      chipsEl.querySelectorAll('.cq-chip').forEach(function(c) {
-        c.classList.toggle('selected', parseInt(c.dataset.val, 10) === val);
-      });
-    }
+    // Build chip grid
+    _cqRebuildChips(divFactor);
 
-    window.cqManualChange = function() {
-      var val = parseInt(manualInp.value, 10);
-      if (isNaN(val) || val < 1) return;
-      var df = (_cartPending && _cartPending.divFactor > 1) ? _cartPending.divFactor : 1;
-      if (df > 1) val = Math.max(df, Math.round(val / df) * df);
-      inp.value = val;
-      _updatePill(val);
-      chipsEl.querySelectorAll('.cq-chip').forEach(function(c) {
-        c.classList.toggle('selected', parseInt(c.dataset.val, 10) === val);
-      });
-    };
-
-    window.cqManualStep = function(dir) {
-      var df = (_cartPending && _cartPending.divFactor > 1) ? _cartPending.divFactor : 1;
-      var step = df > 1 ? df : 1;
-      var cur = parseInt(inp.value, 10) || step;
-      var next = Math.max(step, cur + dir * step);
-      _selectChip(next);
-    };
-
-    if (divFactor > 1) {
-      qtyLabel.textContent = 'Количество';
-      divHint.style.display = 'flex';
-      divHint.innerHTML = 'Блок: <b>' + divFactor + '\u00a0шт.</b>\u00a0·\u00a01000 вариантов';
-      manualInp.step = divFactor;
-      manualInp.min = divFactor;
-      manualHint.textContent = '';
-      chipsEl.classList.add('cq-chips--block');
-      // 1000 multiples of divFactor
-      for (var n = 1; n <= 1000; n++) {
-        var v = n * divFactor;
-        var chip = document.createElement('button');
-        chip.type = 'button';
-        chip.className = 'cq-chip cq-chip-block';
-        chip.dataset.val = v;
-        chip.innerHTML = '<span class="chip-units">' + v + '</span><span class="chip-blocks">' + n + '\u00a0бл.</span>';
-        chip.onclick = (function(val){ return function(){ _selectChip(val); }; })(v);
-        chipsEl.appendChild(chip);
-      }
-    } else {
-      qtyLabel.textContent = 'Количество';
-      divHint.style.display = 'none';
-      manualInp.step = 1;
-      manualInp.min = 1;
-      manualHint.textContent = '';
-      chipsEl.classList.remove('cq-chips--block');
-      // Full grid 1–1000
-      for (var i = 1; i <= 1000; i++) {
-        var chip2 = document.createElement('button');
-        chip2.type = 'button';
-        chip2.className = 'cq-chip';
-        chip2.dataset.val = i;
-        chip2.textContent = i;
-        chip2.onclick = (function(val){ return function(){ _selectChip(val); }; })(i);
-        chipsEl.appendChild(chip2);
-      }
-    }
     // pre-select
     var preVal = (divFactor > 1) ? (existQty > 0 ? existQty : divFactor) : (existQty > 0 ? existQty : 1);
-    _selectChip(preVal);
+    _cqSelectChip(preVal);
     // scroll selected chip into view & focus manual input
     setTimeout(function(){
-      var selChip = chipsEl.querySelector('.cq-chip.selected');
-      if (selChip) selChip.scrollIntoView({ block: 'nearest' });
+      var chipsEl2 = document.getElementById('cqChips');
+      if (chipsEl2) { var selChip = chipsEl2.querySelector('.cq-chip.selected'); if (selChip) selChip.scrollIntoView({ block: 'nearest' }); }
       var mi = document.getElementById('cqManualInput');
-      if (mi) { mi.focus(); mi.select(); }
+      if (mi) { mi.focus({ preventScroll: true }); mi.select(); }
     }, 40);
     document.getElementById('cartQtyModal').classList.add('open');
   };
@@ -8479,14 +8725,16 @@ document.addEventListener('click', function(e) {
     if (ex) {
       ex.qty = qtyToStore;
       ex.price = p.priceDisplay;
+      ex.colKey = p.colKey;
       ex.divFactor = divFactor > 1 ? divFactor : undefined;
       ex.mainBarcode = p.mainBarcode || p.supplierBarcode;
     } else {
-      cart[p.supplierName].items.push({ barcode: p.supplierBarcode, mainBarcode: p.mainBarcode || p.supplierBarcode, name: p.itemName, price: p.priceDisplay, qty: qtyToStore, divFactor: divFactor > 1 ? divFactor : undefined });
+      cart[p.supplierName].items.push({ barcode: p.supplierBarcode, mainBarcode: p.mainBarcode || p.supplierBarcode, name: p.itemName, price: p.priceDisplay, colKey: p.colKey, qty: qtyToStore, divFactor: divFactor > 1 ? divFactor : undefined });
     }
     saveCart();
     updateCartBadge();
     closeCartQtyModal();
+    if (typeof _mvsRenderVisible === 'function') _mvsRenderVisible();
     var toastMsg = '✅ Добавлено: ' + (p.itemName || p.supplierBarcode);
     if (divFactor > 1) toastMsg += ' — ' + qtyToStore + ' бл. (' + (qtyToStore * divFactor) + ' шт.)';
     if (typeof showToast === 'function') showToast(toastMsg, 'ok');
@@ -8582,7 +8830,9 @@ document.addEventListener('click', function(e) {
       } else {
         html += '<th>Штрихкод</th><th>Наименование</th>';
       }
-      html += '<th class="num">Цена / шт.</th><th class="num">Кол-во</th><th class="num">Сумма</th>';
+      // Bug #4 fix: show unit hint in qty column header when any item has divFactor
+      var _hasBlocks = sup.items.some(function(it){ return it.divFactor && it.divFactor > 1; });
+      html += '<th class="num">Цена / шт.</th><th class="num">Кол-во' + (_hasBlocks ? ' <span style="font-weight:400;font-size:9px;color:var(--amber-dark);">(бл.)</span>' : '') + '</th><th class="num">Сумма</th>';
       if (hasMarkup) html += '<th class="col-myprice num">Моя цена</th>';
       html += '<th style="width:32px;"></th></tr></thead><tbody>';
 
@@ -8631,8 +8881,11 @@ document.addEventListener('click', function(e) {
       });
 
       // total row — colspan depends on columns
-      var extraCols = (hasMarkup ? 1 : 0) + (hasMyPriceReplace ? 2 : 0);
-      var totalColspan = 5 + extraCols; // cb + barcode + name + price + qty = 5, +2 if myPrice cols
+      // Columns: cb(1) + barcode(1or2) + name(1or2) + price(1) + qty(1) = 5 base
+      // hasMyPriceReplace adds 2 (extra barcode + extra name cols)
+      // hasMarkup adds 1 col but it has its own empty <td>, so NOT counted in colspan
+      var extraCols = (hasMyPriceReplace ? 2 : 0);
+      var totalColspan = 5 + extraCols; // Bug #1 fix: hasMarkup excluded from colspan
       html += '<tr class="cart-total-row">';
       html += '<td colspan="' + totalColspan + '" class="total-label">Итого по поставщику:</td>';
       html += '<td class="total-val">' + total.toFixed(2) + '</td>';
@@ -8768,6 +9021,12 @@ document.addEventListener('click', function(e) {
     if (!supName || !cart[supName]) return;
     var sup = cart[supName];
     var hasChecked = sup.items.some(function(it){ return it._checked; });
+    // Bug #3 fix: when no checkboxes selected this would wipe ALL markups silently — require confirm
+    if (!hasChecked) {
+      var markedTotal = sup.items.filter(function(it){ return it.myPrice != null; }).length;
+      if (markedTotal === 0) return;
+      if (!confirm('Снять наценку со всех ' + markedTotal + ' позиций поставщика?')) return;
+    }
     var cancelled = 0;
     sup.items.forEach(function(it) {
       if (it.myPrice == null) return;
@@ -8816,6 +9075,14 @@ document.addEventListener('click', function(e) {
       if (unitsEl) unitsEl.textContent = (qty * df) + '\u00a0шт.';
       var sumCell = tr.querySelector('.cart-sum-cell');
       if (sumCell) sumCell.textContent = isNaN(price) ? '' : (price * qty * df).toFixed(2);
+      // Bug #5 fix: refresh myPrice cell (price-per-unit stays the same, but re-render keeps it consistent)
+      var myPriceCell = tr.querySelector('.cart-myprice-cell');
+      if (myPriceCell && cart[supName] && cart[supName].items[idx]) {
+        var _itmp = cart[supName].items[idx];
+        if (_itmp.myPrice != null) {
+          myPriceCell.innerHTML = _itmp.myPrice.toFixed(2) + '<span class="cart-myprice-badge">+' + _itmp._markup + '%</span>';
+        }
+      }
     }
     var block = inp.closest('.cart-supplier-block');
     if (block) {
@@ -8835,6 +9102,7 @@ document.addEventListener('click', function(e) {
       saveCart();
       updateCartBadge();
       renderCartModal();
+      if (typeof _mvsRenderVisible === 'function') _mvsRenderVisible();
     }
   };
   // ---- apply / cancel my price substitution ----
@@ -8896,35 +9164,36 @@ document.addEventListener('click', function(e) {
     saveCart();
     updateCartBadge();
     renderCartModal();
+    if (typeof _mvsRenderVisible === 'function') _mvsRenderVisible();
   };
 
-  // ---- Excel download ----
-  window.downloadCartExcel = function() {
-    if (!Object.keys(cart).length) { if (typeof showToast === 'function') showToast('Корзина пуста', 'warn'); return; }
-    if (typeof ExcelJS === 'undefined') { if (typeof showToast === 'function') showToast('ExcelJS не загружен', 'err'); return; }
+  // ---- Excel export: shared workbook builder ----
+  // Single source of truth for both downloadCartExcel and _cartGetExcelBlob.
+  // Always 2 columns (barcode + name). If "Мой прайс" substitution is active for an item,
+  // its barcode and name are replaced with values from my price list; otherwise supplier data is used.
+  function _buildCartWorkbook() {
     var wb = new ExcelJS.Workbook();
     wb.creator = 'Price Manager';
     var ws = wb.addWorksheet('Корзина');
-
     var suppliers = Object.keys(cart);
     var row = 1;
 
-    // header styles
-    var hdrFill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF3B6FD4'} };
-    var hdrFont = { bold:true, color:{argb:'FFFFFFFF'}, size:10 };
-    var supFill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1E3A5F'} };
-    var supFont = { bold:true, color:{argb:'FFFFFFFF'}, size:10 };
+    var hdrFill   = { type:'pattern', pattern:'solid', fgColor:{argb:'FF3B6FD4'} };
+    var hdrFont   = { bold:true, color:{argb:'FFFFFFFF'}, size:10 };
+    var supFill   = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1E3A5F'} };
+    var supFont   = { bold:true, color:{argb:'FFFFFFFF'}, size:10 };
     var totalFill = { type:'pattern', pattern:'solid', fgColor:{argb:'FFEEF2FF'} };
     var totalFont = { bold:true, color:{argb:'FF2D5AB5'}, size:10 };
-    var thinBorder = { style:'thin', color:{argb:'FFC8CDD8'} };
+    var thinBorder = { style:'thin',   color:{argb:'FFC8CDD8'} };
     var boldBorder = { style:'medium', color:{argb:'FF3B6FD4'} };
-    function allBorders(thin, thick) {
-      var s = thick ? boldBorder : thinBorder;
-      return { top:s, bottom:s, left:s, right:s };
-    }
 
-    // col widths (extended for my price columns)
-    ws.columns = [{width:22},{width:44},{width:44},{width:44},{width:14},{width:10},{width:14},{width:14}];
+    // Fixed column widths: barcode | name | price | qty | sum [| myPrice]
+    ws.getColumn(1).width = 22;
+    ws.getColumn(2).width = 50;
+    ws.getColumn(3).width = 13;
+    ws.getColumn(4).width = 20;
+    ws.getColumn(5).width = 13;
+    ws.getColumn(6).width = 13;
 
     suppliers.forEach(function(supName) {
       var sup = cart[supName];
@@ -8932,26 +9201,18 @@ document.addEventListener('click', function(e) {
 
       var total = getSupplierTotal(sup.items);
       var supHasMarkup = sup.items.some(function(it){ return it.myPrice != null; });
-      // Unified column structure — always: Штрихкод | Наименование | Цена/шт | Кол-во | Сумма [| Моя цена]
-      // If "мой прайс" is active, replace barcode/name with myBarcode/myName when available
+
+      // Always: Штрихкод | Наименование | Цена / шт. | Кол-во | Сумма [| Моя цена]
       var headers = ['Штрихкод', 'Наименование', 'Цена / шт.', 'Кол-во', 'Сумма'];
       if (supHasMarkup) headers.push('Моя цена');
       var lastCol = headers.length;
 
-      // Column widths (set once per sheet — second call overwrites, that's fine)
-      ws.getColumn(1).width = 22;
-      ws.getColumn(2).width = 50;
-      ws.getColumn(3).width = 13;
-      ws.getColumn(4).width = 10;
-      ws.getColumn(5).width = 13;
-      if (supHasMarkup) ws.getColumn(6).width = 13;
-
       // Supplier title row
       var supRow = ws.getRow(row);
       supRow.getCell(1).value = '📦 ' + supName;
-      for (var c=1; c<=lastCol; c++) {
-        supRow.getCell(c).fill = supFill;
-        supRow.getCell(c).font = supFont;
+      for (var c = 1; c <= lastCol; c++) {
+        supRow.getCell(c).fill      = supFill;
+        supRow.getCell(c).font      = supFont;
         supRow.getCell(c).alignment = { vertical:'middle', horizontal:'left' };
       }
       ws.mergeCells(row, 1, row, lastCol);
@@ -8961,71 +9222,87 @@ document.addEventListener('click', function(e) {
       // Header row
       var hRow = ws.getRow(row);
       headers.forEach(function(h, i) {
-        var hc = hRow.getCell(i+1);
-        hc.value = h;
-        hc.font = hdrFont;
-        hc.fill = hdrFill;
+        var hc = hRow.getCell(i + 1);
+        hc.value     = h;
+        hc.font      = hdrFont;
+        hc.fill      = hdrFill;
         hc.alignment = { vertical:'middle', horizontal: i >= 2 ? 'right' : 'left' };
-        hc.border = { top:boldBorder, bottom:thinBorder, left:i===0?boldBorder:thinBorder, right:i===lastCol-1?boldBorder:thinBorder };
+        hc.border    = { top:boldBorder, bottom:thinBorder,
+                         left:  i === 0         ? boldBorder : thinBorder,
+                         right: i === lastCol-1 ? boldBorder : thinBorder };
       });
       hRow.height = 18;
       row++;
 
       // Item rows
       sup.items.forEach(function(it) {
-        var p = parseFloat(String(it.price).replace(/[^0-9.,]/g,'').replace(',','.'));
-        var df = it.divFactor && it.divFactor > 1 ? it.divFactor : 1;
+        var p       = parseFloat(String(it.price).replace(/[^0-9.,]/g,'').replace(',','.'));
+        var df      = it.divFactor && it.divFactor > 1 ? it.divFactor : 1;
         var realQty = it.qty * df;
-        var sum = isNaN(p) ? '' : parseFloat((p * realQty).toFixed(2));
-        var iRow = ws.getRow(row);
+        var sum     = isNaN(p) ? '' : parseFloat((p * realQty).toFixed(2));
+        var iRow    = ws.getRow(row);
 
-        // Replace with my data if available, otherwise keep supplier data
-        iRow.getCell(1).value = (it._myBarcode) ? it._myBarcode : it.barcode;
-        iRow.getCell(2).value = (it._myName)    ? it._myName    : (it.name || '');
+        // If item matched in "Мой прайс" — use my barcode/name; otherwise keep supplier data
+        iRow.getCell(1).value = it._myBarcode ? it._myBarcode : it.barcode;
+        iRow.getCell(2).value = it._myName    ? it._myName    : (it.name || '');
         iRow.getCell(3).value = isNaN(p) ? it.price : p;
         if (!isNaN(p)) iRow.getCell(3).numFmt = '#,##0.00';
         iRow.getCell(4).value = df > 1 ? (it.qty + ' бл. (' + realQty + ' шт.)') : it.qty;
         iRow.getCell(5).value = sum;
         if (typeof sum === 'number') iRow.getCell(5).numFmt = '#,##0.00';
         if (supHasMarkup) {
-          iRow.getCell(6).value = it.myPrice != null ? it.myPrice : '';
+          iRow.getCell(6).value  = it.myPrice != null ? it.myPrice : '';
           iRow.getCell(6).numFmt = '#,##0.00';
         }
 
-        for (var ci=1; ci<=lastCol; ci++) {
+        for (var ci = 1; ci <= lastCol; ci++) {
           var cell2 = iRow.getCell(ci);
-          cell2.font = { size:10 };
+          cell2.font      = { size:10 };
           cell2.alignment = { vertical:'middle', horizontal: ci >= 3 ? 'right' : 'left' };
-          cell2.border = { top:thinBorder, bottom:thinBorder, left:ci===1?boldBorder:thinBorder, right:ci===lastCol?boldBorder:thinBorder };
+          cell2.border    = { top:thinBorder, bottom:thinBorder,
+                              left:  ci === 1       ? boldBorder : thinBorder,
+                              right: ci === lastCol ? boldBorder : thinBorder };
         }
         iRow.height = 16;
         row++;
       });
 
-      // Total row
+      // Total row — always col 4 = "Итого:", col 5 = value
       var tRow = ws.getRow(row);
-      tRow.getCell(4).value = 'Итого:';
-      tRow.getCell(4).font = { bold:true, size:10 };
+      tRow.getCell(4).value     = 'Итого:';
+      tRow.getCell(4).font      = Object.assign({}, totalFont);
       tRow.getCell(4).alignment = { vertical:'middle', horizontal:'right' };
-      tRow.getCell(5).value = parseFloat(total.toFixed(2));
-      tRow.getCell(5).numFmt = '#,##0.00';
-      tRow.getCell(5).font = { bold:true, size:10 };
+      tRow.getCell(5).value     = parseFloat(total.toFixed(2));
+      tRow.getCell(5).numFmt    = '#,##0.00';
+      tRow.getCell(5).font      = Object.assign({}, totalFont);
       tRow.getCell(5).alignment = { vertical:'middle', horizontal:'right' };
-      for (var tc=1; tc<=lastCol; tc++) {
-        tRow.getCell(tc).border = { top:boldBorder, bottom:boldBorder, left:tc===1?boldBorder:thinBorder, right:tc===lastCol?boldBorder:thinBorder };
+      for (var tc = 1; tc <= lastCol; tc++) {
+        tRow.getCell(tc).border = { top:boldBorder, bottom:boldBorder,
+                                    left:  tc === 1       ? boldBorder : thinBorder,
+                                    right: tc === lastCol ? boldBorder : thinBorder };
         tRow.getCell(tc).fill = totalFill;
-        tRow.getCell(tc).font = tRow.getCell(tc).font ? Object.assign({}, tRow.getCell(tc).font, totalFont) : totalFont;
+        if (!tRow.getCell(tc).font || !tRow.getCell(tc).font.bold) {
+          tRow.getCell(tc).font = Object.assign({}, totalFont);
+        }
       }
       tRow.height = 18;
       row += 2;
     });
 
+    return wb;
+  }
+
+  // ---- Excel download ----
+  window.downloadCartExcel = function() {
+    if (!Object.keys(cart).length) { if (typeof showToast === 'function') showToast('Корзина пуста', 'warn'); return; }
+    if (typeof ExcelJS === 'undefined') { if (typeof showToast === 'function') showToast('ExcelJS не загружен', 'err'); return; }
+    var wb = _buildCartWorkbook();
     wb.xlsx.writeBuffer().then(function(buf) {
       var blob = new Blob([buf], { type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       var now = new Date();
       var stamp = now.getFullYear() + '_' + String(now.getMonth()+1).padStart(2,'0') + '_' + String(now.getDate()).padStart(2,'0');
       saveAs(blob, 'cart_' + stamp + '.xlsx');
-      if (typeof showToast === 'function') showToast('✅ Корзина скачана', 'ok');
+      if (typeof showToast === 'function') showToast('\u2705 Корзина скачана', 'ok');
     }).catch(function(e) {
       if (typeof showToast === 'function') showToast('Ошибка экспорта: ' + e, 'err');
     });
@@ -9034,79 +9311,13 @@ document.addEventListener('click', function(e) {
   // ---- expose for archive integration ----
   window._cartGetExcelBlob = function() {
     if (!Object.keys(cart).length || typeof ExcelJS === 'undefined') return Promise.resolve(null);
-    var wb = new ExcelJS.Workbook();
-    var ws = wb.addWorksheet('Корзина');
-    var suppliers = Object.keys(cart);
-    var row = 1;
-    var thinBorder = { style:'thin', color:{argb:'FFC8CDD8'} };
-    var boldBorder = { style:'medium', color:{argb:'FF3B6FD4'} };
-    var hdrFill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF3B6FD4'} };
-    var hdrFont = { bold:true, color:{argb:'FFFFFFFF'}, size:10 };
-    var supFill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1E3A5F'} };
-    var supFont = { bold:true, color:{argb:'FFFFFFFF'}, size:10 };
-    var totalFill = { type:'pattern', pattern:'solid', fgColor:{argb:'FFEEF2FF'} };
-    var totalFont = { bold:true, color:{argb:'FF2D5AB5'}, size:10 };
-    suppliers.forEach(function(supName) {
-      var sup = cart[supName];
-      if (!sup.items.length) return;
-      var total = getSupplierTotal(sup.items);
-      var supHasMarkup = sup.items.some(function(it){ return it.myPrice != null; });
-      // Unified column structure — replace supplier barcode/name with mine if available
-      var hdrs2 = ['Штрихкод','Наименование','Цена / шт.','Кол-во','Сумма'];
-      if (supHasMarkup) hdrs2.push('Моя цена');
-      var lastCol2 = hdrs2.length;
-      ws.getColumn(1).width=22; ws.getColumn(2).width=50;
-      ws.getColumn(3).width=13; ws.getColumn(4).width=10;
-      ws.getColumn(5).width=13; if(supHasMarkup) ws.getColumn(6).width=13;
-      var supRow = ws.getRow(row);
-      supRow.getCell(1).value = '📦 ' + supName;
-      for(var c=1;c<=lastCol2;c++){
-        supRow.getCell(c).fill=supFill;
-        supRow.getCell(c).font=supFont;
-        supRow.getCell(c).alignment={vertical:'middle',horizontal:'left'};
-      }
-      ws.mergeCells(row,1,row,lastCol2); supRow.height=20; row++;
-      var hRow=ws.getRow(row);
-      hdrs2.forEach(function(h,i){
-        var hc=hRow.getCell(i+1);
-        hc.value=h; hc.font=hdrFont; hc.fill=hdrFill;
-        hc.alignment={vertical:'middle',horizontal:i>=2?'right':'left'};
-        hc.border={top:boldBorder,bottom:thinBorder,left:i===0?boldBorder:thinBorder,right:i===lastCol2-1?boldBorder:thinBorder};
-      }); hRow.height=18; row++;
-      sup.items.forEach(function(it){
-        var p=parseFloat(String(it.price).replace(/[^0-9.,]/g,'').replace(',','.'));
-        var df=it.divFactor&&it.divFactor>1?it.divFactor:1;
-        var realQty=it.qty*df;
-        var sum=isNaN(p)?'':parseFloat((p*realQty).toFixed(2));
-        var iRow=ws.getRow(row);
-        iRow.getCell(1).value = it._myBarcode ? it._myBarcode : it.barcode;
-        iRow.getCell(2).value = it._myName    ? it._myName    : (it.name||'');
-        iRow.getCell(3).value = isNaN(p)?it.price:p;
-        if(!isNaN(p)) iRow.getCell(3).numFmt='#,##0.00';
-        iRow.getCell(4).value = df>1?(it.qty+' бл. ('+realQty+' шт.)'):it.qty;
-        iRow.getCell(5).value = sum;
-        if(typeof sum==='number') iRow.getCell(5).numFmt='#,##0.00';
-        if(supHasMarkup){ iRow.getCell(6).value=it.myPrice!=null?it.myPrice:''; iRow.getCell(6).numFmt='#,##0.00'; }
-        for(var ci=1;ci<=lastCol2;ci++){
-          iRow.getCell(ci).font={size:10};
-          iRow.getCell(ci).alignment={vertical:'middle',horizontal:ci>=3?'right':'left'};
-          iRow.getCell(ci).border={top:thinBorder,bottom:thinBorder,left:ci===1?boldBorder:thinBorder,right:ci===lastCol2?boldBorder:thinBorder};
-        }
-        iRow.height=16; row++;
-      });
-      var tRow=ws.getRow(row);
-      tRow.getCell(4).value='Итого:'; tRow.getCell(4).font={bold:true,size:10}; tRow.getCell(4).alignment={vertical:'middle',horizontal:'right'};
-      tRow.getCell(5).value=parseFloat(total.toFixed(2)); tRow.getCell(5).numFmt='#,##0.00'; tRow.getCell(5).font={bold:true,size:10}; tRow.getCell(5).alignment={vertical:'middle',horizontal:'right'};
-      for(var tc=1;tc<=lastCol2;tc++){
-        tRow.getCell(tc).border={top:boldBorder,bottom:boldBorder,left:tc===1?boldBorder:thinBorder,right:tc===lastCol2?boldBorder:thinBorder};
-        tRow.getCell(tc).fill=totalFill;
-      }
-      tRow.height=18; row+=2;
+    var wb = _buildCartWorkbook();
+    return wb.xlsx.writeBuffer().then(function(buf) {
+      return new Blob([buf], { type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
     });
-    return wb.xlsx.writeBuffer().then(function(buf){ return new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}); });
   };
 
-  window._cartHasItems = function(){ return Object.keys(cart).length > 0; };
+    window._cartHasItems = function(){ return Object.keys(cart).length > 0; };
 
   // close on overlay click
   document.getElementById('cartModal').addEventListener('click', function(e){
