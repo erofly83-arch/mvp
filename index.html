@@ -2533,7 +2533,7 @@ return { barcode: item.barcode, packQty, autoDivFactor,
                     } else if (isMin) {
                         innerHtml = `<span class="price-val is-min price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})">${displayValue}</span>${autoBadge}`;
                     } else if (isMax && numValue) {
-                        innerHtml = `<span class="price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})">${displayValue}</span>${autoBadge}<div class="div-wrapper" title="Цена указана за блок?"><div class="div-icon">÷</div><select class="div-select" onchange="dividePrice('${item.barcode}','${col.key}',${vIndex},this.value);this.value=''"><option value="" disabled selected>÷</option>${_DIV_OPTIONS}</select></div>`;
+                        innerHtml = `<span class="price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax},1)">${displayValue}</span>${autoBadge}<div class="div-wrapper" title="Цена указана за блок?"><div class="div-icon">÷</div><select class="div-select" onchange="dividePrice('${item.barcode}','${col.key}',${vIndex},this.value);this.value=''"><option value="" disabled selected>÷</option>${_DIV_OPTIONS}</select></div>`;
                     } else {
                         innerHtml = `<span class="price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax})">${displayValue}</span>${autoBadge}`;
                     }
@@ -4634,13 +4634,6 @@ self.onmessage=function({data}){
     const synSet=new Set([cNorm]);
     for(const s of(val.synonyms||[])){const sn=normalize(s);if(sn){if(!bsynMap.has(sn))bsynMap.set(sn,cNorm);synSet.add(sn);}}
     canon2syns.set(cNorm,synSet);
-  }
-  // Диагностика отключена — мультитокенные canonical без якоря не блокируют работу
-  // (bantMap с bigram lookup корректно обрабатывает их через applyBrandNorm)
-  for(const[cNorm,syns]of canon2syns){
-    if(cNorm.includes(' ')){
-      // No-op: multi-token canonicals are handled via bigram bantMap lookup
-    }
   }
   // Pass 2: build bantMap with full synonym expansion and symmetry.
   // bantMap хранит ключи и как однотокенные ("нескаф"), так и мультитокенные ("карт нуар").
@@ -8236,10 +8229,14 @@ document.addEventListener('click', function(e) {
         <!-- manual input row -->
         <div class="cq-manual-row">
           <button class="cq-manual-btn" onclick="cqManualStep(-1)">−</button>
-          <input class="cq-manual-input" type="number" id="cqManualInput" min="1" value="1"
+          <input class="cq-manual-input" type="number" id="cqManualInput" min="1" step="1" value="1"
             oninput="cqManualChange()" onkeydown="if(event.key==='Enter')confirmCartQty()">
           <button class="cq-manual-btn" onclick="cqManualStep(1)">+</button>
-          <span class="cq-manual-hint" id="cqManualHint"></span>
+          <span class="cq-manual-hint" id="cqManualHint" style="font-size:10px;color:#9CA3AF;">шт.</span>
+        </div>
+        <!-- manual tip: shown only in block mode -->
+        <div id="cqManualTip" style="display:none;font-size:10px;color:#92400E;background:#FFFBEB;border:1px solid #FDE68A;border-radius:4px;padding:4px 9px;margin:2px 0 0;">
+          Кратность неверная? Введите нужное число выше — добавится штуками.
         </div>
         <!-- chip grid -->
         <div class="cq-chips-wrap">
@@ -8450,70 +8447,80 @@ document.addEventListener('click', function(e) {
     return { confidence: conf, qty: topN, candidates: candidates, source: 'name' };
   }
 
-  // ---- qty modal shared helpers (module-level — used by priceClick AND cqSelectPack) ----
-  function _cqUpdatePill(val) {
+  // ---- qty modal shared helpers ----
+  function _cqUpdatePill(val, fromManual) {
     var df = (_cartPending && _cartPending.divFactor > 1) ? _cartPending.divFactor : 1;
     var pill = document.getElementById('cqSelectedPill');
     if (!pill) return;
-    if (df > 1) {
-      var bl = Math.round(val / df);
-      pill.textContent = val + ' шт. · ' + bl + ' бл.';
+    if (df > 1 && !fromManual) {
+      var bl = val / df;
+      var blText = Number.isInteger(bl) ? bl + ' бл.' : ('~' + bl.toFixed(1) + ' бл.');
+      pill.textContent = val + ' шт. · ' + blText;
+      pill.style.background = Number.isInteger(bl) ? '' : '#FEF3C7';
+      pill.style.color = Number.isInteger(bl) ? '' : '#92400E';
+    } else if (df > 1 && fromManual) {
+      pill.textContent = val + ' шт. (как есть)';
+      pill.style.background = '#EFF6FF';
+      pill.style.color = '#1E40AF';
     } else {
       pill.textContent = val + ' шт.';
+      pill.style.background = '';
+      pill.style.color = '';
     }
   }
 
-  function _cqSelectChip(val) {
+  function _cqSelectChip(val, fromManual) {
     var inp = document.getElementById('cartQtyInput');
     var manualInp = document.getElementById('cqManualInput');
     var chipsEl = document.getElementById('cqChips');
     if (inp) inp.value = val;
     if (manualInp) manualInp.value = val;
-    _cqUpdatePill(val);
+    if (_cartPending) _cartPending._manualInput = !!fromManual;
+    _cqUpdatePill(val, fromManual);
     if (chipsEl) chipsEl.querySelectorAll('.cq-chip').forEach(function(c) {
-      c.classList.toggle('selected', parseInt(c.dataset.val, 10) === val);
+      c.classList.toggle('selected', !fromManual && parseInt(c.dataset.val, 10) === val);
     });
   }
 
   function _cqRebuildChips(df) {
     var chipsEl = document.getElementById('cqChips');
     var divHint = document.getElementById('cqDivHint');
-    var manualInp = document.getElementById('cqManualInput');
     var manualHint = document.getElementById('cqManualHint');
     if (!chipsEl) return;
     chipsEl.innerHTML = '';
+    chipsEl.classList.remove('cq-chips--block');
+
+    var manualTip = document.getElementById('cqManualTip');
     if (df > 1) {
+      if (manualTip) manualTip.style.display = 'block';
+      // Update block hint
       if (divHint) {
         divHint.style.display = 'flex';
         var src = _cartPending ? _cartPending._packSource : '';
         var cands = (_cartPending && _cartPending._packCandidates) ? _cartPending._packCandidates : [];
         var srcHtml = src === 'myprice' ? ' <span class="cq-block-src">из прайса</span>'
-                    : src === 'name'    ? ' <span class="cq-block-src">из названия</span>'
-                    : '';
+                    : src === 'name'    ? ' <span class="cq-block-src">из названия</span>' : '';
         var otherCands = cands.filter(function(c){ return c !== df; });
         var otherHtml = (otherCands.length > 0 && src !== 'myprice')
-          ? ' <span class="cq-block-src" style="opacity:0.65">также: ' + otherCands.join(', ') + ' шт.</span>'
-          : '';
-        divHint.innerHTML = 'Блок: <b>' + df + ' шт.</b>' + srcHtml + otherHtml;
+          ? ' <span class="cq-block-src" style="opacity:0.65">также: ' + otherCands.join(', ') + ' шт.</span>' : '';
+        divHint.innerHTML = 'Блок: <b>' + df + ' шт.</b>' + srcHtml + otherHtml;
       }
-      if (manualInp) { manualInp.step = df; manualInp.min = df; }
-      if (manualHint) manualHint.textContent = '';
+      if (manualHint) manualHint.textContent = 'шт. (блоки: ' + df + ' шт.)';
       chipsEl.classList.add('cq-chips--block');
-      for (var n = 1; n <= 1000; n++) {
+      for (var n = 1; n <= 200; n++) {
         var v = n * df;
         var chip = document.createElement('button');
         chip.type = 'button';
         chip.className = 'cq-chip cq-chip-block';
         chip.dataset.val = v;
-        chip.innerHTML = '<span class="chip-units">' + v + '</span><span class="chip-blocks">' + n + ' бл.</span>';
+        chip.innerHTML = '<span class="chip-units">' + v + '</span><span class="chip-blocks">' + n + ' бл.</span>';
         chip.onclick = (function(val){ return function(){ _cqSelectChip(val); }; })(v);
         chipsEl.appendChild(chip);
       }
     } else {
+      if (manualTip) manualTip.style.display = 'none';
       if (divHint) divHint.style.display = 'none';
-      if (manualInp) { manualInp.step = 1; manualInp.min = 1; }
-      if (manualHint) manualHint.textContent = '';
-      chipsEl.classList.remove('cq-chips--block');
+      if (manualHint) manualHint.textContent = 'шт.';
       for (var i = 1; i <= 1000; i++) {
         var chip2 = document.createElement('button');
         chip2.type = 'button';
@@ -8538,45 +8545,47 @@ document.addEventListener('click', function(e) {
         b.classList.toggle('active', parseInt(b.dataset.qty, 10) === qty);
       });
     }
-    // Rebuild chip grid
+    // Rebuild chip grid keeping current qty
+    var curQty = parseInt((document.getElementById('cartQtyInput') || {}).value, 10) || 1;
     _cqRebuildChips(qty);
-    // Restore or default qty
-    var existQty = 1;
-    var sup = _cartPending.supplierName;
-    var bc = _cartPending.supplierBarcode;
-    if (cart[sup]) {
-      var ex = cart[sup].items.find(function(i){ return i.barcode === bc; });
-      if (ex) existQty = qty > 1 ? ex.qty * qty : ex.qty;
+    // Restore current qty (do not reset it)
+    _cqSelectChip(curQty);
+    // Update divHint text
+    var divHint = document.getElementById('cqDivHint');
+    if (divHint && qty > 1) {
+      var src = _cartPending._packSource || '';
+      var srcHtml = src === 'myprice' ? ' <span class="cq-block-src">из прайса</span>'
+                  : src === 'name'    ? ' <span class="cq-block-src">из названия</span>' : '';
+      divHint.innerHTML = 'Блок: <b>' + qty + ' шт.</b>' + srcHtml;
+      divHint.style.display = 'flex';
+    } else if (divHint) {
+      divHint.style.display = 'none';
     }
-    var preVal = qty > 1 ? Math.max(qty, existQty > 1 ? existQty : qty) : Math.max(1, existQty);
-    _cqSelectChip(preVal);
     setTimeout(function() {
       var chips = document.getElementById('cqChips');
       if (chips) { var sel = chips.querySelector('.cq-chip.selected'); if (sel) sel.scrollIntoView({ block: 'nearest' }); }
     }, 20);
   };
 
-  // ---- qty modal helpers (module-level — defined once, use _cartPending) ----
+  // ---- qty modal helpers ----
   window.cqManualChange = function() {
     var manualInp2 = document.getElementById('cqManualInput');
     var val = parseInt(manualInp2.value, 10);
     if (isNaN(val) || val < 1) return;
-    var df = (_cartPending && _cartPending.divFactor > 1) ? _cartPending.divFactor : 1;
-    if (df > 1) val = Math.max(df, Math.round(val / df) * df);
-    _cqSelectChip(val);
+    _cqSelectChip(val, true);
   };
 
   window.cqManualStep = function(dir) {
     var df = (_cartPending && _cartPending.divFactor > 1) ? _cartPending.divFactor : 1;
     var step = df > 1 ? df : 1;
     var inp2 = document.getElementById('cartQtyInput');
-    var cur = parseInt((inp2 ? inp2.value : '1'), 10) || step;
+    var cur = parseInt((inp2 ? inp2.value : '1'), 10) || 1;
     var next = Math.max(step, cur + dir * step);
-    _cqSelectChip(next);
+    _cqSelectChip(next, false);
   };
 
   // ---- price click handler ----
-  window.priceClick = function(supplierBarcode, colKey, priceDisplay, mainBarcode, divFactor, cellMin, cellMax) {
+  window.priceClick = function(supplierBarcode, colKey, priceDisplay, mainBarcode, divFactor, cellMin, cellMax, hasDivBtn) {
     if (!orderMode) {
       // original behavior: copy barcode
       if (navigator.clipboard) navigator.clipboard.writeText(String(supplierBarcode)).catch(function(){});
@@ -8657,7 +8666,8 @@ document.addEventListener('click', function(e) {
       // Показываем если: не было явного divFactor из ячейки, но детектор нашёл кандидатов из названия
       var needsWarn = (originalDivFactor <= 1)
                    && _detectedPack.candidates && _detectedPack.candidates.length > 0
-                   && _detectedPack.source === 'name';
+                   && _detectedPack.source === 'name'
+                   && !!hasDivBtn;
       divNeededEl.style.display = needsWarn ? 'block' : 'none';
     }
     // qty label, hint & populate chips — use module-level helpers
@@ -8681,12 +8691,12 @@ document.addEventListener('click', function(e) {
           b.onclick = (function(q){ return function(){ window.cqSelectPack(q); }; })(cand);
           cqsButtons.appendChild(b);
         });
-        // "без блока" — пользователь может отказаться от блочного режима
+        // кнопка отказа от блочного режима
         var bNone = document.createElement('button');
         bNone.type = 'button';
         bNone.className = 'cqs-btn cqs-btn--none' + (divFactor <= 1 ? ' active' : '');
         bNone.dataset.qty = 1;
-        bNone.textContent = 'без блока';
+        bNone.textContent = 'штучно';
         bNone.onclick = function(){ window.cqSelectPack(1); };
         cqsButtons.appendChild(bNone);
         packSelEl.style.display = 'flex';
@@ -8718,25 +8728,36 @@ document.addEventListener('click', function(e) {
   function _doAddToCart(qtyInput) {
     var p = _cartPending;
     var divFactor = p.divFactor || 1;
-    // For divisible items select gives units (already multiple of divFactor), convert to blocks
-    var qtyToStore = divFactor > 1 ? Math.round(qtyInput / divFactor) : qtyInput;
+    var isManual = !!p._manualInput;
+    var qtyToStore, storedDivFactor;
+    if (isManual || divFactor <= 1) {
+      qtyToStore = qtyInput;        // штуки напрямую
+      storedDivFactor = undefined;  // no block tracking
+    } else {
+      qtyToStore = Math.round(qtyInput / divFactor); // в блоках
+      storedDivFactor = divFactor;
+    }
     if (!cart[p.supplierName]) cart[p.supplierName] = { items: [] };
     var ex = cart[p.supplierName].items.find(function(i){ return i.barcode === p.supplierBarcode; });
     if (ex) {
       ex.qty = qtyToStore;
       ex.price = p.priceDisplay;
       ex.colKey = p.colKey;
-      ex.divFactor = divFactor > 1 ? divFactor : undefined;
+      ex.divFactor = storedDivFactor;
       ex.mainBarcode = p.mainBarcode || p.supplierBarcode;
     } else {
-      cart[p.supplierName].items.push({ barcode: p.supplierBarcode, mainBarcode: p.mainBarcode || p.supplierBarcode, name: p.itemName, price: p.priceDisplay, colKey: p.colKey, qty: qtyToStore, divFactor: divFactor > 1 ? divFactor : undefined });
+      cart[p.supplierName].items.push({ barcode: p.supplierBarcode, mainBarcode: p.mainBarcode || p.supplierBarcode, name: p.itemName, price: p.priceDisplay, colKey: p.colKey, qty: qtyToStore, divFactor: storedDivFactor });
     }
     saveCart();
     updateCartBadge();
     closeCartQtyModal();
     if (typeof _mvsRenderVisible === 'function') _mvsRenderVisible();
     var toastMsg = '✅ Добавлено: ' + (p.itemName || p.supplierBarcode);
-    if (divFactor > 1) toastMsg += ' — ' + qtyToStore + ' бл. (' + (qtyToStore * divFactor) + ' шт.)';
+    if (!isManual && storedDivFactor > 1) {
+      toastMsg += ' — ' + qtyToStore + ' бл. (' + (qtyToStore * storedDivFactor) + ' шт.)';
+    } else {
+      toastMsg += ' — ' + qtyToStore + ' шт.';
+    }
     if (typeof showToast === 'function') showToast(toastMsg, 'ok');
   }
 
