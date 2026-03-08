@@ -1281,8 +1281,12 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         if (!total) return;
         const scrollTop = wrap.scrollTop;
         const viewH = wrap.clientHeight || 600;
-        MVS.start = Math.max(0, Math.floor(scrollTop / MVS.ROW_H) - MVS.OVERSCAN);
-        MVS.end = Math.min(total, Math.ceil((scrollTop + viewH) / MVS.ROW_H) + MVS.OVERSCAN);
+        // Account for CSS zoom: physical row height = ROW_H * zoom
+        const zoom = window._tableZoomLevel || 1;
+        const rowHpx = MVS.ROW_H * zoom;
+        MVS.start = Math.max(0, Math.floor(scrollTop / rowHpx) - MVS.OVERSCAN);
+        MVS.end = Math.min(total, Math.ceil((scrollTop + viewH) / rowHpx) + MVS.OVERSCAN);
+        // Spacers are inside the zoomed table, so use unscaled ROW_H
         const topPad = MVS.start * MVS.ROW_H;
         const botPad = Math.max(0, total - MVS.end) * MVS.ROW_H;
         const tbody = document.getElementById('mainTbody');
@@ -8383,6 +8387,8 @@ setTimeout(function() {
       var t = document.getElementById('mainTable');
       if (t) t.style.zoom = v === 1 ? '' : v;
       if (zoomLabel) zoomLabel.textContent = Math.round(v * 100) + '%';
+      // Re-render visible rows so MVS uses the new zoom factor
+      if (typeof _mvsRenderVisible === 'function') _mvsRenderVisible();
     });
   }
 })();
