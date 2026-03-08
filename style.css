@@ -439,7 +439,7 @@ body.order-mode .price-in-cart::after{content:'✓ в корзине' !important
    Sidebar contact block (added in session)
 ══════════════════════════════════════ */
 .sidebar-contact-block {
-  padding: 10px 16px 8px;
+  padding: 8px 0 4px;
   border-top: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -452,24 +452,29 @@ body.order-mode .price-in-cart::after{content:'✓ в корзине' !important
   letter-spacing: 0.6px;
   color: var(--text-muted);
   margin-bottom: 2px;
+  padding: 0 16px;
 }
 .sidebar-contact-card {
   display: flex;
   align-items: center;
   gap: 7px;
-  padding: 6px 9px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  background: var(--surface-alt);
+  padding: 6px 16px;
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
   text-decoration: none;
   color: var(--text-secondary);
   font-size: var(--fz-sm);
   font-weight: 500;
-  transition: background 100ms, border-color 100ms, color 100ms;
+  width: 100%;
+  transition: background 100ms, color 100ms;
+}
+.sidebar-contact-card:first-of-type {
+  border-top: none;
 }
 .sidebar-contact-card:hover {
   background: var(--accent-lite);
-  border-color: var(--accent);
   color: var(--accent);
 }
 .sidebar-contact-card--phone:hover { color: var(--accent); }
@@ -503,16 +508,16 @@ svg.lucide {
   flex-shrink: 0;
   width: 12px;
   height: 12px;
-  stroke-width: 1 !important;
+  stroke-width: 1.2 !important;
   overflow: visible;
 }
-.nav-tab-icon svg.lucide              { width:16px !important; height:16px !important; stroke-width:1.5 !important }
+.nav-tab-icon svg.lucide              { width:16px !important; height:16px !important }
 .app-sidebar.collapsed .nav-tab-icon svg.lucide { width:18px !important; height:18px !important }
 .sf-icon svg.lucide                   { width:12px !important; height:12px !important }
-.pane-title-icon svg.lucide           { width:16px !important; height:16px !important; stroke-width:1.2 !important }
+.pane-title-icon svg.lucide           { width:16px !important; height:16px !important }
 .obr-upload-card-icon svg.lucide      { width:13px !important; height:13px !important }
 .obr-queue-icon svg.lucide            { width:16px !important; height:16px !important }
-.help-btn svg.lucide                  { width:14px !important; height:14px !important; stroke-width:1.2 !important }
+.help-btn svg.lucide                  { width:14px !important; height:14px !important }
 .cq-header-icon svg.lucide            { width:15px !important; height:15px !important }
 .cem-header-icon svg.lucide           { width:16px !important; height:16px !important }
 .cem-search-icon svg.lucide           { width:13px !important; height:13px !important }

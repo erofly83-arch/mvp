@@ -96,7 +96,7 @@
 <div class="sidebar-files-title" style="margin-top:6px;margin-bottom:4px;">Поставщики</div>
 <div class="sidebar-file-item sidebar-file-item--empty" id="sfSuppliersEmpty">
 <div class="sf-row">
-<span class="sf-icon"><i data-lucide="package"></i></span>
+<span class="sf-icon"><i data-lucide="files"></i></span>
 <span class="sf-empty-label">Файлы поставщиков не загружены</span>
 </div>
 </div>
@@ -212,9 +212,9 @@
 <span class="obr-upload-card-hint">Основной прайс-лист</span>
 <input accept=".xlsx,.xls,.csv" id="obrClearedFileInputMyPrice" type="file"/>
 </div>
-<div class="obr-upload-card" id="obrHeaderSupplierCard" data-card-icon="package" title="Загрузить один или несколько файлов поставщика">
+<div class="obr-upload-card" id="obrHeaderSupplierCard" data-card-icon="files" title="Загрузить один или несколько файлов поставщика">
 <div class="obr-upload-card-top">
-<span class="obr-upload-card-icon"><i data-lucide="package"></i></span>
+<span class="obr-upload-card-icon"><i data-lucide="files"></i></span>
 <span class="obr-upload-card-title">Прайсы</span>
 </div>
 <span class="obr-upload-card-hint">Один или несколько файлов</span>
@@ -289,7 +289,7 @@
 <div class="dash-instr-card-body">Разные штрихкоды на один товар — классическая боль. База кросскодов и «Поиск кросскодов» связывают их автоматически, в том числе по схожести наименований.</div>
 </div>
 <div class="dash-instr-card ax-001">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">«Каждую неделю 2–3 часа на сравнение»</span></div>
+<div class="dash-instr-card-header"><span class="ax-000">⏱</span><span class="dash-instr-card-title">«Каждую неделю 2–3 часа на сравнение»</span></div>
 <div class="dash-instr-card-body">Настройте колонки один раз и сохраните файл-память. При следующей загрузке тех же прайсов вся разметка применится автоматически — обработка займёт секунды.</div>
 </div>
 <div class="dash-instr-card ax-001">
@@ -597,7 +597,7 @@
 <div class="controls">
 <div class="controls-group">
 <button class="btn btn-secondary" disabled="" id="bigDiffBtn" title="Большая разница цен"><i data-lucide="trending-down"></i> Большая разница</button>
-<button class="btn btn-secondary" disabled="" id="deltaFilterBtn" title="Фильтр по разнице цены %"><i data-lucide="percent"></i> Дельта %</button>
+<button class="btn btn-secondary" disabled="" id="deltaFilterBtn" title="Фильтр по разнице цены %"><i data-lucide="percent"></i> Дельта</button>
 <button class="btn btn-secondary" disabled="" id="showMyPriceBtn" title="Только мой прайс"><i data-lucide="tag"></i> Мой прайс</button>
 <button class="btn btn-secondary" disabled="" id="maxCoverageBtn" title="Поиск новинок"><i data-lucide="sparkles"></i> Поиск новинок</button>
 <button class="btn btn-secondary" disabled="" id="compactMatchesBtn" title="Компактный вид"><i data-lucide="layout-list"></i> Компактный вид</button>
@@ -645,8 +645,8 @@
 <div class="delta-group">
 <label>Направление</label>
 <div class="delta-dir-btns">
-<button class="delta-dir-btn active-cheaper" id="deltaDirCheaper" title="Поставщик дешевле моей цены">Дешевле</button>
-<button class="delta-dir-btn" id="deltaDirPricier" title="Поставщик дороже моей цены">Дороже</button>
+<button class="delta-dir-btn active-cheaper" id="deltaDirCheaper" title="Поставщик дешевле моей цены"><i data-lucide="arrow-down"></i> Дешевле</button>
+<button class="delta-dir-btn" id="deltaDirPricier" title="Поставщик дороже моей цены"><i data-lucide="arrow-up"></i> Дороже</button>
 </div>
 </div>
 <div class="delta-group delta-action-group">
