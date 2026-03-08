@@ -2592,45 +2592,7 @@ if (obrQueueSkipBtn) {
   });
 }
 
-if (downloadArchiveBtn) {
-  downloadArchiveBtn.addEventListener("click", async function() {
-    if (!_obrArchiveFiles.length) { showToast('Нет обработанных файлов для архива', 'warn'); return; }
-    try {
-      const zip = new JSZip();
-      _obrArchiveFiles.forEach(function(f) {
-        zip.file(f.fileName, f.csvText);
-      });
 
-      try {
-        if (typeof jeDB !== 'undefined' || typeof _brandDB !== 'undefined') {
-          const combined = {
-            barcodes: (typeof jeDB !== 'undefined') ? jeDB : {},
-            brands: (typeof _brandDB !== 'undefined') ? _brandDB : {},
-            categoryWords: (typeof _catWordsBase !== 'undefined' && _catWordsBase.size > 0) ? [..._catWordsBase].sort() : undefined,
-            columnSettings: (typeof columnTemplates !== 'undefined' && typeof columnSynonyms !== 'undefined') ? {
-              templates: columnTemplates, synonyms: columnSynonyms
-            } : undefined
-          };
-          const hasData = Object.keys(combined.barcodes).length > 0 || Object.keys(combined.brands).length > 0;
-          if (hasData) {
-            const now2 = new Date();
-            const stamp2 = now2.getFullYear() + '_' + String(now2.getMonth()+1).padStart(2,'0') + '_' + String(now2.getDate()).padStart(2,'0');
-            zip.file('settings_' + stamp2 + '.json', JSON.stringify(combined, null, 2));
-          }
-        }
-      } catch(je) {   }
-      const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
-      const now = new Date();
-      const stamp = now.getFullYear() + '_' +
-        String(now.getMonth()+1).padStart(2,'0') + '_' +
-        String(now.getDate()).padStart(2,'0');
-      saveAs(blob, 'price_export_' + stamp + '.zip');
-      showToast(`Архив скачан: ${_obrArchiveFiles.length} файл${_obrArchiveFiles.length===1?'':'а'}`, 'ok');
-    } catch(err) {
-      showToast('Ошибка создания архива: ' + (err.message||String(err)), 'err');
-    }
-  });
-}
 
 function handleFileUpload(e) {
   const files = e.target.files;
