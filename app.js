@@ -3050,7 +3050,7 @@ function obrShowNextStep(savedType) {
 
   if (!jsonAlreadyLoaded && savedType !== 'json') {
     rows.push({
-      cls: 'btn-json', icon: '<i data-lucide="brain"></i>',
+      cls: 'btn-json', icon: '<i data-lucide="hard-drive"></i>',
       label: 'Загрузить JSON',
       hint: 'Применит настройки столбцов и базу кросскодов',
       action: () => { obrCloseNextStep(); setTimeout(() => { const j = document.getElementById('obrJsonUploadInput'); if (j) j.click(); }, 80); }
