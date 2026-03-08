@@ -1,4 +1,4 @@
-const SHELL_CACHE = 'price-manager-shell-v1';
+const SHELL_CACHE = 'price-manager-shell-v2';
 const CDN_CACHE   = 'price-manager-cdn-v1';
 const FONT_CACHE  = 'price-manager-fonts-v1';
 const BASE        = '/pricemanager';
