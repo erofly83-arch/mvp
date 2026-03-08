@@ -492,7 +492,7 @@
 </div>
 <div class="obr-queue-bar-right">
 <span class="obr-queue-counter" id="obrQueueProgressLabel"></span>
-<button class="obr-queue-skip-btn" id="obrQueueSkipBtn" title="Пропустить файл">Пропустить</button>
+<button class="obr-queue-skip-btn" id="obrQueueSkipBtn" title="Пропустить файл"><i data-lucide="skip-forward"></i> Пропустить</button>
 </div>
 </div>
 </div>
@@ -596,27 +596,27 @@
 </input></input></input></div>
 <div class="controls">
 <div class="controls-group">
-<button class="btn btn-secondary" disabled="" id="bigDiffBtn" title="Большая разница цен">Большая разница</button>
+<button class="btn btn-secondary" disabled="" id="bigDiffBtn" title="Большая разница цен"><i data-lucide="trending-down"></i> Большая разница</button>
 <button class="btn btn-secondary" disabled="" id="deltaFilterBtn" title="Фильтр по разнице цены %"><span class="icon">Δ</span> Дельта %</button>
 <button class="btn btn-secondary" disabled="" id="showMyPriceBtn" title="Только мой прайс">Мой прайс</button>
-<button class="btn btn-secondary" disabled="" id="maxCoverageBtn" title="Поиск новинок">Поиск новинок</button>
+<button class="btn btn-secondary" disabled="" id="maxCoverageBtn" title="Поиск новинок"><i data-lucide="sparkles"></i> Поиск новинок</button>
 <button class="btn btn-secondary" disabled="" id="compactMatchesBtn" title="Компактный вид"><span class="icon">⊟</span> Компактный вид</button>
-<button class="btn btn-secondary" disabled="" id="minPriceBtn" title="Подсветить минимальную цену в каждой строке (нал + безнал + мой прайс)">Мин. цена</button>
+<button class="btn btn-secondary" disabled="" id="minPriceBtn" title="Подсветить минимальную цену в каждой строке (нал + безнал + мой прайс)"><i data-lucide="arrow-down-narrow-wide"></i> Мин. цена</button>
 </div>
 <div class="controls-group export-group">
-<button class="btn btn-success" disabled="" id="exportMyPriceBtn" title="Мой прайс Excel">Мой прайс</button>
-<button class="btn btn-success" disabled="" id="exportAllBtn" title="Все данные Excel">Всё</button>
-<button class="btn btn-success" disabled="" id="exportCurrentBtn" title="Текущий вид Excel">Текущий вид</button>
+<button class="btn btn-success" disabled="" id="exportMyPriceBtn" title="Мой прайс Excel"><i data-lucide="save"></i> Мой прайс</button>
+<button class="btn btn-success" disabled="" id="exportAllBtn" title="Все данные Excel"><i data-lucide="save"></i> Всё</button>
+<button class="btn btn-success" disabled="" id="exportCurrentBtn" title="Текущий вид Excel"><i data-lucide="save"></i> Текущий вид</button>
 </div>
 <div class="controls-group danger-group">
-<button class="btn btn-danger" disabled="" id="clearBtn" title="Сбросить все данные">Сбросить всё</button>
+<button class="btn btn-danger" disabled="" id="clearBtn" title="Сбросить все данные"><i data-lucide="trash-2"></i> Сбросить всё</button>
 </div>
 </div>
 <!-- Sticky filter reminder bar -->
 <div class="hidden-columns" id="monitorStickyBar">
 <span class="hidden-columns-label">Активные фильтры:</span>
 <span id="stickyBarChips"></span>
-<button class="btn sticky-reset-btn" id="stickyBarResetBtn">Сбросить все</button>
+<button class="btn sticky-reset-btn" id="stickyBarResetBtn"><i data-lucide="x"></i> Сбросить все</button>
 </div>
 <!-- Delta % filter panel -->
 <div id="deltaPanelWrap">
@@ -709,7 +709,7 @@
 <div class="instr-tool-panel">
 <div class="instr-items-list">
 <div class="instr-feature-row">
-<button class="btn btn-secondary instr-demo-btn" disabled="">Большая разница</button>
+<button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="trending-down"></i> Большая разница</button>
 <span class="instr-desc-text">Показывает товары, где разница цены между вашим прайсом и лучшим поставщиком значительна — быстрый способ найти позиции для пересмотра закупки.</span>
 </div>
 <div class="instr-feature-row">
@@ -721,7 +721,7 @@
 <span class="instr-desc-text">Показывает только товары из вашего прайса — скрывает позиции, которые есть только у поставщиков. Удобно, когда нужно проверить именно свой ассортимент.</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn btn-secondary instr-demo-btn" disabled="">Поиск новинок</button>
+<button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="sparkles"></i> Поиск новинок</button>
 <span class="instr-desc-text">Фильтрует товары, которых нет в вашем прайсе, но они есть у поставщиков — потенциальные новинки для расширения ассортимента.</span>
 </div>
 <div class="instr-feature-row">
@@ -729,7 +729,7 @@
 <span class="instr-desc-text">Сворачивает строки с несколькими вариантами наименований в одну компактную строку — удобно при большом числе поставщиков.</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn btn-secondary instr-demo-btn" disabled="">Мин. цена</button>
+<button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="arrow-down-narrow-wide"></i> Мин. цена</button>
 <span class="instr-desc-text">Подсвечивает зелёным минимальную цену в каждой строке — по нал, безнал и вашему прайсу отдельно. Сразу видно, у кого самая выгодная закупка.</span>
 </div>
 </div>
@@ -783,7 +783,7 @@
 <span class="instr-desc-text">Скачивает только то, что сейчас отображается на экране — с учётом активных фильтров, поиска и категории. Идеально для выгрузки конкретной выборки.</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn instr-demo-btn" disabled="">Скачать все архивом</button>
+<button class="btn instr-demo-btn" disabled=""><i data-lucide="archive"></i> Скачать все архивом</button>
 <span class="instr-desc-text">Упаковывает в один ZIP-архив все CSV, Excel-файлы и файл-память JSON — для полного бэкапа текущей сессии.</span>
 </div>
 <div class="instr-feature-row">
@@ -829,7 +829,7 @@
 <p>Поиск связей между товарами поставщиков по наименованию</p>
 </div>
 <div class="pane-title-extra">
-<button class="btn btn-success" id="matcherRunBtn" title="Запустить поиск">Запустить поиск</button>
+<button class="btn btn-success" id="matcherRunBtn" title="Запустить поиск"><i data-lucide="play"></i> Запустить поиск</button>
 <button class="btn help-btn" id="helpBtnMatcher" onclick="openHelpModal('matcher')" title="Инструкция по работе с этой вкладкой"><i data-lucide="help-circle"></i></button>
 </div>
 </div>
@@ -999,7 +999,7 @@
     </div>
     <div style="display:flex;gap:6px;align-items:center;">
       <input id="userContactInput" placeholder="+7 900... / mail@... / @username" style="padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--radius-md);font-size:var(--fz-md);font-family:'Inter',sans-serif;background:var(--surface);width:240px;" type="text"/>
-      <button class="btn btn-success" onclick="window.saveUserContact()">Сохранить</button>
+      <button class="btn btn-success" onclick="window.saveUserContact()"><i data-lucide="save"></i> Сохранить</button>
     </div>
   </div>
   <div id="userContactFilled" style="display:none;align-items:center;gap:10px;flex:1;flex-wrap:wrap;">
@@ -1008,7 +1008,7 @@
       <div style="font-size:var(--fz-xs);color:var(--text-muted);text-transform:uppercase;font-weight:600;letter-spacing:0.4px;">Ваш контакт</div>
       <div id="userContactValue" style="font-size:var(--fz-base);font-weight:600;color:var(--text-primary);margin-top:1px;"></div>
     </div>
-    <button class="btn" onclick="window.editUserContact()">Изменить</button>
+    <button class="btn" onclick="window.editUserContact()"><i data-lucide="pencil"></i> Изменить</button>
   </div>
 </div>
 <div style="display:flex;gap:4px;align-items:center;padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:14px;">
@@ -1022,27 +1022,27 @@
 <!-- Barcodes subtab -->
 <div class="syn-subtab-pane active" id="subpane-barcodes">
 <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:6px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px;">
-<button class="btn btn-success" disabled="" id="jeExportXlsxBtn" title="Экспорт в Excel">Экспорт Excel</button>
-<button class="btn" id="jeImportXlsxBtn">Импорт Excel</button>
+<button class="btn btn-success" disabled="" id="jeExportXlsxBtn" title="Экспорт в Excel"><i data-lucide="save"></i> Экспорт Excel</button>
+<button class="btn" id="jeImportXlsxBtn"><i data-lucide="file-up"></i> Импорт Excel</button>
 <input accept=".xlsx,.xls" id="jeXlsxFileIn" style="display:none;" type="file"/>
 <div class="toolbar-sep"></div>
 <label class="btn ax-013" title="Загрузить файл-память JSON">
-        Загрузить файл памяти
+        <i data-lucide="folder-open"></i> Загрузить файл памяти
         <input accept=".json" class="file-input-hidden" id="bcLoadJsonFileIn" type="file"/>
 </label>
-<button class="btn btn-success" id="jeDownloadJsonBtn" onclick="downloadCurrentSynonyms()" title="Скачать файл-память: штрихкоды, бренды и настройки колонок">Скачать файл памяти</button>
+<button class="btn btn-success" id="jeDownloadJsonBtn" onclick="downloadCurrentSynonyms()" title="Скачать файл-память: штрихкоды, бренды и настройки колонок"><i data-lucide="save"></i> Скачать файл памяти</button>
 <div class="toolbar-sep"></div>
 <button class="btn btn-secondary" disabled="" id="jeUndoBtn" title="Отменить (Ctrl+Z)">↩</button>
 <button class="btn btn-secondary" disabled="" id="jeRedoBtn" title="Повторить (Ctrl+Y)">↪</button>
 <div class="toolbar-sep"></div>
-<button class="btn btn-danger" disabled="" id="jeClearBtn">Очистить</button>
+<button class="btn btn-danger" disabled="" id="jeClearBtn"><i data-lucide="trash-2"></i> Очистить</button>
 </div>
 <div class="je-newrow">
 <span class="je-row-label">Новая группа:</span>
 <input class="je-inp" id="jeNName" placeholder="Название товара" style="flex:2;min-width:160px;"/>
 <input class="je-inp je-mono" id="jeNMainBC" placeholder="Главный ШК" style="flex:1;min-width:120px;"/>
 <input class="je-inp je-mono" id="jeNSyns" placeholder="Кросскоды через запятую" style="flex:2;min-width:180px;"/>
-<button class="btn btn-success" id="jeCreateBtn">Добавить</button>
+<button class="btn btn-success" id="jeCreateBtn"><i data-lucide="plus"></i> Добавить</button>
 <button class="btn" id="jeClearFormBtn">Сбросить</button>
 </div>
 <div id="jeStatusRow" style="display:none;gap:16px;align-items:center;font-size:11px;color:var(--text-secondary);padding:4px 2px;">
@@ -1096,7 +1096,7 @@
 <span class="instr-desc-text">Восстанавливает базу штрихкодов, бренды и настройки колонок из ранее сохранённого JSON.</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn btn-success ax-003" disabled="">Скачать файл памяти</button>
+<button class="btn btn-success ax-003" disabled=""><i data-lucide="save"></i> Скачать файл памяти</button>
 <span class="instr-desc-text">Сохраняет <b>всё сразу</b>: штрихкоды, бренды и настройки колонок. Загрузите в следующей сессии — всё восстановится.</span>
 </div>
 <div class="instr-feature-row">
@@ -1167,20 +1167,20 @@
 <!-- Brands subtab -->
 <div class="syn-subtab-pane" id="subpane-brands" style="padding-top:0;">
 <div class="brand-subtab-toolbar">
-<button class="btn btn-success" id="brandOpenAddModalBtn">Добавить бренд</button>
+<button class="btn btn-success" id="brandOpenAddModalBtn"><i data-lucide="plus"></i> Добавить бренд</button>
 <div class="toolbar-sep"></div>
 <label class="btn ax-013" title="Загрузить файл-память JSON">
-        Загрузить файл памяти
+        <i data-lucide="folder-open"></i> Загрузить файл памяти
         <input accept=".json" class="file-input-hidden" id="brandLoadJsonFileIn" type="file"/>
 </label>
-<button class="btn btn-success" id="brandDownloadJsonBtn" onclick="downloadCurrentSynonyms()" title="Скачать файл-память: штрихкоды, бренды и настройки колонок">Скачать файл памяти</button>
+<button class="btn btn-success" id="brandDownloadJsonBtn" onclick="downloadCurrentSynonyms()" title="Скачать файл-память: штрихкоды, бренды и настройки колонок"><i data-lucide="save"></i> Скачать файл памяти</button>
 <div class="toolbar-sep"></div>
-<button class="btn btn-danger" id="brandClearAllBtn" title="Очистить словарь брендов">Очистить всё</button>
+<button class="btn btn-danger" id="brandClearAllBtn" title="Очистить словарь брендов"><i data-lucide="trash-2"></i> Очистить всё</button>
 </div>
 <div id="brandSearchArea" style="display:none;">
 <div class="brand-search-row search-box--above-table filter-row">
 <input class="search-input" id="brandSearchInp" placeholder="Поиск по брендам, кросскодам, антонимам..." style="flex:1;"/>
-<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами">Конфликты</button>
+<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><i data-lucide="alert-triangle"></i> Конфликты</button>
 </div>
 </div>
 <div class="brand-empty" id="brandEmpty">
@@ -1235,7 +1235,7 @@
 <span class="instr-desc-text">Восстанавливает базу брендов, штрихкоды и настройки колонок из ранее сохранённого JSON.</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn btn-success ax-003" disabled="">Скачать файл памяти</button>
+<button class="btn btn-success ax-003" disabled=""><i data-lucide="save"></i> Скачать файл памяти</button>
 <span class="instr-desc-text">Сохраняет <b>всё сразу</b>: бренды, штрихкоды и настройки колонок. Загрузите в следующей сессии — всё восстановится.</span>
 </div>
 <div class="instr-feature-row">
@@ -1331,7 +1331,7 @@
 </div>
 <div class="modal-footer">
 <button class="btn" onclick="brandCloseEdit()">Отмена</button>
-<button class="btn btn-success" onclick="brandSaveEdit()">Сохранить</button>
+<button class="btn btn-success" onclick="brandSaveEdit()"><i data-lucide="save"></i> Сохранить</button>
 </div>
 </div>
 </div>
@@ -1399,8 +1399,8 @@
 </div>
 <div class="modal-footer modal-footer--sticky" id="mcFooter">
 <button class="btn" onclick="closeMatchModal()">Отмена</button>
-<button class="btn btn-success" id="mcbSaveBtn" style="display:none;">Сохранить бренд</button>
-<button class="btn btn-success" id="mcOkBtn" onclick="confirmMatchAction()">Подтвердить</button>
+<button class="btn btn-success" id="mcbSaveBtn" style="display:none;"><i data-lucide="save"></i> Сохранить бренд</button>
+<button class="btn btn-success" id="mcOkBtn" onclick="confirmMatchAction()"><i data-lucide="check"></i> Подтвердить</button>
 </div>
 </div>
 </div>
@@ -1415,9 +1415,9 @@
 <p id="jeXlsModalMsg" style="font-size:var(--fz-base);line-height:1.5;"></p>
 </div>
 <div class="modal-footer modal-footer--col">
-<button class="btn btn-success ax-007" onclick="jeXlsModalClose('overwrite')">Перезаписать существующие</button>
-<button class="btn btn-secondary ax-007" onclick="jeXlsModalClose('skip')">Пропустить существующие</button>
-<button class="btn btn-success ax-007" onclick="jeXlsModalClose('merge')">Объединить кросскоды</button>
+<button class="btn btn-success ax-007" onclick="jeXlsModalClose('overwrite')"><i data-lucide="refresh-cw"></i> Перезаписать существующие</button>
+<button class="btn btn-secondary ax-007" onclick="jeXlsModalClose('skip')"><i data-lucide="skip-forward"></i> Пропустить существующие</button>
+<button class="btn btn-success ax-007" onclick="jeXlsModalClose('merge')"><i data-lucide="git-merge"></i> Объединить кросскоды</button>
 <button class="btn ax-007" onclick="jeXlsModalClose(null)">Отмена</button>
 </div>
 </div>
@@ -1432,7 +1432,7 @@
 <div class="modal-body"><p id="jeConfirmMsg" style="font-size:var(--fz-base);line-height:1.6;"></p></div>
 <div class="modal-footer">
 <button class="btn" onclick="jeConfirmClose(false)">Отмена</button>
-<button class="btn btn-success" onclick="jeConfirmClose(true)">Подтвердить</button>
+<button class="btn btn-success" onclick="jeConfirmClose(true)"><i data-lucide="check"></i> Подтвердить</button>
 </div>
 </div>
 </div>
@@ -1450,7 +1450,7 @@
 </div>
 <div class="modal-footer">
 <button class="btn" id="bcAddCancelBtn">Отмена</button>
-<button class="btn btn-success" id="bcAddSaveBtn">Сохранить в базу</button>
+<button class="btn btn-success" id="bcAddSaveBtn"><i data-lucide="save"></i> Сохранить в базу</button>
 </div>
 </div>
 </div>
@@ -1508,7 +1508,7 @@
       </div>
 <div class="tpl-add">
 <input id="obrNewTemplateInput" placeholder="Название новой колонки, например: Артикул" type="text"/>
-<button class="btn btn-success" id="obrAddTemplateBtn">+ Добавить</button>
+<button class="btn btn-success" id="obrAddTemplateBtn"><i data-lucide="plus"></i> Добавить</button>
 </div>
 <div id="obrTemplatesList"></div>
 </div>
@@ -1527,7 +1527,7 @@
 <p class="skipped-note">CSV будет скачан даже при наличии пропусков.</p>
 </div>
 <div class="obr-modal-footer">
-<button class="btn" id="obrDownloadSkippedBtn">Показать все пропуски</button>
+<button class="btn" id="obrDownloadSkippedBtn"><i data-lucide="list"></i> Показать все пропуски</button>
 <button id="obrConfirmDownloadCsvBtn" style="display:none;"></button>
 </div>
 </div>
@@ -1557,9 +1557,9 @@
 <span id="brandFormError" style="color:var(--red);font-size:12px;display:none;"></span>
 </div>
 <div class="modal-footer">
-<button class="btn btn-danger" id="brandClearFormBtn">Очистить</button>
+<button class="btn btn-danger" id="brandClearFormBtn"><i data-lucide="x"></i> Очистить</button>
 <button class="btn" id="brandAddModalCancel">Отмена</button>
-<button class="btn btn-success" id="brandAddBtn">Сохранить бренд</button>
+<button class="btn btn-success" id="brandAddBtn"><i data-lucide="save"></i> Сохранить бренд</button>
 </div>
 </div>
 </div>
@@ -1657,7 +1657,7 @@
 <!-- footer -->
 <div class="cq-footer">
 <button class="btn btn-secondary" onclick="closeCartQtyModal()" style="flex:1;">Отмена</button>
-<button class="btn btn-success" onclick="confirmCartQty()" style="flex:2;">В корзину</button>
+<button class="btn btn-success" onclick="confirmCartQty()" style="flex:2;"><i data-lucide="shopping-cart"></i> В корзину</button>
 </div>
 </div>
 </div>
@@ -1667,10 +1667,10 @@
 <div class="cart-modal-header">
 <span class="cart-modal-title">Корзина заказов</span>
 <div class="cart-modal-actions">
-<button class="btn" id="cartMyPriceBtn" onclick="applyMyPriceToCart()" style="display:none;background:#EFF6FF;border-color:#3B6FD4;color:#1E3A5F;font-weight:600;" title="Подставить наименования и штрихкоды из вашего прайс-листа">Свой прайс</button>
-<button class="btn" id="cartMyPriceCancelBtn" onclick="cancelMyPriceFromCart()" style="display:none;background:#FEF2F2;border-color:#FCA5A5;color:#991B1B;" title="Убрать замену на мой прайс">Сбросить мой прайс</button>
-<button class="btn btn-success" onclick="downloadCartExcel()">Скачать Excel</button>
-<button class="btn btn-danger" onclick="clearCart()">Очистить</button>
+<button class="btn" id="cartMyPriceBtn" onclick="applyMyPriceToCart()" style="display:none;background:#EFF6FF;border-color:#3B6FD4;color:#1E3A5F;font-weight:600;" title="Подставить наименования и штрихкоды из вашего прайс-листа"><i data-lucide="tag"></i> Свой прайс</button>
+<button class="btn" id="cartMyPriceCancelBtn" onclick="cancelMyPriceFromCart()" style="display:none;background:#FEF2F2;border-color:#FCA5A5;color:#991B1B;" title="Убрать замену на мой прайс"><i data-lucide="x"></i> Сбросить мой прайс</button>
+<button class="btn btn-success" onclick="downloadCartExcel()"><i data-lucide="save"></i> Скачать Excel</button>
+<button class="btn btn-danger" onclick="clearCart()"><i data-lucide="trash-2"></i> Очистить</button>
 <button class="modal-close-x" onclick="closeCartModal()">✕</button>
 </div>
 </div>
@@ -1727,7 +1727,7 @@
 <!-- FOOTER -->
 <div class="cem-footer">
 <span class="cem-footer-note">Сохраняется в файл памяти JSON · Синонимы подключаются автоматически из базы брендов</span>
-<button class="btn" onclick="document.getElementById('catExclModal').style.display='none'">Закрыть</button>
+<button class="btn" onclick="document.getElementById('catExclModal').style.display='none'"><i data-lucide="x"></i> Закрыть</button>
 </div>
 </div>
 </div>

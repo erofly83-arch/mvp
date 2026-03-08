@@ -3917,7 +3917,7 @@ document.addEventListener('visibilitychange', function() {
     _matchActivePairs = activePairs;
     _matchKnownPairs  = knownPairs;
     _matchAllItems    = allItems || [];
-    btn.disabled = false; btn.textContent = 'Запустить поиск';
+    btn.disabled = false; btn.innerHTML = '<i data-lucide="play"></i> Запустить поиск'; reIcons(btn);
     document.getElementById('matcherProgress').style.display = 'none';
     updateMatcherStats();
     setMatchView('all');
@@ -3952,7 +3952,7 @@ function runMatcher() {
     return;
   }
   const btn = document.getElementById('matcherRunBtn');
-  btn.disabled = true; btn.textContent = 'Анализ...';
+  btn.disabled = true; btn.innerHTML = 'Анализ...';
 
   document.getElementById('matcherProgress').style.display = '';
   document.getElementById('matcherProgressLbl').textContent = 'Анализирую прайсы...';
@@ -3989,7 +3989,7 @@ function runMatcher() {
         _matchActivePairs = data.activePairs;
         _matchKnownPairs  = data.knownPairs;
         _matchAllItems    = data.allItems || [];
-        btn.disabled = false; btn.textContent = 'Запустить поиск';
+        btn.disabled = false; btn.innerHTML = '<i data-lucide="play"></i> Запустить поиск'; reIcons(btn);
         document.getElementById('matcherProgress').style.display = 'none';
         updateMatcherStats();
         setMatchView('all');
@@ -4002,7 +4002,7 @@ function runMatcher() {
     }
   };
   _matchWorker.onerror = err => {
-    btn.disabled = false; btn.textContent = 'Запустить поиск';
+    btn.disabled = false; btn.innerHTML = '<i data-lucide="play"></i> Запустить поиск'; reIcons(btn);
     document.getElementById('matcherProgress').style.display = 'none';
     showToast('Ошибка поиска: ' + err.message, 'err');
   };

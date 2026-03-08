@@ -427,55 +427,86 @@ body.order-mode .price-in-cart::after{content:'✓ в корзине' !important
 .help-modal-body .dash-instr{padding:0 0 8px}
 .help-modal-body .instr-demo-btn{pointer-events:none}
 
-/* ── Lucide Icons ── */
-[data-lucide] { display:block }
-i[data-lucide] { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0 }
-i[data-lucide] svg { width:1em; height:1em; stroke-width:1.75 }
 
-/* nav icons */
-.nav-tab-icon i[data-lucide] svg { width:16px; height:16px; stroke-width:1.75 }
+/* ══════════════════════════════════════════
+   Lucide Icons
+══════════════════════════════════════════ */
 
-/* sidebar file icons */
-.sf-icon i[data-lucide] svg { width:11px; height:11px; stroke-width:2 }
+/* Base: inline, no extra space */
+i[data-lucide] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+i[data-lucide] svg {
+  display: block;
+  width: 13px;
+  height: 13px;
+  stroke-width: 1.6;
+}
 
-/* pane title icons */
-.pane-title-icon i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75 }
+/* Кнопки — icon чуть меньше текста, тонкая линия */
+.btn i[data-lucide] svg {
+  width: 13px;
+  height: 13px;
+  stroke-width: 1.5;
+}
+.btn-success i[data-lucide] svg,
+.btn-danger i[data-lucide] svg {
+  stroke-width: 1.5;
+}
 
-/* upload card icons */
-.obr-upload-card-icon i[data-lucide] svg { width:13px; height:13px; stroke-width:1.75 }
-.obr-upload-card.card-danger .obr-upload-card-icon i[data-lucide] svg { color:#fff }
+/* Навигация */
+.nav-tab-icon { display:flex; align-items:center; justify-content:center; width:18px; }
+.nav-tab-icon i[data-lucide] svg { width:16px; height:16px; stroke-width:1.6 }
+.app-sidebar.collapsed .nav-tab-icon i[data-lucide] svg { width:18px; height:18px }
 
-/* queue icon */
-.obr-queue-icon i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75 }
+/* Sidebar file icons */
+.sf-icon i[data-lucide] svg { width:12px; height:12px; stroke-width:1.75 }
 
-/* help button */
-.help-btn i[data-lucide] svg { width:15px; height:15px; stroke-width:1.75 }
+/* Pane title — чуть крупнее */
+.pane-title-icon i[data-lucide] svg { width:17px; height:17px; stroke-width:1.6 }
 
-/* error log button */
-#errLogBtn i[data-lucide] svg { width:13px; height:13px; stroke-width:2 }
+/* Upload card icons */
+.obr-upload-card-icon i[data-lucide] svg { width:14px; height:14px; stroke-width:1.6 }
 
-/* save button in sidebar */
-.unified-unsaved-save-btn i[data-lucide] svg { width:13px; height:13px; stroke-width:2 }
+/* Queue icon */
+.obr-queue-icon i[data-lucide] svg { width:17px; height:17px; stroke-width:1.6 }
 
-/* cart button */
-#cartBtn i[data-lucide] svg { width:13px; height:13px; stroke-width:1.75 }
+/* Help кнопка (32×32, квадрат) */
+.help-btn i[data-lucide] svg { width:15px; height:15px; stroke-width:1.6 }
 
-/* cart modal header */
-.cq-header-icon i[data-lucide] svg { width:15px; height:15px; stroke-width:1.75 }
+/* Error log кнопка */
+#errLogBtn i[data-lucide] svg { width:13px; height:13px; stroke-width:1.6 }
 
-/* category modal */
-.cem-header-icon i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75 }
-.cem-search-icon i[data-lucide] svg { width:13px; height:13px; stroke-width:1.75 }
+/* Cart кнопка */
+#cartBtn i[data-lucide] svg { width:13px; height:13px; stroke-width:1.5 }
 
-/* help modal */
-.help-modal-icon i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75 }
+/* Cart modal header icon */
+.cq-header-icon i[data-lucide] svg { width:16px; height:16px; stroke-width:1.6 }
 
-/* confirm modal */
-.confirm-modal-icon i[data-lucide] svg { width:32px; height:32px; stroke-width:1.5; color:var(--amber) }
-.confirm-modal-icon { display:flex; justify-content:center }
+/* Category modal */
+.cem-header-icon i[data-lucide] svg { width:17px; height:17px; stroke-width:1.6 }
+.cem-search-icon i[data-lucide] svg { width:14px; height:14px; stroke-width:1.6 }
 
-/* user contact */
-#userContactEmpty i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75; color:var(--text-muted) }
+/* Help modal */
+.help-modal-icon i[data-lucide] svg { width:17px; height:17px; stroke-width:1.6 }
+
+/* Confirm modal — крупная иконка предупреждения */
+.confirm-modal-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.confirm-modal-icon i[data-lucide] svg {
+  width: 34px; height: 34px; stroke-width: 1.5;
+  color: var(--amber);
+}
+
+/* User contact */
+#userContactEmpty i[data-lucide] svg { width:17px; height:17px; stroke-width:1.6; color:var(--text-muted) }
 
 /* price-clickable tooltip */
 .price-clickable::after { content:'скопировать штрихкод' }
