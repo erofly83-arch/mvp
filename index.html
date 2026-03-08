@@ -151,7 +151,7 @@
   </div>
 </div>
 <button id="pwaInstallBtn" onclick="pwaInstall()" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.85'" style="display:none;width:100%;margin-top:4px;padding:8px 10px;background:linear-gradient(135deg,#3B6FD4,#5B8FEF);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;align-items:center;justify-content:center;gap:7px;transition:opacity .2s;line-height:1;">
-<svg height="20" style="flex-shrink:0;" viewbox="0 0 100 100" width="20" xmlns="http://www.w3.org/2000/svg">
+<svg height="28" style="flex-shrink:0;" viewbox="0 0 100 100" width="28" xmlns="http://www.w3.org/2000/svg">
 <rect fill="white" height="10" rx="5" width="45" x="20" y="25"></rect>
 <rect fill="white" height="10" rx="5" width="30" x="20" y="45"></rect>
 <rect fill="white" height="10" rx="5" width="20" x="20" y="65"></rect>
@@ -892,6 +892,7 @@
 <th style="width:110px;">Источник</th>
 <th>Наименование</th>
 <th style="width:135px;">Штрихкод</th>
+<th style="width:60px;">Тип</th>
 </tr></thead>
 <tbody id="matcherTbody"></tbody>
 </table>
@@ -1026,7 +1027,7 @@
 <input accept=".xlsx,.xls" id="jeXlsxFileIn" style="display:none;" type="file"/>
 <div class="toolbar-sep"></div>
 <label class="btn ax-013" title="Загрузить файл-память JSON">
-        <i data-lucide="hard-drive"></i> Файл памяти
+        <i data-lucide="folder-open"></i> Загрузить файл памяти
         <input accept=".json" class="file-input-hidden" id="bcLoadJsonFileIn" type="file"/>
 </label>
 <button class="btn btn-success" id="jeDownloadJsonBtn" onclick="downloadCurrentSynonyms()" title="Скачать файл-память: штрихкоды, бренды и настройки колонок"><i data-lucide="save"></i> Скачать файл памяти</button>
@@ -1169,7 +1170,7 @@
 <button class="btn btn-success" id="brandOpenAddModalBtn"><i data-lucide="plus"></i> Добавить бренд</button>
 <div class="toolbar-sep"></div>
 <label class="btn ax-013" title="Загрузить файл-память JSON">
-        <i data-lucide="hard-drive"></i> Файл памяти
+        <i data-lucide="folder-open"></i> Загрузить файл памяти
         <input accept=".json" class="file-input-hidden" id="brandLoadJsonFileIn" type="file"/>
 </label>
 <button class="btn btn-success" id="brandDownloadJsonBtn" onclick="downloadCurrentSynonyms()" title="Скачать файл-память: штрихкоды, бренды и настройки колонок"><i data-lucide="save"></i> Скачать файл памяти</button>
@@ -1179,7 +1180,7 @@
 <div id="brandSearchArea" style="display:none;">
 <div class="brand-search-row search-box--above-table filter-row">
 <input class="search-input" id="brandSearchInp" placeholder="Поиск по брендам, кросскодам, антонимам..." style="flex:1;"/>
-<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><i data-lucide="alert-triangle"></i> <span id="cfBtnLabel">Конфликты</span></button>
+<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><i data-lucide="alert-triangle"></i> Конфликты</button>
 </div>
 </div>
 <div class="brand-empty" id="brandEmpty">
