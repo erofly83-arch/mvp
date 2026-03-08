@@ -1947,11 +1947,12 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         _tip.id = 'pmNameTip';
         _tip.style.cssText = [
             'display:none','position:fixed','z-index:10001',
-            'max-width:520px','min-width:220px',
+            'min-width:220px',
             'background:#fff','border:1px solid #E2E6EE',
             'border-radius:8px','box-shadow:0 6px 24px rgba(0,0,0,.13)',
             'font-size:12px','font-family:Inter,sans-serif',
-            'padding:0','pointer-events:none','overflow:hidden'
+            'padding:0','pointer-events:none','overflow:hidden',
+            'white-space:nowrap'
         ].join(';');
         document.body.appendChild(_tip);
 
@@ -1987,8 +1988,8 @@ return { barcode: item.barcode, packQty, autoDivFactor,
                 var barcode = _esc(r.barcode || '');
                 var bg = i % 2 === 1 ? 'background:#F8F9FC;' : '';
                 html += '<div style="display:flex;align-items:baseline;padding:4px 12px;' + bg + '">';
-                html += '<span style="flex-shrink:0;width:130px;font-size:11px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="' + _esc(r.file||'') + '">' + _esc(file) + '</span>';
-                html += '<span style="flex:1;font-size:11px;color:#1A1D23;font-weight:500;padding:0 8px;min-width:0;overflow-wrap:break-word;">' + name + '</span>';
+                html += '<span style="flex-shrink:0;font-size:11px;color:#6B7280;white-space:nowrap;" title="' + _esc(r.file||'') + '">' + _esc(file) + '</span>';
+                html += '<span style="flex:1;font-size:11px;color:#1A1D23;font-weight:500;padding:0 8px;white-space:nowrap;">' + name + '</span>';
                 if (barcode) html += '<span style="flex-shrink:0;font-size:11px;color:#6B7280;white-space:nowrap;padding-left:8px;">' + barcode + '</span>';
                 html += '</div>';
             });
