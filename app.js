@@ -2069,31 +2069,37 @@ return { barcode: item.barcode, packQty, autoDivFactor,
             try { rows = JSON.parse(raw); } catch(e) { return ''; }
             if (!rows || !rows.length) return '';
 
-            var html = '<div style="background:#F0F4FF;border-bottom:1px solid #E2E6EE;padding:6px 12px 5px;font-size:10px;font-weight:700;color:#3B6FD4;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">Наименования по прайсам</div>';
-            html += '<div style="padding:4px 0;">';
+            var TH = 'padding:5px 10px;font-size:10px;font-weight:700;color:#3B6FD4;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;border-bottom:2px solid #D1D9F0;background:#F0F4FF;';
+            var TD = 'padding:5px 10px;font-size:11px;white-space:nowrap;border-bottom:1px solid #EEF0F6;vertical-align:middle;';
+
+            var html = '<table style="border-collapse:collapse;width:max-content;">';
+            html += '<thead><tr>'
+                + '<th style="' + TH + '">Прайс</th>'
+                + '<th style="' + TH + '">Штрихкод</th>'
+                + '<th style="' + TH + '">Наименование</th>'
+                + '<th style="' + TH + '">Цена</th>'
+                + '</tr></thead><tbody>';
+
             rows.forEach(function(r, i) {
-                var bg = i % 2 === 1 ? 'background:#F8F9FC;' : '';
-                html += '<div style="display:flex;align-items:center;padding:4px 12px;gap:12px;' + bg + 'white-space:nowrap;">';
-
-                // File name
-                html += '<span style="flex-shrink:0;font-size:11px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;" title="' + _esc(r.file||'') + '">' + _esc(r.file||'') + '</span>';
-
-                // Product name — allow it to be as wide as needed, no wrapping
-                html += '<span style="flex-shrink:0;font-size:11px;color:#1A1D23;font-weight:500;white-space:nowrap;">' + _esc(r.name||'') + '</span>';
-
-                // Prices
+                var bg = i % 2 === 1 ? 'background:#F8F9FC;' : 'background:#fff;';
+                var priceCell = '—';
                 if (r.prices && r.prices.length) {
-                    r.prices.forEach(function(p) {
-                        html += '<span style="flex-shrink:0;font-size:11px;white-space:nowrap;">'
-                            + '<span style="color:#9CA3AF;">' + _esc(p.col) + ':</span> '
-                            + '<span style="color:#1A1D23;font-weight:600;">' + _esc(p.val) + '</span>'
+                    priceCell = r.prices.map(function(p) {
+                        return '<span style="display:inline-flex;align-items:center;gap:3px;margin-right:6px;white-space:nowrap;">'
+                            + '<span style="color:#9CA3AF;font-size:10px;">' + _esc(p.col) + '</span>'
+                            + '<span style="color:#1A1D23;font-weight:700;font-size:12px;">' + _esc(p.val) + '</span>'
                             + '</span>';
-                    });
+                    }).join('');
                 }
-
-                html += '</div>';
+                html += '<tr style="' + bg + '">'
+                    + '<td style="' + TD + 'color:#6B7280;max-width:180px;overflow:hidden;text-overflow:ellipsis;" title="' + _esc(r.file||'') + '">' + _esc(r.file||'—') + '</td>'
+                    + '<td style="' + TD + 'color:#6B7280;font-family:monospace;font-size:11px;">' + _esc(r.barcode||'—') + '</td>'
+                    + '<td style="' + TD + 'color:#1A1D23;font-weight:500;">' + _esc(r.name||'—') + '</td>'
+                    + '<td style="' + TD + '">' + priceCell + '</td>'
+                    + '</tr>';
             });
-            html += '</div>';
+
+            html += '</tbody></table>';
             return html;
         }
 
