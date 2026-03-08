@@ -869,6 +869,8 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         compactMatches = !compactMatches;
         if (compactMatches) compactMatchesBtn.classList.add('active');
         else compactMatchesBtn.classList.remove('active');
+        const _tw = document.getElementById('mainTableWrap');
+        if (_tw) { if (compactMatches) _tw.classList.add('compact-mode'); else _tw.classList.remove('compact-mode'); }
         renderTable(true);
 
     }
@@ -6103,7 +6105,7 @@ function openAddToDB(barcode, btnEl) {
         <input type="checkbox" data-syi="${i}" checked>
         <span class="bc-modal-syn-bc">${s.bc}</span>
         <span class="bc-modal-syn-file">${s.fileName}</span>
-        <button type="button" class="btn" style="flex-shrink:0;padding:0 7px;height:24px;border-color:#FF0000;color:#FF0000;margin-left:auto;" title="Найти товар на Яндексе" onclick="event.preventDefault();event.stopPropagation();window.open('https://yandex.ru/search?text='+encodeURIComponent('${s.bc.replace(/'/g,"\\'")}')+'&lr=197&from=tabbar&products_mode=1','_blank')">${_ySvg}</button>
+        <button type="button" class="btn btn-yandex" style="flex-shrink:0;margin-left:auto;" title="Найти товар на Яндексе" onclick="event.preventDefault();event.stopPropagation();window.open('https://yandex.ru/search?text='+encodeURIComponent('${s.bc.replace(/'/g,"\\'")}')+'&lr=197&from=tabbar&products_mode=1','_blank')"></button>
       </label>`).join('');
   }
 
