@@ -2801,7 +2801,7 @@ function createRenameInput(colIndex, value) {
     `<div class="dropdown-item" data-value="${String(t).replaceAll('"','&quot;')}">${obrEsc(t)}</div>`
   ).join("");
   return `<div class="rename-wrapper" data-col="${colIndex}">
-    <input class="rename-input" type="text" value="${ev}" data-col="${colIndex}" placeholder="Название колонки">
+    <input class="rename-input" type="text" id="rename-col-${colIndex}" value="${ev}" data-col="${colIndex}" placeholder="Название колонки" autocomplete="off">
     <div class="dropdown" data-col="${colIndex}">${items}</div>
   </div>`;
 }
@@ -3162,7 +3162,7 @@ function renderSynPanel(panel, tplName) {
   const chips = document.createElement("div"); chips.className = "syn-chips";
   syns.forEach((s, i) => {
     const chip = document.createElement("div"); chip.className = "syn-chip";
-    const inp = document.createElement("input"); inp.className = "syn-input"; inp.type = "text"; inp.value = s;
+    const inp = document.createElement("input"); inp.className = "syn-input"; inp.type = "text"; inp.name = "syn-input"; inp.autocomplete = "off"; inp.value = s;
     inp.addEventListener("change", () => { columnSynonyms[tplName][i] = inp.value.trim(); persistAll(); });
     const rm = document.createElement("button"); rm.className = "syn-remove"; rm.textContent = "×";
     rm.addEventListener("click", () => { columnSynonyms[tplName].splice(i,1); persistAll(); renderSynPanel(panel,tplName); });
@@ -3170,7 +3170,7 @@ function renderSynPanel(panel, tplName) {
   });
   panel.appendChild(chips);
   const addRow = document.createElement("div"); addRow.className = "syn-add-row";
-  const addInp = document.createElement("input"); addInp.className = "syn-new-input"; addInp.type = "text"; addInp.placeholder = "Новый кросскод…";
+  const addInp = document.createElement("input"); addInp.className = "syn-new-input"; addInp.type = "text"; addInp.name = "syn-new"; addInp.autocomplete = "off"; addInp.placeholder = "Новый кросскод…";
   const addBtn = document.createElement("button"); addBtn.className = "btn btn-success"; addBtn.textContent = "+ Добавить";
   addBtn.addEventListener("click", () => {
     const v = addInp.value.trim(); if (!v) return;
@@ -3194,7 +3194,7 @@ function renderTemplatesList() {
     const dnBtn = document.createElement("button"); dnBtn.className = "btn"; dnBtn.textContent = "↓"; dnBtn.disabled = idx === total-1;
     dnBtn.addEventListener("click", () => { if (idx===total-1) return; [columnTemplates[idx],columnTemplates[idx+1]]=[columnTemplates[idx+1],columnTemplates[idx]]; persistAll(); renderTemplatesList(); obrRenderTable(); });
 
-    const inp = document.createElement("input"); inp.type = "text"; inp.value = t;
+    const inp = document.createElement("input"); inp.type = "text"; inp.name = "tpl-inp"; inp.autocomplete = "off"; inp.value = t;
     const oldName = t;
     inp.addEventListener("change", () => {
       const n = inp.value.trim(); if (!n || n === oldName) return;
@@ -4831,9 +4831,9 @@ function jeBuildEditorRow(key, absIdx, dups) {
   }, '');
   return `<tr id="jer-${jeSafeId(key)}">
     <td style="text-align:center;color:var(--text-muted);font-size:11px;width:36px;">${absIdx+1}</td>
-    <td><input class="je-inp-cell" value="${escv(name)}" data-namekey="${escv(key)}" style="min-width:140px;width:100%;"></td>
-    <td><input class="je-inp-cell mono${dups.has(key)?' dup-inp':''}" value="${escv(key)}" data-origkey="${escv(key)}" style="font-family:Inter,sans-serif;width:100%;"></td>
-    <td><div class="syn-cell">${pillsHtml}<input class="inp-add-syn" placeholder="+ ШК" data-key="${escv(key)}" title="Enter для добавления"></div></td>
+    <td><input class="je-inp-cell" value="${escv(name)}" data-namekey="${escv(key)}" name="je-name" autocomplete="off" style="min-width:140px;width:100%;"></td>
+    <td><input class="je-inp-cell mono${dups.has(key)?' dup-inp':''}" value="${escv(key)}" data-origkey="${escv(key)}" name="je-bc" autocomplete="off" style="font-family:Inter,sans-serif;width:100%;"></td>
+    <td><div class="syn-cell">${pillsHtml}<input class="inp-add-syn" placeholder="+ ШК" data-key="${escv(key)}" name="je-syn" autocomplete="off" title="Enter для добавления"></div></td>
     <td><button class="je-del-btn" data-delkey="${escv(key)}" title="Удалить группу">✕</button></td>
   </tr>`;
 }
@@ -6164,7 +6164,7 @@ function openAddToDB(barcode, btnEl) {
     const _ySvg = `<svg width="13" height="13" viewBox="0 0 24 24" fill="#FF0000" xmlns="http://www.w3.org/2000/svg"><path d="M12.87 13.32L16.5 5h-2.22l-2.07 5.46L10.17 5H7.95l3.24 8.32L7.95 19h2.22l2.13-5.56L14.43 19h2.22z"/><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 1.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17z"/></svg>`;
     list.innerHTML = synonymOptions.map((s, i) => `
       <label class="bc-modal-syn-row">
-        <input type="checkbox" data-syi="${i}" checked>
+        <input type="checkbox" name="syn-select" data-syi="${i}" checked>
         <span class="bc-modal-syn-bc">${s.bc}</span>
         <span class="bc-modal-syn-file">${s.fileName}</span>
         <button type="button" class="btn btn-yandex" style="flex-shrink:0;margin-left:auto;" title="Найти товар на Яндексе" onclick="event.preventDefault();event.stopPropagation();window.open('https://barcode-list.ru/barcode/RU/barcode-'+encodeURIComponent('${s.bc.replace(/'/g,"\\'")}')+'/%D0%9F%D0%BE%D0%B8%D1%81%D0%BA.htm','_blank')"></button>
@@ -7858,7 +7858,7 @@ document.addEventListener('click', function(e) {
 
       // table
       html += '<div class="cart-table-wrap"><table class="cart-items-table"><thead><tr>';
-      html += '<th class="col-cb"><input type="checkbox" class="cart-cb" title="Выбрать все / снять все" onchange="cartSelectAllFromCb(this)" ' + (selectedCount===sup.items.length&&sup.items.length>0?'checked':'') + '></th>';
+      html += '<th class="col-cb"><input type="checkbox" class="cart-cb" name="cart-select-all" title="Выбрать все / снять все" onchange="cartSelectAllFromCb(this)" ' + (selectedCount===sup.items.length&&sup.items.length>0?'checked':'') + '></th>';
       if (hasMyPriceReplace) {
         html += '<th>Штрихкод поставщика</th><th style="color:var(--green-dark);">Мой штрихкод</th>';
         html += '<th>Наименование поставщика</th><th style="color:var(--green-dark);">Моё наименование</th>';
@@ -7879,7 +7879,7 @@ document.addEventListener('click', function(e) {
         var df = it.divFactor && it.divFactor > 1 ? it.divFactor : 1;
         var sum = isNaN(p) ? '' : (p * it.qty * df).toFixed(2);
         var rowClass = it.myPrice != null ? ' class="cart-row-marked"' : '';
-        var qtyWidget = '<input class="cart-qty-inp" type="number" min="1" value="' + it.qty + '"'
+        var qtyWidget = '<input class="cart-qty-inp" type="number" min="1" name="cart-qty" autocomplete="off" value="' + it.qty + '"'
           + ' data-sup="' + _esc(supName) + '"'
           + ' data-idx="' + idx + '"'
           + ' data-price="' + (isNaN(p)?'':p) + '"'
@@ -7891,7 +7891,7 @@ document.addEventListener('click', function(e) {
         var rowMyCls = it._myName ? ' class="cart-row-myprice"' : (rowClass ? rowClass : '');
         if (it._myName && rowClass) rowMyCls = ' class="cart-row-myprice cart-row-marked"';
         html += '<tr' + (it._myName ? rowMyCls : rowClass) + '>';
-        html += '<td class="col-cb"><input type="checkbox" class="cart-cb" data-sup="' + _esc(supName) + '" data-idx="' + idx + '" onchange="cartToggleCheck(this)"' + (it._checked?' checked':'') + '></td>';
+        html += '<td class="col-cb"><input type="checkbox" class="cart-cb" name="cart-item" data-sup="' + _esc(supName) + '" data-idx="' + idx + '" onchange="cartToggleCheck(this)"' + (it._checked?' checked':'') + '></td>';
         if (hasMyPriceReplace) {
           html += '<td style="font-family:\'Inter\',monospace;font-size:11px;color:var(--text-muted);">' + _esc(it.barcode) + '</td>';
           html += '<td style="font-family:\'Inter\',monospace;font-size:11px;color:var(--green-dark);">' + (it._myBarcode ? _esc(it._myBarcode) : '<span style="color:var(--text-muted)">—</span>') + '</td>';
