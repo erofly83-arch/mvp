@@ -1128,23 +1128,50 @@ return { barcode: item.barcode, packQty, autoDivFactor,
             html += `<td class="col-barcode file-barcode-col ${ec}" data-file-index="${idx}"><div class="barcode-cell"><span class="barcode-text">${ob}</span>${ob!=='—'?`<button class="copy-btn" onclick="copyBarcode('${ob}',this)">⎘</button>`:''}</div></td>`;
         });
 
+        // Build price lookup keyed by "fileName|rowName" for the tooltip
+        // For each price column, collect all values grouped by their source row (vObj.rowName)
+        const _tipPricesByRow = new Map(); // key: "fileName|rowName" → [{col, val}]
+        visibleCols.forEach(col => {
+            if (col.metaType || !isPriceLikeColumn(col.columnName)) return;
+            const valArr = item.values.get(col.key);
+            if (!valArr || !valArr.length) return;
+            let colLabel = String(col.displayName || col.columnName || '');
+            const filePrefix = col.fileName + ' - ';
+            if (colLabel.toLowerCase().startsWith(filePrefix.toLowerCase())) colLabel = colLabel.slice(filePrefix.length);
+            valArr.forEach(vObj => {
+                const n = parsePriceNumber(vObj.val);
+                if (n === null || n <= 0) return;
+                const rowKey = col.fileName + '|' + (vObj.rowName || '');
+                if (!_tipPricesByRow.has(rowKey)) _tipPricesByRow.set(rowKey, []);
+                const colEntry = _tipPricesByRow.get(rowKey);
+                // Avoid duplicate column labels
+                if (!colEntry.some(e => e.col === colLabel)) {
+                    colEntry.push({ col: colLabel, val: n % 1 === 0 ? String(n) : n.toFixed(1) });
+                }
+            });
+        });
+
+        const _getPricesForRow = (fileName, name) =>
+            _tipPricesByRow.get(fileName + '|' + name) || _tipPricesByRow.get(fileName + '|') || [];
+
         if (compactMatches && item.names.length > 1) {
 
             const _nmC = new Map();
             item.names.forEach(n => { if (!_nmC.has(n.name)) _nmC.set(n.name, n.fileName); });
             const _firstName = [..._nmC.keys()][0];
-            const _allNames = [..._nmC.keys()].join(' | ');
             const _extraCount = _nmC.size - 1;
-            // data-pm-names: [{file, name, barcode}] для тултипа (escv — экранирует кавычки в атрибуте)
+            // data-pm-names: [{file, name, barcode, prices}]
             const _tipData = JSON.stringify([..._nmC.entries()].map(([name, file]) => ({
-                file, name, barcode: item.originalBarcodesByFile.get(file) || ''
+                file, name, barcode: item.originalBarcodesByFile.get(file) || '',
+                prices: _getPricesForRow(file, name)
             })));
             html += `<td class="col-name" data-pm-names="${escv(_tipData)}"><div class="name-compact">${esc(_firstName)}<span style="color:var(--text-muted);font-size:10px;margin-left:4px;">(+${_extraCount})</span></div></td>`;
         } else if (item.names.length > 0) {
             const _nm = new Map();
             item.names.forEach(n => { if (!_nm.has(n.name)) _nm.set(n.name, n.fileName); });
             const _tipData = JSON.stringify([..._nm.entries()].map(([name, file]) => ({
-                file, name, barcode: item.originalBarcodesByFile.get(file) || ''
+                file, name, barcode: item.originalBarcodesByFile.get(file) || '',
+                prices: _getPricesForRow(file, name)
             })));
             html += `<td class="col-name" data-pm-names="${escv(_tipData)}"><div class="name-cell">`;
             _nm.forEach((fn, name) => { html += `<div class="name-item">${esc(name)}</div>`; });
@@ -2011,7 +2038,7 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         _tip.id = 'pmNameTip';
         _tip.style.cssText = [
             'display:none','position:fixed','z-index:10001',
-            'max-width:520px','min-width:220px',
+            'width:max-content','max-width:none',
             'background:#fff','border:1px solid #E2E6EE',
             'border-radius:8px','box-shadow:0 6px 24px rgba(0,0,0,.13)',
             'font-size:12px','font-family:Inter,sans-serif',
@@ -2034,7 +2061,6 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         }
 
         function _esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-        function _trunc(s, n) { return s && s.length > n ? s.slice(0, n-1) + '\u2026' : (s||''); }
 
         function _build(td) {
             var raw = td.getAttribute('data-pm-names');
@@ -2043,17 +2069,28 @@ return { barcode: item.barcode, packQty, autoDivFactor,
             try { rows = JSON.parse(raw); } catch(e) { return ''; }
             if (!rows || !rows.length) return '';
 
-            var html = '<div style="background:#F0F4FF;border-bottom:1px solid #E2E6EE;padding:6px 12px 5px;font-size:10px;font-weight:700;color:#3B6FD4;letter-spacing:.04em;text-transform:uppercase;">Наименования по прайсам</div>';
+            var html = '<div style="background:#F0F4FF;border-bottom:1px solid #E2E6EE;padding:6px 12px 5px;font-size:10px;font-weight:700;color:#3B6FD4;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;">Наименования по прайсам</div>';
             html += '<div style="padding:4px 0;">';
             rows.forEach(function(r, i) {
-                var file    = _trunc(r.file || '', 28);
-                var name    = _esc(r.name  || '');
-                var barcode = _esc(r.barcode || '');
                 var bg = i % 2 === 1 ? 'background:#F8F9FC;' : '';
-                html += '<div style="display:flex;align-items:baseline;padding:4px 12px;' + bg + '">';
-                html += '<span style="flex-shrink:0;width:130px;font-size:11px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="' + _esc(r.file||'') + '">' + _esc(file) + '</span>';
-                html += '<span style="flex:1;font-size:11px;color:#1A1D23;font-weight:500;padding:0 8px;min-width:0;overflow-wrap:break-word;">' + name + '</span>';
-                if (barcode) html += '<span style="flex-shrink:0;font-size:11px;color:#6B7280;white-space:nowrap;padding-left:8px;">' + barcode + '</span>';
+                html += '<div style="display:flex;align-items:center;padding:4px 12px;gap:12px;' + bg + 'white-space:nowrap;">';
+
+                // File name
+                html += '<span style="flex-shrink:0;font-size:11px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;" title="' + _esc(r.file||'') + '">' + _esc(r.file||'') + '</span>';
+
+                // Product name — allow it to be as wide as needed, no wrapping
+                html += '<span style="flex-shrink:0;font-size:11px;color:#1A1D23;font-weight:500;white-space:nowrap;">' + _esc(r.name||'') + '</span>';
+
+                // Prices
+                if (r.prices && r.prices.length) {
+                    r.prices.forEach(function(p) {
+                        html += '<span style="flex-shrink:0;font-size:11px;white-space:nowrap;">'
+                            + '<span style="color:#9CA3AF;">' + _esc(p.col) + ':</span> '
+                            + '<span style="color:#1A1D23;font-weight:600;">' + _esc(p.val) + '</span>'
+                            + '</span>';
+                    });
+                }
+
                 html += '</div>';
             });
             html += '</div>';
