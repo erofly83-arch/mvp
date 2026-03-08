@@ -1291,7 +1291,7 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         if (!wrap) {
 
             tableContainer.innerHTML = `
-                <div id="mainTableWrap" style="overflow-y:scroll;overflow-x:auto;max-height:75vh;border:1px solid var(--border);border-radius:4px;" class="table-wrapper">
+                <div id="mainTableWrap" style="overflow-y:scroll;overflow-x:auto;max-height:75vh;border:2px solid #7B8898;border-radius:4px;" class="table-wrapper">
                     <table id="mainTable" style="width:100%;border-collapse:collapse;min-width:700px;">
                         <thead id="mainThead"></thead>
                         <tbody id="mainTbody"></tbody>
