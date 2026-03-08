@@ -79,18 +79,20 @@
 <div class="sf-row">
 <span class="sf-icon"><i data-lucide="hard-drive"></i></span>
 <span class="sf-name" id="sfJsonName">JSON не загружен</span>
-
+<span class="sf-type-badge" id="sfJsonMeta" style="display:none;">Файл памяти</span>
 </div>
-<div class="sf-meta" id="sfJsonMeta" style="display:none;"></div>
+</div>
+<!-- Кнопка сохранения под блоком JSON -->
+<div id="sfSaveWrap" style="display:none;">
+<button class="sf-save-btn" onclick="downloadCurrentSynonyms()" title="Скачать файл памяти (JSON)"><i data-lucide="save"></i> Сохранить файл памяти</button>
 </div>
 <!-- Мой прайс -->
 <div class="sidebar-file-item sidebar-file-item--empty" id="sfMyPriceItem">
 <div class="sf-row">
 <span class="sf-icon"><i data-lucide="tag"></i></span>
 <span class="sf-name" id="sfMyPriceName">Мой прайс не загружен</span>
-
+<span class="sf-inline-count" id="sfMyPriceMeta" style="display:none;"></span>
 </div>
-<div class="sf-meta" id="sfMyPriceMeta" style="display:none;"></div>
 </div>
 <!-- Поставщики -->
 <div class="sidebar-files-title" style="margin-top:6px;margin-bottom:4px;">Поставщики</div>
@@ -103,9 +105,6 @@
 <div class="sidebar-files-suppliers-list" id="sfSuppliersList" style="display:none;"></div>
 </div><!-- /sidebar-files-section -->
 <div class="sidebar-footer">
-<div class="unified-unsaved" id="unifiedUnsaved" title="Есть несохранённые изменения — скачайте файл памяти, чтобы не потерять данные">
-<button class="btn btn-success unified-unsaved-save-btn" onclick="downloadCurrentSynonyms()" title="Скачать файл памяти (JSON)"><i data-lucide="save"></i> Сохранить файл памяти</button>
-</div>
 <div class="sidebar-contact-block">
 <div class="sidebar-contact-label">Связаться с автором</div>
 <a class="sidebar-contact-card sidebar-contact-card--phone" href="tel:+79130998250" title="+7 913 099-82-50">
@@ -595,7 +594,7 @@
 <button id="unifiedSaveJsonBtn"></button>
 </input></input></input></div>
 <div class="controls">
-<div class="controls-group controls-group--fill">
+<div class="controls-group">
 <button class="btn btn-secondary" disabled="" id="bigDiffBtn" title="Большая разница цен"><i data-lucide="trending-down"></i> Большая разница</button>
 <button class="btn btn-secondary" disabled="" id="deltaFilterBtn" title="Фильтр по разнице цены %"><i data-lucide="percent"></i> Дельта</button>
 <button class="btn btn-secondary" disabled="" id="showMyPriceBtn" title="Только мой прайс"><i data-lucide="tag"></i> Мой прайс</button>
@@ -1179,7 +1178,7 @@
 <div id="brandSearchArea" style="display:none;">
 <div class="brand-search-row search-box--above-table filter-row">
 <input class="search-input" id="brandSearchInp" placeholder="Поиск по брендам, кросскодам, антонимам..." style="flex:1;"/>
-<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Конфликты</button>
+<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;vertical-align:middle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Конфликты</button>
 </div>
 </div>
 <div class="brand-empty" id="brandEmpty">
