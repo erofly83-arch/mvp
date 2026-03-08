@@ -4214,32 +4214,25 @@ function renderMatcherTable(preserveScroll) {
     const botPad = Math.max(0, (total - end)) * PAIR_H;
     const view = _matchCurrentView;
     let html = '';
-    if (topPad > 0) html += `<tr class="mvs-spacer-row" style="height:${topPad}px"><td colspan="5"></td></tr>`;
+    if (topPad > 0) html += `<tr class="mvs-spacer-row" style="height:${topPad}px"><td colspan="4"></td></tr>`;
     for (let i = start; i < end; i++) {
       const r = list[i];
       const sc = r.sim;
       const cls = sc >= 80 ? 'm-score-hi' : sc >= 55 ? 'm-score-mid' : 'm-score-lo';
       const rowAttr = ` data-mrow="${i}" data-mview="${view}" style="cursor:pointer"`;
       const pairBg = r._confirmed ? 'background:#D1FAE5;' : (i % 2 === 1 ? 'background:#F4F5F7;' : '');
-      let tag;
-      tag = r.aInDB && r.bInDB && r.aKey !== r.bKey
-        ? '<span class="m-tag m-tag-mrg" title="Объединить группы">↔</span>'
-        : r.aInDB || r.bInDB
-          ? '<span class="m-tag m-tag-syn">кросскод</span>'
-          : '<span class="m-tag m-tag-new">новое</span>';
       html += `<tr class="mp-a"${rowAttr} style="cursor:pointer;${pairBg}">
         <td rowspan="2" class="${cls}" style="text-align:center;vertical-align:middle;width:46px;${pairBg}">${sc}%</td>
         <td style="${pairBg}"><span class="src-lbl">${esc(r.file1)}</span></td>
         <td style="${pairBg}">${esc(r.name1)}</td>
         <td style="font-family:Inter,sans-serif;font-size:11px;${pairBg}">${esc(r.bc1)}</td>
-        <td rowspan="2" style="text-align:center;vertical-align:middle;width:60px;${pairBg}">${tag}</td>
       </tr><tr class="mp-b"${rowAttr} style="${pairBg}">
         <td style="${pairBg}"><span class="src-lbl">${esc(r.file2)}</span></td>
         <td style="${pairBg}">${esc(r.name2)}</td>
         <td style="font-family:Inter,sans-serif;font-size:11px;${pairBg}">${esc(r.bc2)}</td>
       </tr>`;
     }
-    if (botPad > 0) html += `<tr class="mvs-spacer-row" style="height:${botPad}px"><td colspan="5"></td></tr>`;
+    if (botPad > 0) html += `<tr class="mvs-spacer-row" style="height:${botPad}px"><td colspan="4"></td></tr>`;
     document.getElementById('matcherTbody').innerHTML = html;
   }
 
@@ -7183,18 +7176,6 @@ function _undoMatchHistoryEntry(idx) {
 // Экспортируем чтобы существующий код мог вызывать при принятии/отклонении пары
 window._matchHistoryAdd = _addMatchHistoryEntry;
 
-// Патчим confirmMatchPair/rejectMatchPair через MutationObserver — нет,
-// Используем Event-based подход: перехватываем клики на ✓/✗ кнопки в matcherTable
-document.addEventListener('click', function(e) {
-  var matcherTable = document.getElementById('matcherTable');
-  if (!matcherTable) return;
-
-  // Кнопка принять (class m-ibtn, текст ✓ или содержит data-openm атрибут для открытия модала)
-  // В коде принятие идёт через openMatchModal -> confirmMatchPair
-  // Отклонение — через кнопку ✗ которая вызывает rejectMatchPair/skipMatchPair
-  // Перехватим вызовы через обёртку существующих функций после загрузки
-
-}, true);
 
 // После загрузки основного скрипта — оборачиваем функции принятия/отклонения
 setTimeout(function() {
@@ -7218,25 +7199,6 @@ setTimeout(function() {
   });
 }, 500);
 
-// Также перехватываем через делегирование на кнопки ✓ и ✗ в таблице matcher
-// (они рендерятся динамически — ловим через атрибуты)
-document.addEventListener('click', function(e) {
-  var btn = e.target.closest('[data-maccept]');
-  if (btn) {
-    var pairIdx = parseInt(btn.dataset.maccept, 10);
-    if (typeof _matchActivePairs !== 'undefined' && _matchActivePairs[pairIdx]) {
-      window._matchHistoryAdd('ok', _matchActivePairs[pairIdx]);
-    }
-    return;
-  }
-  var skipBtn = e.target.closest('[data-mskip]');
-  if (skipBtn) {
-    var pairIdx2 = parseInt(skipBtn.dataset.mskip, 10);
-    if (typeof _matchActivePairs !== 'undefined' && _matchActivePairs[pairIdx2]) {
-      window._matchHistoryAdd('skip', _matchActivePairs[pairIdx2]);
-    }
-  }
-});
 
 })();
 
