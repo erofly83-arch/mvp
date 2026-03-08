@@ -2108,6 +2108,7 @@ document.querySelectorAll('.nav-tab[data-pane]').forEach(t =>
       if (_tbtn) _tbtn.title = 'Свернуть меню';
     }
     switchMainPane(t.dataset.pane);
+    localStorage.setItem('activePane', t.dataset.pane);
   }));
 
 const AppBridge = {
@@ -6206,6 +6207,13 @@ function toggleSidebar() {
       const btn = document.getElementById('sidebarToggle');
       if (btn) btn.title = 'Развернуть меню';
     }
+  }
+})();
+
+(function() {
+  const _savedPane = localStorage.getItem('activePane');
+  if (_savedPane && document.getElementById('pane-' + _savedPane)) {
+    switchMainPane(_savedPane);
   }
 })();
 
