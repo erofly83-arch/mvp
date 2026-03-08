@@ -195,6 +195,7 @@ let barcodeAliasMap=new Map(),synonymsLoaded=false;
     let _searchDebounceTimer = null;
     let compactMatches = true;
     let searchQuery = '';
+    let exactSearch = false;     // точный поиск — без расширения синонимами брендов
     let categoryFilter = '';
     let showFileBarcodes = false;
 
@@ -240,6 +241,41 @@ let barcodeAliasMap=new Map(),synonymsLoaded=false;
     competitorInput.addEventListener('change', handleCompetitorUpload);
 
     searchInput.addEventListener('input', handleSearch);
+
+    // Точный поиск — монитор цен
+    const _exactBtn = document.getElementById('exactSearchBtn');
+    if (_exactBtn) {
+        _exactBtn.addEventListener('click', function() {
+            exactSearch = !exactSearch;
+            this.classList.toggle('active', exactSearch);
+            if (searchQuery) renderTable(true);
+        });
+    }
+
+    // Точный поиск — матчер
+    const _matcherExactBtn = document.getElementById('matcherExactBtn');
+    if (_matcherExactBtn) {
+        _matcherExactBtn.addEventListener('click', function() {
+            exactSearch = !exactSearch;
+            this.classList.toggle('active', exactSearch);
+            // Синхронизируем все кнопки точного поиска
+            if (_exactBtn) _exactBtn.classList.toggle('active', exactSearch);
+            if (_jeExactBtn2) _jeExactBtn2.classList.toggle('active', exactSearch);
+            if (typeof renderMatcherTable === 'function') renderMatcherTable();
+        });
+    }
+
+    // Точный поиск — кросскоды
+    const _jeExactBtn2 = document.getElementById('jeExactBtn');
+    if (_jeExactBtn2) {
+        _jeExactBtn2.addEventListener('click', function() {
+            exactSearch = !exactSearch;
+            this.classList.toggle('active', exactSearch);
+            if (_exactBtn) _exactBtn.classList.toggle('active', exactSearch);
+            if (_matcherExactBtn) _matcherExactBtn.classList.toggle('active', exactSearch);
+            if (typeof jeRenderEditor === 'function') jeRenderEditor();
+        });
+    }
 
     const categoryFilterSelect = document.getElementById('categoryFilterSelect');
     if (categoryFilterSelect) {
@@ -303,6 +339,13 @@ function isPriceLikeColumn(colName) {
   const isStock = STOCK_COL_SYNONYMS.some(k => s.includes(k));
   if (isStock) return false;
   return PRICE_COL_SYNONYMS.some(k => s.includes(k));
+}
+
+// Определяет является ли колонка артикулом (для поиска по артикулу)
+const _ARTICLE_COL_KEYWORDS = ['артикул','artic','sku','vendor code','code','арт.','арт ','art.','art '];
+function isArticleLikeColumn(colName) {
+  const s = String(colName || '').toLowerCase();
+  return _ARTICLE_COL_KEYWORDS.some(k => s.includes(k));
 }
 
 function parsePriceNumber(val) {
@@ -972,31 +1015,41 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         let data = [...groupedData];
 
         if (searchQuery) {
-            // Expand search query with brand synonyms from _brandDB
+            // Expand search query with brand synonyms from _brandDB (unless exactSearch mode)
             const _sqWords = new Set([searchQuery]);
-            try {
-                if (typeof _brandDB !== 'undefined' && _brandDB) {
-                    Object.entries(_brandDB).forEach(function([key, val]) {
-                        const canon = key.toLowerCase();
-                        const syns = (val.synonyms || []).map(s => s.toLowerCase()).filter(Boolean);
-                        // if query matches canonical or any synonym — add whole group
-                        if (canon === searchQuery || canon.includes(searchQuery) ||
-                            searchQuery.includes(canon) ||
-                            syns.some(s => s === searchQuery || s.includes(searchQuery) || searchQuery.includes(s))) {
-                            _sqWords.add(canon);
-                            syns.forEach(s => _sqWords.add(s));
-                        }
-                    });
-                }
-            } catch(e) {}
+            if (!exactSearch) {
+                try {
+                    if (typeof _brandDB !== 'undefined' && _brandDB) {
+                        Object.entries(_brandDB).forEach(function([key, val]) {
+                            const canon = key.toLowerCase();
+                            const syns = (val.synonyms || []).map(s => s.toLowerCase()).filter(Boolean);
+                            // if query matches canonical or any synonym — add whole group
+                            if (canon === searchQuery || canon.includes(searchQuery) ||
+                                searchQuery.includes(canon) ||
+                                syns.some(s => s === searchQuery || s.includes(searchQuery) || searchQuery.includes(s))) {
+                                _sqWords.add(canon);
+                                syns.forEach(s => _sqWords.add(s));
+                            }
+                        });
+                    }
+                } catch(e) {}
+            }
             const _sqArr = [..._sqWords];
-            data = data.filter(item =>
-                item.names.some(n => {
+            data = data.filter(item => {
+                // Search by name
+                if (item.names.some(n => {
                     if (!n.name) return false;
                     const nl = n.name.toLowerCase();
                     return _sqArr.some(w => nl.includes(w));
-                })
-            );
+                })) return true;
+                // Search by article/SKU values
+                for (const [key, valArr] of item.values.entries()) {
+                    const colName = key.includes('|') ? key.split('|').slice(1).join('|') : key;
+                    if (!isArticleLikeColumn(colName)) continue;
+                    if (valArr.some(v => String(v.val||'').toLowerCase().includes(searchQuery))) return true;
+                }
+                return false;
+            });
         }
 
         if (categoryFilter) {
@@ -4105,22 +4158,24 @@ function renderMatcherTable(preserveScroll) {
     });
   }
 
-  // Text search with brand synonym expansion
+  // Text search with brand synonym expansion (unless exactSearch mode)
   if (q) {
     const _sqWords = new Set([q]);
-    try {
-      if (typeof _brandDB !== 'undefined' && _brandDB) {
-        Object.entries(_brandDB).forEach(function([key, val]) {
-          const canon = key.toLowerCase();
-          const syns = (val.synonyms || []).map(s => s.toLowerCase()).filter(Boolean);
-          if (canon === q || canon.includes(q) || q.includes(canon) ||
-              syns.some(s => s === q || s.includes(q) || q.includes(s))) {
-            _sqWords.add(canon);
-            syns.forEach(s => _sqWords.add(s));
-          }
-        });
-      }
-    } catch(e) {}
+    if (!(typeof exactSearch !== 'undefined' && exactSearch)) {
+      try {
+        if (typeof _brandDB !== 'undefined' && _brandDB) {
+          Object.entries(_brandDB).forEach(function([key, val]) {
+            const canon = key.toLowerCase();
+            const syns = (val.synonyms || []).map(s => s.toLowerCase()).filter(Boolean);
+            if (canon === q || canon.includes(q) || q.includes(canon) ||
+                syns.some(s => s === q || s.includes(q) || q.includes(s))) {
+              _sqWords.add(canon);
+              syns.forEach(s => _sqWords.add(s));
+            }
+          });
+        }
+      } catch(e) {}
+    }
     const _sqArr = [..._sqWords];
     list = list.filter(r => {
       const n1 = (r.name1||'').toLowerCase(), n2 = (r.name2||'').toLowerCase();

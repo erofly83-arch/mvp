@@ -656,7 +656,8 @@
 </div>
 <div class="search-box--above-table" id="monitorSearchBox" style="display:none;">
 <div class="filter-row">
-<input class="search-input" id="searchInput" placeholder="Поиск по названию товара..." style="flex:1;" type="text"/>
+<input class="search-input" id="searchInput" placeholder="Поиск по названию / артикулу..." style="flex:1;" type="text"/>
+<button class="btn btn-secondary" id="exactSearchBtn" title="Точный поиск: не расширять запрос синонимами брендов" style="flex-shrink:0;white-space:nowrap;">Точный поиск</button>
 <div class="select-wrapper">
 <select id="categoryFilterSelect" style="padding:0 32px 0 11px;border:1px solid var(--border-strong);border-radius:var(--radius-md);
                  font-size:var(--fz-base);font-family:'Inter',sans-serif;background:var(--surface);
@@ -869,6 +870,7 @@
 <div class="search-box--above-table" id="matcherSearchRow" style="display:none;">
 <div class="filter-row">
 <input class="search-input" disabled="" id="matcherSearchInp" placeholder="Поиск по названию / штрихкоду..." style="flex:1;"/>
+<button class="btn btn-secondary" id="matcherExactBtn" title="Точный поиск: не расширять запрос синонимами брендов" style="flex-shrink:0;white-space:nowrap;">Точный поиск</button>
 <div id="matcherCatRow" style="display:none;position:relative;flex-shrink:0;">
 <select id="matcherCatSelect" style="padding:0 32px 0 11px;border:1px solid var(--border-strong);border-radius:var(--radius-md);
                    font-size:var(--fz-base);font-family:'Inter',sans-serif;background:var(--surface);
@@ -1048,8 +1050,10 @@
 <span id="jeStatus">Наименований: 0</span>
 <span id="jeDupStatus" style="color:var(--red);display:none;"></span>
 </div>
-<div class="search-box--above-table je-search-row" id="jeSearchRow" style="display:none;">
-<input class="search-input" disabled="" id="jeSearchInp" placeholder="Поиск по ШК / названию..."/>
+<div class="search-box--above-table je-search-row" id="jeSearchRow" style="display:none;display:flex;gap:6px;align-items:center;">
+<input class="search-input" disabled="" id="jeSearchInp" placeholder="Поиск по ШК / названию..." style="flex:1;"/>
+<button class="btn btn-secondary" id="jeExactBtn" title="Точный поиск: не расширять запрос синонимами брендов" style="flex-shrink:0;white-space:nowrap;">Точный поиск</button>
+</div>
 </div>
 <div class="empty-state" id="jeEmpty">
 <div class="dash-instr ax-006">
