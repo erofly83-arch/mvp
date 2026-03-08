@@ -426,3 +426,56 @@ body.order-mode .price-in-cart::after{content:'✓ в корзине' !important
 .help-modal-body .empty-state{padding:0}
 .help-modal-body .dash-instr{padding:0 0 8px}
 .help-modal-body .instr-demo-btn{pointer-events:none}
+
+/* ── Lucide Icons ── */
+[data-lucide] { display:block }
+i[data-lucide] { display:inline-flex; align-items:center; justify-content:center; flex-shrink:0 }
+i[data-lucide] svg { width:1em; height:1em; stroke-width:1.75 }
+
+/* nav icons */
+.nav-tab-icon i[data-lucide] svg { width:16px; height:16px; stroke-width:1.75 }
+
+/* sidebar file icons */
+.sf-icon i[data-lucide] svg { width:11px; height:11px; stroke-width:2 }
+
+/* pane title icons */
+.pane-title-icon i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75 }
+
+/* upload card icons */
+.obr-upload-card-icon i[data-lucide] svg { width:13px; height:13px; stroke-width:1.75 }
+.obr-upload-card.card-danger .obr-upload-card-icon i[data-lucide] svg { color:#fff }
+
+/* queue icon */
+.obr-queue-icon i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75 }
+
+/* help button */
+.help-btn i[data-lucide] svg { width:15px; height:15px; stroke-width:1.75 }
+
+/* error log button */
+#errLogBtn i[data-lucide] svg { width:13px; height:13px; stroke-width:2 }
+
+/* save button in sidebar */
+.unified-unsaved-save-btn i[data-lucide] svg { width:13px; height:13px; stroke-width:2 }
+
+/* cart button */
+#cartBtn i[data-lucide] svg { width:13px; height:13px; stroke-width:1.75 }
+
+/* cart modal header */
+.cq-header-icon i[data-lucide] svg { width:15px; height:15px; stroke-width:1.75 }
+
+/* category modal */
+.cem-header-icon i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75 }
+.cem-search-icon i[data-lucide] svg { width:13px; height:13px; stroke-width:1.75 }
+
+/* help modal */
+.help-modal-icon i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75 }
+
+/* confirm modal */
+.confirm-modal-icon i[data-lucide] svg { width:32px; height:32px; stroke-width:1.5; color:var(--amber) }
+.confirm-modal-icon { display:flex; justify-content:center }
+
+/* user contact */
+#userContactEmpty i[data-lucide] svg { width:18px; height:18px; stroke-width:1.75; color:var(--text-muted) }
+
+/* price-clickable tooltip */
+.price-clickable::after { content:'скопировать штрихкод' }

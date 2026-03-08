@@ -29,7 +29,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-</link></head>
+</link>
+<script src="https://unpkg.com/lucide@0.263.1/dist/umd/lucide.min.js"></script>
+</head>
 <body>
 <div class="app-layout">
 <!-- ═══ SIDEBAR ═══ -->
@@ -57,17 +59,17 @@
 <nav class="sidebar-nav" id="appNav">
 <div class="sidebar-section-label">Работа</div>
 <button class="nav-tab active" data-label="Загрузка прайсов" data-pane="prepare" id="navPrepare">
-<span class="nav-tab-icon"></span><span class="nav-tab-label"> Загрузка прайсов</span>
+<span class="nav-tab-icon"><i data-lucide="upload"></i></span><span class="nav-tab-label"> Загрузка прайсов</span>
 </button>
 <button class="nav-tab" data-label="Мониторинг цен" data-pane="monitor" id="navMonitor">
-<span class="nav-tab-icon"></span><span class="nav-tab-label"> Мониторинг цен</span>
+<span class="nav-tab-icon"><i data-lucide="bar-chart-2"></i></span><span class="nav-tab-label"> Мониторинг цен</span>
 </button>
 <div class="sidebar-section-label">База данных</div>
 <button class="nav-tab" data-label="Поиск кросскодов Beta" data-pane="matcher" id="navMatcher">
-<span class="nav-tab-icon"></span><span class="nav-tab-label"> Поиск кросскодов Beta</span>
+<span class="nav-tab-icon"><i data-lucide="link-2"></i></span><span class="nav-tab-label"> Поиск кросскодов Beta</span>
 </button>
 <button class="nav-tab" data-label="База кросскодов" data-pane="jsoneditor" id="navJsoneditor">
-<span class="nav-tab-icon"></span><span class="nav-tab-label"> База кросскодов</span>
+<span class="nav-tab-icon"><i data-lucide="database"></i></span><span class="nav-tab-label"> База кросскодов</span>
 </button>
 </nav>
 <!-- Информация о загруженных файлах -->
@@ -76,7 +78,7 @@
 <!-- JSON файл -->
 <div class="sidebar-file-item sidebar-file-item--empty" id="sfJsonItem">
 <div class="sf-row">
-<span class="sf-icon"></span>
+<span class="sf-icon"><i data-lucide="brain"></i></span>
 <span class="sf-name" id="sfJsonName">JSON не загружен</span>
 
 </div>
@@ -85,7 +87,7 @@
 <!-- Мой прайс -->
 <div class="sidebar-file-item sidebar-file-item--empty" id="sfMyPriceItem">
 <div class="sf-row">
-<span class="sf-icon"></span>
+<span class="sf-icon"><i data-lucide="tag"></i></span>
 <span class="sf-name" id="sfMyPriceName">Мой прайс не загружен</span>
 
 </div>
@@ -95,7 +97,7 @@
 <div class="sidebar-files-title" style="margin-top:6px;margin-bottom:4px;">Поставщики</div>
 <div class="sidebar-file-item sidebar-file-item--empty" id="sfSuppliersEmpty">
 <div class="sf-row">
-<span class="sf-icon"></span>
+<span class="sf-icon"><i data-lucide="package"></i></span>
 <span class="sf-empty-label">Файлы поставщиков не загружены</span>
 </div>
 </div>
@@ -103,7 +105,7 @@
 </div><!-- /sidebar-files-section -->
 <div class="sidebar-footer">
 <div class="unified-unsaved" id="unifiedUnsaved" title="Есть несохранённые изменения — скачайте файл памяти, чтобы не потерять данные">
-<button class="btn btn-success unified-unsaved-save-btn" onclick="downloadCurrentSynonyms()" title="Скачать файл памяти (JSON)">Сохранить файл памяти</button>
+<button class="btn btn-success unified-unsaved-save-btn" onclick="downloadCurrentSynonyms()" title="Скачать файл памяти (JSON)"><i data-lucide="save"></i> Сохранить файл памяти</button>
 </div>
 <div class="sidebar-contact-block">
 <div class="sidebar-contact-label">Связаться с автором</div>
@@ -169,7 +171,7 @@
 <div class="obr-container" id="obrTableContainer">
 <!-- ═══ PANE TITLE ═══ -->
 <div class="obr-pane-title">
-<div class="pane-title-icon" style="background:var(--accent-bg);border:1px solid #C7D7F5;"></div>
+<div class="pane-title-icon" style="background:var(--accent-bg);border:1px solid #C7D7F5;"><i data-lucide="upload"></i></div>
 <div class="pane-title-text">
 <h2 style="font-size:var(--fz-lg);font-weight:700;color:var(--text-primary);margin:0;line-height:1.2;">Загрузка прайсов</h2>
 <p style="font-size:var(--fz-xs);color:var(--text-muted);margin:2px 0 0;line-height:1.3;">Загрузите файлы, выберите и назовите нужные колонки, передайте в мониторинг</p>
@@ -178,7 +180,7 @@
 <button class="btn btn-success" disabled="" id="obrHeaderArchiveBtn" title="Скачать все CSV, Excel и JSON одним архивом">
 Скачать всё архивом
         </button>
-<button class="btn help-btn" id="helpBtnPrepare" onclick="openHelpModal('prepare')" title="Инструкция по работе с этой вкладкой">?</button>
+<button class="btn help-btn" id="helpBtnPrepare" onclick="openHelpModal('prepare')" title="Инструкция по работе с этой вкладкой"><i data-lucide="help-circle"></i></button>
 </div>
 </div>
 <!-- Loaded files list -->
@@ -197,32 +199,32 @@
 <div class="obr-upload-btns">
 <div class="obr-upload-card card-json" id="obrHeaderJsonWrap" title="Загрузить файл-память: разметка колонок и база кросскодов">
 <div class="obr-upload-card-top">
-<span class="obr-upload-card-icon"></span>
+<span class="obr-upload-card-icon"><i data-lucide="brain"></i></span>
 <span class="obr-upload-card-title">Файл памяти</span>
 </div>
 <span class="obr-upload-card-hint">Настройки и кросскоды</span>
 <input accept=".json" id="obrClearedJsonInput" type="file"/>
 </div>
-<div class="obr-upload-card" id="obrHeaderMyPriceCard" title="Загрузить свой основной прайс-лист">
+<div class="obr-upload-card" id="obrHeaderMyPriceCard" data-card-icon="tag" title="Загрузить свой основной прайс-лист">
 <div class="obr-upload-card-top">
-<span class="obr-upload-card-icon"></span>
+<span class="obr-upload-card-icon"><i data-lucide="tag"></i></span>
 <span class="obr-upload-card-title">Мой прайс</span>
 </div>
 <span class="obr-upload-card-hint">Основной прайс-лист</span>
 <input accept=".xlsx,.xls,.csv" id="obrClearedFileInputMyPrice" type="file"/>
 </div>
-<div class="obr-upload-card" id="obrHeaderSupplierCard" title="Загрузить один или несколько файлов поставщика">
+<div class="obr-upload-card" id="obrHeaderSupplierCard" data-card-icon="package" title="Загрузить один или несколько файлов поставщика">
 <div class="obr-upload-card-top">
-<span class="obr-upload-card-icon"></span>
+<span class="obr-upload-card-icon"><i data-lucide="package"></i></span>
 <span class="obr-upload-card-title">Прайсы</span>
 </div>
 <span class="obr-upload-card-hint">Один или несколько файлов</span>
 <input accept=".xlsx,.xls,.csv" id="obrClearedFileInput" multiple="" type="file"/>
 </div>
 <div class="obr-upload-cards-sep"></div>
-<div class="obr-upload-card card-danger" id="obrHeaderResetAllBtn" title="Очистить все загруженные данные и сбросить сессию">
+<div class="obr-upload-card card-danger" id="obrHeaderResetAllBtn" data-card-icon="trash-2" title="Очистить все загруженные данные и сбросить сессию">
 <div class="obr-upload-card-top">
-<span class="obr-upload-card-icon"></span>
+<span class="obr-upload-card-icon"><i data-lucide="trash-2"></i></span>
 <span class="obr-upload-card-title">Сбросить всё</span>
 </div>
 <span class="obr-upload-card-hint">Очистить все данные</span>
@@ -477,7 +479,7 @@
 <div id="obrQueuePanel" style="display:none;">
 <div class="obr-queue-bar">
 <div class="obr-queue-bar-left">
-<span class="obr-queue-icon"></span>
+<span class="obr-queue-icon"><i data-lucide="layers"></i></span>
 <div class="obr-queue-info">
 <div class="obr-queue-title">Пакетная обработка</div>
 <div class="obr-queue-current" id="obrQueueCurrent"></div>
@@ -512,7 +514,7 @@
 <div class="container">
 <!-- Unified pane title с компактной статистикой -->
 <div class="pane-title">
-<div class="pane-title-icon"></div>
+<div class="pane-title-icon"><i data-lucide="bar-chart-2"></i></div>
 <div class="pane-title-text">
 <h2>Мониторинг цен</h2>
 <p>Сравнение цен с поставщиками по штрихкодам</p>
@@ -529,7 +531,7 @@
 <button class="btn btn-success" disabled="" id="monitorDownloadArchiveBtn" title="Скачать все CSV, Excel и JSON одним архивом">
 Скачать все архивом
       </button>
-<button class="btn help-btn" id="helpBtnMonitor" onclick="openHelpModal('monitor')" title="Инструкция по работе с этой вкладкой">?</button>
+<button class="btn help-btn" id="helpBtnMonitor" onclick="openHelpModal('monitor')" title="Инструкция по работе с этой вкладкой"><i data-lucide="help-circle"></i></button>
 </div>
 </div>
 <!-- Info panel — показывается только когда данные загружены -->
@@ -822,14 +824,14 @@
 <div class="container">
 <!-- Unified pane title -->
 <div class="pane-title">
-<div class="pane-title-icon"></div>
+<div class="pane-title-icon"><i data-lucide="link-2"></i></div>
 <div class="pane-title-text">
 <h2>Поиск кросскодов <span style="font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-bg);border:1px solid var(--accent);border-radius:4px;padding:1px 6px;vertical-align:middle;letter-spacing:0.3px;">Beta</span></h2>
 <p>Поиск связей между товарами поставщиков по наименованию</p>
 </div>
 <div class="pane-title-extra">
 <button class="btn btn-success" id="matcherRunBtn" title="Запустить поиск">Запустить поиск</button>
-<button class="btn help-btn" id="helpBtnMatcher" onclick="openHelpModal('matcher')" title="Инструкция по работе с этой вкладкой">?</button>
+<button class="btn help-btn" id="helpBtnMatcher" onclick="openHelpModal('matcher')" title="Инструкция по работе с этой вкладкой"><i data-lucide="help-circle"></i></button>
 </div>
 </div>
 <div class="obr-modal-note" id="matcherDirtyWarn" style="display:none;margin-bottom:10px;">
@@ -979,19 +981,19 @@
 <div class="container">
 <!-- Unified pane title -->
 <div class="pane-title">
-<div class="pane-title-icon"></div>
+<div class="pane-title-icon"><i data-lucide="database"></i></div>
 <div class="pane-title-text">
 <h2>База кросскодов</h2>
 <p>Штрихкоды, бренды и кросскоды для связывания товаров</p>
 </div>
 <div class="pane-title-extra">
-<button class="btn help-btn" id="helpBtnJsoneditor" onclick="openHelpModal('jsoneditor')" title="Инструкция по работе с этой вкладкой">?</button>
+<button class="btn help-btn" id="helpBtnJsoneditor" onclick="openHelpModal('jsoneditor')" title="Инструкция по работе с этой вкладкой"><i data-lucide="help-circle"></i></button>
 </div>
 </div>
 <!-- Блок контакта пользователя -->
 <div id="userContactBlock" style="margin-bottom:14px;padding:10px 14px;background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-md);display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
   <div id="userContactEmpty" style="display:flex;align-items:center;gap:10px;flex:1;flex-wrap:wrap;">
-    <div style="font-size:15px;"></div>
+    <div style="font-size:15px;"><i data-lucide="user"></i></div>
     <div style="flex:1;min-width:180px;">
       <div style="font-size:var(--fz-sm);font-weight:600;color:var(--text-primary);">Укажите ваш контакт</div>
       <div style="font-size:var(--fz-xs);color:var(--text-secondary);margin-top:1px;">Телефон, email или Telegram — чтобы разработчик мог связаться с вами при ошибке</div>
@@ -1584,7 +1586,7 @@
 <!-- CONFIRM CLEAR MODAL -->
 <div id="confirmClearModal" style="position:fixed;inset:0;background:rgba(0,0,0,0);display:none;align-items:center;justify-content:center;z-index:9999;">
 <div class="confirm-modal-box">
-<div class="confirm-modal-icon">!</div>
+<div class="confirm-modal-icon"><i data-lucide="alert-triangle"></i></div>
 <div class="confirm-modal-title">Сбросить все данные?</div>
 <div class="confirm-modal-text">Это удалит все загруженные прайсы, базу кросскодов и результаты матчинга. Действие нельзя отменить.</div>
 <div class="confirm-modal-actions">
@@ -1599,7 +1601,7 @@
 <div class="cart-qty-box" id="cartQtyBox">
 <!-- header -->
 <div class="cq-header">
-<span class="cq-header-icon"></span>
+<span class="cq-header-icon"><i data-lucide="shopping-cart"></i></span>
 <span class="cq-supplier" id="cqSupplier"></span>
 <button class="cq-close" onclick="closeCartQtyModal()">✕</button>
 </div>
@@ -1682,7 +1684,7 @@
 <div class="cem-box">
 <!-- HEADER -->
 <div class="cem-header">
-<div class="cem-header-icon"></div>
+<div class="cem-header-icon"><i data-lucide="tag"></i></div>
 <div class="cem-header-text">
 <h3>Слова-категории</h3>
 <p>Белый список слов для фильтра «Категории» — если пуст, показываются все частые слова</p>
@@ -1712,7 +1714,7 @@
 <div class="cem-right">
 <div class="cem-search-bar">
 <div class="cem-search-wrap">
-<span class="cem-search-icon"></span>
+<span class="cem-search-icon"><i data-lucide="search"></i></span>
 <input class="cem-search-inp" id="catExclSearchInp" oninput="_catExclFilterWords(this.value)" placeholder="Фильтр слов..." type="text"/>
 </div>
 </div>
@@ -1735,7 +1737,7 @@
   <div class="help-modal-box">
     <div class="help-modal-header">
       <div class="help-modal-title-row">
-        <span class="help-modal-icon"></span>
+        <span class="help-modal-icon"><i data-lucide="book-open"></i></span>
         <span id="helpModalTitle">Инструкция</span>
       </div>
       <button class="modal-close-x" onclick="closeHelpModal()" title="Закрыть">✕</button>
@@ -1802,6 +1804,12 @@ function showUpdateToast() {
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 15000);
 }
+</script>
+<script>
+  // Инициализация Lucide Icons
+  document.addEventListener('DOMContentLoaded', function() {
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  });
 </script>
 </body>
 </html>

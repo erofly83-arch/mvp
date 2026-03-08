@@ -1,3 +1,8 @@
+// ── Lucide re-render helper ──
+function reIcons(root) {
+  if (typeof lucide !== 'undefined') lucide.createIcons({ rootElement: root || document.body });
+}
+
 const BRAND_CONFIG_SAVED = {};
 
 // ===== GLOBAL ERROR LOGGER =====
@@ -1255,7 +1260,7 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         }        _vsData = dataToShow;
 
         if (dataToShow.length === 0) {
-            tableContainer.innerHTML = `<div class="empty-state"><div class="empty-state-icon">!</div><h3>Нет данных для отображения</h3><p>Проверьте содержимое загруженных файлов или измените фильтры</p></div>`;
+            tableContainer.innerHTML = `<div class="empty-state"><div class="empty-state-icon"><i data-lucide="alert-triangle" style="width:36px;height:36px;color:var(--amber)"></i></div><h3>Нет данных для отображения</h3><p>Проверьте содержимое загруженных файлов или измените фильтры</p></div>`;
             return;
         }
 
@@ -3045,7 +3050,7 @@ function obrShowNextStep(savedType) {
 
   if (!jsonAlreadyLoaded && savedType !== 'json') {
     rows.push({
-      cls: 'btn-json', icon: '',
+      cls: 'btn-json', icon: '<i data-lucide="brain"></i>',
       label: 'Загрузить JSON',
       hint: 'Применит настройки столбцов и базу кросскодов',
       action: () => { obrCloseNextStep(); setTimeout(() => { const j = document.getElementById('obrJsonUploadInput'); if (j) j.click(); }, 80); }
@@ -3053,7 +3058,7 @@ function obrShowNextStep(savedType) {
   }
 
   rows.push({
-    cls: 'btn-supplier', icon: '',
+    cls: 'btn-supplier', icon: '<i data-lucide="package"></i>',
     label: suppliersAlreadyLoaded ? 'Ещё один прайс поставщика' : 'Загрузить прайс поставщика',
     hint: suppliersAlreadyLoaded ? 'Добавить ещё один файл поставщика' : 'Откройте файл поставщика для подготовки столбцов',
     action: () => { obrCloseNextStep(); obrSetType('supplier'); fileInput.click(); }
@@ -3061,7 +3066,7 @@ function obrShowNextStep(savedType) {
 
   if (!myPriceAlreadyLoaded) {
     rows.push({
-      cls: 'btn-myprice', icon: '',
+      cls: 'btn-myprice', icon: '<i data-lucide="tag"></i>',
       label: 'Загрузить мой прайс',
       hint: 'Откройте свой прайс-лист для подготовки',
       action: () => { obrCloseNextStep(); obrSetType('myprice'); if (fileInputMyPrice) fileInputMyPrice.click(); }
@@ -3069,7 +3074,7 @@ function obrShowNextStep(savedType) {
   }
 
   rows.push({
-    cls: 'btn-monitor', icon: '',
+    cls: 'btn-monitor', icon: '<i data-lucide="bar-chart-2"></i>',
     label: 'Перейти к мониторингу',
     hint: 'Открыть таблицу мониторинга цен',
     action: () => { obrCloseNextStep(); switchMainPane('monitor'); }
@@ -3087,6 +3092,7 @@ function obrShowNextStep(savedType) {
     btn.addEventListener('click', r.action);
     btns.appendChild(btn);
   });
+  reIcons(btns);
 
   modal.classList.add('visible');
 }
@@ -3226,7 +3232,7 @@ AppBridge.on('csvReady', async function(data) {
     const chip = document.createElement('span');
     chip.style.cssText = 'display:inline-flex;align-items:center;gap:5px;background:' + (isMyPrice ? 'var(--accent-bg)' : 'var(--green-bg)') + ';border:1px solid ' + (isMyPrice ? '#C7D7F5' : '#A7F3D0') + ';border-radius:var(--radius-md);padding:3px 8px;font-size:var(--fz-sm);font-weight:500;white-space:nowrap;color:' + (isMyPrice ? 'var(--accent-dark)' : 'var(--green-dark)') + ';';
     const chipIcon = document.createElement('span');
-    chipIcon.textContent = '';
+    chipIcon.innerHTML = isMyPrice ? '<i data-lucide="tag"></i>' : '<i data-lucide="package"></i>';
     const chipName = document.createElement('span');
     chipName.textContent = fileName;
     const chipDel = document.createElement('button');
@@ -3258,6 +3264,7 @@ AppBridge.on('csvReady', async function(data) {
       }
     };
     chip.appendChild(chipIcon);
+    reIcons(chip);
     chip.appendChild(chipName);
     chip.appendChild(chipDel);
     loadedList.appendChild(chip);
@@ -5652,10 +5659,10 @@ function brandRender() {
     if (tableWrap) tableWrap.style.display = 'none';
     empty.style.display = '';
     if (_brandFilterConflicts && !q) {
-      empty.innerHTML = `<div style="font-size:28px;margin-bottom:8px;"></div><div>Конфликтов не обнаружено</div>`;
+      empty.innerHTML = `<div style="font-size:28px;margin-bottom:8px;"><i data-lucide="check-circle" style="width:28px;height:28px;color:var(--green)"></i></div><div>Конфликтов не обнаружено</div>`;
       _brandEmptyOverridden = true;
     } else if (q) {
-      empty.innerHTML = `<div style="font-size:28px;margin-bottom:8px;"></div><div>По запросу «${q}» ничего не найдено</div>`;
+      empty.innerHTML = `<div style="font-size:28px;margin-bottom:8px;"><i data-lucide="search" style="width:28px;height:28px;color:var(--text-muted)"></i></div><div>По запросу «${q}» ничего не найдено</div>`;
       _brandEmptyOverridden = true;
     } else if (_brandEmptyOverridden) {
 
@@ -5708,6 +5715,7 @@ function brandRender() {
       </td>
     </tr>`;
   }).join('');
+  reIcons(list);
 }
 
 function brandDelete(key) {
@@ -6241,7 +6249,7 @@ function toggleSidebar() {
     listEl.innerHTML = list.map(f => `
       <div class="sidebar-file-item sidebar-file-item--supplier">
         <div class="sf-row sf-supplier-row">
-          <span class="sf-icon"></span>
+          <span class="sf-icon"><i data-lucide="package"></i></span>
           <span class="sf-name" title="${f.name.replace(/"/g,'&quot;')}">${f.name.length > 18 ? f.name.slice(0,17) + '…' : f.name}</span>
           <button class="sf-supplier-del" title="Удалить файл поставщика" onclick="removeSupplierFile('${f.name.replace(/'/g,"\\'")}')">✕</button>
         </div>
