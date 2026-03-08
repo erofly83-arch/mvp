@@ -537,3 +537,9 @@ svg.lucide {
 .btn-yandex:hover:not(:disabled){background:#134080;border-color:#0d2f60;color:#fff}
 .btn-yandex svg{display:none}
 .btn-yandex::before{content:'🔍 ШК'}
+
+/* ── [B2 FIX] col-my-price: «Мой прайс» column highlight + delta-filter support ── */
+.col-my-price{background:#EEF4FF;color:var(--accent);font-weight:600}
+
+/* ── [I3 FIX] col-meta: stock/name columns (no functional effect but prevents missing-class noise) ── */
+.col-meta{color:var(--text-secondary)}

@@ -91,7 +91,7 @@ const BRAND_CONFIG_SAVED = {};
   window.closeErrLog = function() { document.getElementById('errLogModal').style.display = 'none'; };
 
   // ── Контакт пользователя ─────────────────────────────────────────────────
-  window._userContact = localStorage.getItem('userContact') || '';
+  try { window._userContact = localStorage.getItem('userContact') || ''; } catch(e) { window._userContact = ''; }
   window._userContactRender = function() {
     var val = window._userContact || '';
     var empty  = document.getElementById('userContactEmpty');
@@ -114,7 +114,7 @@ const BRAND_CONFIG_SAVED = {};
     var val = (input ? input.value : '').trim();
     if (!val) { if (typeof showToast === 'function') showToast('Введите контакт', 'warn'); return; }
     window._userContact = val;
-    localStorage.setItem('userContact', val);
+    try { localStorage.setItem('userContact', val); } catch(e) {}
     window._userContactRender();
     if (typeof showToast === 'function') showToast('Контакт сохранён', 'ok');
   };
@@ -1874,10 +1874,8 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         pendingCsvContent = null;
         const _archBtn  = document.getElementById('obrHeaderArchiveBtn');
         const _marchBtn = document.getElementById('monitorDownloadArchiveBtn');
-        const _dlArchBtn = document.getElementById('obrDownloadArchiveBtn');
         if (_archBtn)   _archBtn.disabled   = true;
         if (_marchBtn)  _marchBtn.disabled  = true;
-        if (_dlArchBtn) _dlArchBtn.disabled = true;
 
         // ── Очередь обработки файлов (вкладка «Загрузка прайсов») ────────────────
         const _qPanel = document.getElementById('obrQueuePanel');
@@ -2147,12 +2145,12 @@ document.querySelectorAll('.nav-tab[data-pane]').forEach(t =>
     const _sb = document.querySelector('.app-sidebar');
     if (_sb && _sb.classList.contains('collapsed')) {
       _sb.classList.remove('collapsed');
-      localStorage.setItem('sidebarCollapsed', '0');
+      try { localStorage.setItem('sidebarCollapsed', '0'); } catch(e) {}
       const _tbtn = document.getElementById('sidebarToggle');
       if (_tbtn) _tbtn.title = 'Свернуть меню';
     }
     switchMainPane(t.dataset.pane);
-    localStorage.setItem('activePane', t.dataset.pane);
+    try { localStorage.setItem('activePane', t.dataset.pane); } catch(e) {}
   }));
 
 const AppBridge = {
@@ -2233,8 +2231,8 @@ function persistAll(markDirty = true) {
   cfg.columnTemplates = columnTemplates.slice();
   cfg.columnSynonyms = columnSynonyms;
   setUserConfig(cfg);
-  localStorage.setItem("columnTemplates", JSON.stringify(columnTemplates));
-  localStorage.setItem("columnSynonyms", JSON.stringify(columnSynonyms));
+  try { localStorage.setItem("columnTemplates", JSON.stringify(columnTemplates)); } catch(e) {}
+  try { localStorage.setItem("columnSynonyms", JSON.stringify(columnSynonyms)); } catch(e) {}
 
   if (markDirty && typeof unifiedMarkUnsaved === 'function') unifiedMarkUnsaved(true);
 }
@@ -2281,7 +2279,7 @@ const sheetSelector  = document.getElementById("obrSheetSelector");
 const sheetSelect    = document.getElementById("obrSheetSelect");
 const loadMoreBtn    = document.getElementById("obrLoadMoreBtn");
 const loadMoreContainer = document.getElementById("obrLoadMoreContainer");
-const downloadArchiveBtn = document.getElementById("obrDownloadArchiveBtn");
+const downloadArchiveBtn = document.getElementById("obrHeaderArchiveBtn");
 const templatesModal = document.getElementById("obrTemplatesModal");
 const closeTemplatesModal = document.getElementById("obrCloseTemplatesModal");
 const newTemplateInput = document.getElementById("obrNewTemplateInput");
@@ -6233,26 +6231,30 @@ window._matcherUpdateJsonInfo = function() {
 function toggleSidebar() {
   const sidebar = document.querySelector('.app-sidebar');
   const collapsed = sidebar.classList.toggle('collapsed');
-  localStorage.setItem('sidebarCollapsed', collapsed ? '1' : '0');
+  try { localStorage.setItem('sidebarCollapsed', collapsed ? '1' : '0'); } catch(e) {}
   document.getElementById('sidebarToggle').title = collapsed ? 'Развернуть меню' : 'Свернуть меню';
 }
 
 (function() {
-  if (localStorage.getItem('sidebarCollapsed') === '1') {
-    const sidebar = document.querySelector('.app-sidebar');
-    if (sidebar) {
-      sidebar.classList.add('collapsed');
-      const btn = document.getElementById('sidebarToggle');
-      if (btn) btn.title = 'Развернуть меню';
+  try {
+    if (localStorage.getItem('sidebarCollapsed') === '1') {
+      const sidebar = document.querySelector('.app-sidebar');
+      if (sidebar) {
+        sidebar.classList.add('collapsed');
+        const btn = document.getElementById('sidebarToggle');
+        if (btn) btn.title = 'Развернуть меню';
+      }
     }
-  }
+  } catch(e) {}
 })();
 
 (function() {
-  const _savedPane = localStorage.getItem('activePane');
-  if (_savedPane && document.getElementById('pane-' + _savedPane)) {
-    switchMainPane(_savedPane);
-  }
+  try {
+    const _savedPane = localStorage.getItem('activePane');
+    if (_savedPane && document.getElementById('pane-' + _savedPane)) {
+      switchMainPane(_savedPane);
+    }
+  } catch(e) {}
 })();
 
 (function() {
