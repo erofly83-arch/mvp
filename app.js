@@ -1477,7 +1477,14 @@ return { barcode: item.barcode, packQty, autoDivFactor,
             return bestFn;
         }
         // Нет цен — берём первого поставщика у которого есть этот товар
-        for (const fn of item.filesWithBarcode) {
+        // (filesWithBarcode не сериализуется, используем ключи values)
+        const _knownFiles = item.filesWithBarcode
+            ? item.filesWithBarcode
+            : new Set([...item.values.keys()].map(k => {
+                const col = allColumns.find(c => c.key === k);
+                return col ? col.fileName : null;
+              }).filter(Boolean));
+        for (const fn of _knownFiles) {
             if (fn !== MY_PRICE_FILE_NAME) return fn;
         }
         return null;
@@ -1722,7 +1729,9 @@ return { barcode: item.barcode, packQty, autoDivFactor,
     const blob=new Blob([buffer],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
     await saveBlobWithDialogOrDownload(blob,fileName);
     } catch(err) {
-        alert('Ошибка при создании Excel-файла:\n' + (err.message || err));
+        if (typeof window._logErr === 'function') window._logErr(err, 'generateExcel');
+        if (typeof showToast === 'function') showToast('Ошибка при создании Excel-файла: ' + (err.message || err), 'error');
+        else alert('Ошибка при создании Excel-файла:\n' + (err.message || err));
     }
 }
 
