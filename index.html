@@ -1750,49 +1750,6 @@
   </div>
 </div>
 
-<!-- ═══ TABLE VIEW BAR ═══ -->
-<div id="tableViewBar" style="display:none;">
-  <div class="tvb-inner">
-
-    <!-- PRESETS -->
-    <div class="tvb-section tvb-section--presets">
-      <span class="tvb-label">Вид</span>
-      <div class="tvb-pills-row">
-        <button class="tvb-pill tvb-preset tvb-pill--active" data-preset="full"    title="Все колонки, масштаб 100%">Полный</button>
-        <button class="tvb-pill tvb-preset"                  data-preset="compact" title="Все колонки, масштаб 80%">Компактный</button>
-        <button class="tvb-pill tvb-preset"                  data-preset="nal"     title="Только колонки «нал», безнал скрыты">Нал</button>
-        <button class="tvb-pill tvb-preset"                  data-preset="bn"      title="Только колонки «безнал», нал скрыты">Безнал</button>
-        <button class="tvb-pill tvb-preset"                  data-preset="myprice" title="Только мой прайс, поставщики скрыты">Мой прайс</button>
-        <button class="tvb-pill tvb-preset"                  data-preset="compare" title="Только ценовые колонки поставщиков">Цены</button>
-      </div>
-    </div>
-
-    <div class="tvb-divider"></div>
-
-    <!-- COLUMNS -->
-    <div class="tvb-section tvb-section--cols">
-      <span class="tvb-label">Колонки</span>
-      <div class="tvb-pills-row tvb-cols-scroll" id="tvbCols">
-        <span class="tvb-no-cols">Загрузите файлы для настройки колонок</span>
-      </div>
-    </div>
-
-    <div class="tvb-divider"></div>
-
-    <!-- ZOOM -->
-    <div class="tvb-section tvb-section--zoom">
-      <span class="tvb-label">Масштаб</span>
-      <div class="tvb-zoom-row">
-        <span class="tvb-zoom-icon">−</span>
-        <input type="range" id="tvbZoom" class="tvb-slider" min="60" max="100" step="5" value="100">
-        <span class="tvb-zoom-icon">+</span>
-        <span class="tvb-zoom-lbl" id="tvbZoomLbl">100%</span>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 <script src="app.js"></script>
 <!-- ═══ PWA ═══ -->
 <script>
