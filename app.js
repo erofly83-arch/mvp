@@ -260,20 +260,7 @@ let barcodeAliasMap=new Map(),synonymsLoaded=false;
             this.classList.toggle('active', exactSearch);
             // Синхронизируем все кнопки точного поиска
             if (_exactBtn) _exactBtn.classList.toggle('active', exactSearch);
-            if (_jeExactBtn2) _jeExactBtn2.classList.toggle('active', exactSearch);
             if (typeof renderMatcherTable === 'function') renderMatcherTable();
-        });
-    }
-
-    // Точный поиск — кросскоды
-    const _jeExactBtn2 = document.getElementById('jeExactBtn');
-    if (_jeExactBtn2) {
-        _jeExactBtn2.addEventListener('click', function() {
-            exactSearch = !exactSearch;
-            this.classList.toggle('active', exactSearch);
-            if (_exactBtn) _exactBtn.classList.toggle('active', exactSearch);
-            if (_matcherExactBtn) _matcherExactBtn.classList.toggle('active', exactSearch);
-            if (typeof jeRenderEditor === 'function') jeRenderEditor();
         });
     }
 
