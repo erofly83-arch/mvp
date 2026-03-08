@@ -1210,15 +1210,19 @@ return { barcode: item.barcode, packQty, autoDivFactor,
                     const _cartKey = barcodeForCopy + '|' + col.key + '|' + vIndex;
                     const _inCart = window._cartedKeys && window._cartedKeys.has(_cartKey);
                     const _cartCls = _inCart ? ' price-in-cart' : '';
+                    // rowName: наименование именно той строки прайса, из которой пришла эта цена.
+                    // Нужно для корректного подставления имени в корзину, когда у поставщика два
+                    // разных товара (с разными штрихкодами) сопоставлены через кросскоды.
+                    const _rowNameSafe = (vObj.rowName || '').replace(/\\/g,'\\\\').replace(/'/g,"\\'");
                     let innerHtml;
                     if (isAbsMin) {
-                        innerHtml = `<span class="price-val is-abs-min price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax},0,${vIndex})" title="Минимальная цена в строке">${displayValue}</span>${autoBadge}`;
+                        innerHtml = `<span class="price-val is-abs-min price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax},0,${vIndex},'${_rowNameSafe}')" title="Минимальная цена в строке">${displayValue}</span>${autoBadge}`;
                     } else if (isMin) {
-                        innerHtml = `<span class="price-val is-min price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax},0,${vIndex})">${displayValue}</span>${autoBadge}`;
+                        innerHtml = `<span class="price-val is-min price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax},0,${vIndex},'${_rowNameSafe}')">${displayValue}</span>${autoBadge}`;
                     } else if (isMax && numValue) {
-                        innerHtml = `<span class="price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax},1,${vIndex})">${displayValue}</span>${autoBadge}<div class="div-wrapper" title="Цена указана за блок?"><div class="div-icon">÷</div><select class="div-select" onchange="dividePrice('${item.barcode}','${col.key}',${vIndex},this.value);this.value=''"><option value="" disabled selected>÷</option>${_DIV_OPTIONS}</select></div>`;
+                        innerHtml = `<span class="price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax},1,${vIndex},'${_rowNameSafe}')">${displayValue}</span>${autoBadge}<div class="div-wrapper" title="Цена указана за блок?"><div class="div-icon">÷</div><select class="div-select" onchange="dividePrice('${item.barcode}','${col.key}',${vIndex},this.value);this.value=''"><option value="" disabled selected>÷</option>${_DIV_OPTIONS}</select></div>`;
                     } else {
-                        innerHtml = `<span class="price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax},0,${vIndex})">${displayValue}</span>${autoBadge}`;
+                        innerHtml = `<span class="price-clickable${_cartCls}" onclick="priceClick('${barcodeForCopy}','${col.key}','${displayValue}','${item.barcode}',${_divF},${_cMin},${_cMax},0,${vIndex},'${_rowNameSafe}')">${displayValue}</span>${autoBadge}`;
                     }
                     cellContent += `<div class="value-variant">${innerHtml}</div>`;
                 });
@@ -1947,12 +1951,11 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         _tip.id = 'pmNameTip';
         _tip.style.cssText = [
             'display:none','position:fixed','z-index:10001',
-            'min-width:220px',
+            'max-width:520px','min-width:220px',
             'background:#fff','border:1px solid #E2E6EE',
             'border-radius:8px','box-shadow:0 6px 24px rgba(0,0,0,.13)',
             'font-size:12px','font-family:Inter,sans-serif',
-            'padding:0','pointer-events:none','overflow:hidden',
-            'white-space:nowrap'
+            'padding:0','pointer-events:none','overflow:hidden'
         ].join(';');
         document.body.appendChild(_tip);
 
@@ -1988,8 +1991,8 @@ return { barcode: item.barcode, packQty, autoDivFactor,
                 var barcode = _esc(r.barcode || '');
                 var bg = i % 2 === 1 ? 'background:#F8F9FC;' : '';
                 html += '<div style="display:flex;align-items:baseline;padding:4px 12px;' + bg + '">';
-                html += '<span style="flex-shrink:0;font-size:11px;color:#6B7280;white-space:nowrap;" title="' + _esc(r.file||'') + '">' + _esc(file) + '</span>';
-                html += '<span style="flex:1;font-size:11px;color:#1A1D23;font-weight:500;padding:0 8px;white-space:nowrap;">' + name + '</span>';
+                html += '<span style="flex-shrink:0;width:130px;font-size:11px;color:#6B7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="' + _esc(r.file||'') + '">' + _esc(file) + '</span>';
+                html += '<span style="flex:1;font-size:11px;color:#1A1D23;font-weight:500;padding:0 8px;min-width:0;overflow-wrap:break-word;">' + name + '</span>';
                 if (barcode) html += '<span style="flex-shrink:0;font-size:11px;color:#6B7280;white-space:nowrap;padding-left:8px;">' + barcode + '</span>';
                 html += '</div>';
             });
@@ -7497,7 +7500,7 @@ document.addEventListener('click', function(e) {
   };
 
   // ---- price click handler ----
-  window.priceClick = function(supplierBarcode, colKey, priceDisplay, mainBarcode, divFactor, cellMin, cellMax, hasDivBtn, vIndex) {
+  window.priceClick = function(supplierBarcode, colKey, priceDisplay, mainBarcode, divFactor, cellMin, cellMax, hasDivBtn, vIndex, rowName) {
     try {
     if (!orderMode) {
       // original behavior: copy barcode
@@ -7518,11 +7521,14 @@ document.addEventListener('click', function(e) {
     if (typeof allColumns !== 'undefined') col = allColumns.find(function(c){ return c.key === colKey; });
     var supplierName = col ? (col.displayName || col.fileName || colKey) : colKey;
     // get item name + detect pack size for items without explicit divFactor
-    var itemName = '';
+    // rowName — наименование именно той строки прайса, по которой кликнул пользователь.
+    // Используем его напрямую (актуально когда у поставщика два товара с разными штрихкодами
+    // сопоставлены через кросскоды). Если rowName не передан — fallback на старый поиск по _vsData.
+    var itemName = (rowName && typeof rowName === 'string') ? rowName : '';
     var _detectedPack = { confidence: 'none', qty: 1, candidates: [], source: 'none' };
     if (typeof _vsData !== 'undefined') {
       var row = _vsData.find(function(r){ return r.barcode === mainBarcode || r.barcode === supplierBarcode; });
-      if (row && row.names && row.names.length > 0) {
+      if (!itemName && row && row.names && row.names.length > 0) {
         var n = col ? row.names.find(function(x){ return x.fileName === col.fileName; }) : null;
         itemName = (n || row.names[0]).name || '';
       }
