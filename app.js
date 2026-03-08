@@ -1293,7 +1293,7 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         if (!wrap) {
 
             tableContainer.innerHTML = `
-                <div id="mainTableWrap" style="overflow-y:scroll;overflow-x:auto;max-height:75vh;border:2px solid #7B8898;border-radius:4px;" class="table-wrapper">
+                <div id="mainTableWrap" style="overflow-y:scroll;overflow-x:auto;max-height:75vh;border:2px solid #7B8898;border-radius:4px;" class="table-wrapper${compactMatches ? ' compact-mode' : ''}">
                     <table id="mainTable" style="width:100%;border-collapse:collapse;min-width:700px;">
                         <thead id="mainThead"></thead>
                         <tbody id="mainTbody"></tbody>
@@ -6093,7 +6093,7 @@ function openAddToDB(barcode, btnEl) {
   document.getElementById('bcAddName').value = bestName;
 
   const _yBtn = document.getElementById('bcYandexMainBtn');
-  if (_yBtn) _yBtn.onclick = () => window.open('https://yandex.ru/search?text=' + encodeURIComponent(bestName || barcode) + '&lr=197&from=tabbar&products_mode=1', '_blank');
+  if (_yBtn) _yBtn.onclick = () => window.open('https://barcode-list.ru/barcode/RU/barcode-' + encodeURIComponent(barcode) + '/%D0%9F%D0%BE%D0%B8%D1%81%D0%BA.htm', '_blank');
 
   const list = document.getElementById('bcAddSynList');
   if (synonymOptions.length === 0) {
@@ -6105,7 +6105,7 @@ function openAddToDB(barcode, btnEl) {
         <input type="checkbox" data-syi="${i}" checked>
         <span class="bc-modal-syn-bc">${s.bc}</span>
         <span class="bc-modal-syn-file">${s.fileName}</span>
-        <button type="button" class="btn btn-yandex" style="flex-shrink:0;margin-left:auto;" title="Найти товар на Яндексе" onclick="event.preventDefault();event.stopPropagation();window.open('https://yandex.ru/search?text='+encodeURIComponent('${s.bc.replace(/'/g,"\\'")}')+'&lr=197&from=tabbar&products_mode=1','_blank')"></button>
+        <button type="button" class="btn btn-yandex" style="flex-shrink:0;margin-left:auto;" title="Найти товар на Яндексе" onclick="event.preventDefault();event.stopPropagation();window.open('https://barcode-list.ru/barcode/RU/barcode-'+encodeURIComponent('${s.bc.replace(/'/g,"\\'")}')+'/%D0%9F%D0%BE%D0%B8%D1%81%D0%BA.htm','_blank')"></button>
       </label>`).join('');
   }
 
