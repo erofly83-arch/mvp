@@ -2045,42 +2045,22 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         const suppliers = competitorFilesData.length;
         if (total === 0) return;
 
-        let toast = document.getElementById('_completionToast');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.id = '_completionToast';
-            Object.assign(toast.style, {
-                position: 'fixed', bottom: '24px', right: '24px',
-                background: '#0f172a', color: '#f1f5f9',
-                border: '1px solid #22c55e',
-                padding: '14px 18px', borderRadius: '10px',
-                fontSize: '13px', lineHeight: '1.6',
-                boxShadow: '0 6px 28px rgba(0,0,0,.45)',
-                zIndex: '99998', maxWidth: '340px',
-                transition: 'opacity .4s, transform .4s',
-                transform: 'translateY(20px)', opacity: '0',
-                cursor: 'pointer'
-            });
-            toast.title = 'Перейти к мониторингу';
-            toast.addEventListener('click', () => switchMainPane('monitor'));
-            document.body.appendChild(toast);
-        }
-        toast.innerHTML =
-            `<div style="font-size:15px;font-weight:700;color:var(--green);margin-bottom:6px);">Мониторинг готов!</div>` +
-            `<div>Товаров: <b style="color:var(--accent)">${total.toLocaleString('ru')}</b></div>` +
-            (matched ? `<div>Совпало с прайсом: <b style="color:var(--accent)">${matched.toLocaleString('ru')}</b></div>` : '') +
-            `<div>Поставщиков: <b style="color:var(--accent)">${suppliers}</b></div>` +
-            `<div style="margin-top:8px;font-size:11px;color:var(--text-muted);">Нажмите, чтобы открыть таблицу →</div>`;
+        // Remove previous monitor-ready toast if still showing
+        const prev = document.getElementById('_completionToast');
+        if (prev) { prev.classList.remove('show'); setTimeout(() => prev.remove(), 250); }
 
-        requestAnimationFrame(() => {
-            toast.style.opacity = '1';
-            toast.style.transform = 'translateY(0)';
+        const lines = [
+          `Товаров: <b>${total.toLocaleString('ru')}</b>`,
+          matched ? `Совпало с прайсом: <b>${matched.toLocaleString('ru')}</b>` : null,
+          `Поставщиков: <b>${suppliers}</b>`,
+        ].filter(Boolean);
+
+        showToast('Мониторинг готов!', 'ok', 8000, {
+          lines,
+          hint: 'Нажмите, чтобы открыть таблицу →',
+          onClick: () => switchMainPane('monitor'),
+          id: '_completionToast'
         });
-        clearTimeout(toast._timer);
-        toast._timer = setTimeout(() => {
-            toast.style.opacity = '0';
-            toast.style.transform = 'translateY(20px)';
-        }, 4000);
     }
 
 
@@ -3332,11 +3312,14 @@ AppBridge.on('settingsLoaded', function(data) {
 
 let _bcAddState = null;
 
-function showToast(msg, type, ms) {
+function showToast(msg, type, ms, opts) {
   type = type || 'info'; ms = ms || 3500;
+  opts = opts || {};
   const rack = document.getElementById('toastRack');
   const el = document.createElement('div');
   el.className = 'je-toast ' + type;
+  if (opts.id) el.id = opts.id;
+  if (opts.onClick) { el.style.cursor = 'pointer'; el.addEventListener('click', opts.onClick); }
 
   // Icon
   const iconMap = {ok:'✓', err:'✕', warn:'!', info:'i'};
@@ -3344,24 +3327,41 @@ function showToast(msg, type, ms) {
   iconEl.className = 'je-toast-icon';
   iconEl.textContent = iconMap[type] || 'i';
 
-  // Body: split long messages into title + detail
+  // Body
   const body = document.createElement('div');
   body.className = 'je-toast-body';
-  const parts = msg.split(/[:\—–]\s+/);
-  if (parts.length >= 2 && msg.length > 40) {
-    const title = document.createElement('div');
-    title.className = 'je-toast-title';
-    title.textContent = parts[0];
-    const detail = document.createElement('div');
-    detail.className = 'je-toast-text';
-    detail.textContent = parts.slice(1).join(': ');
-    body.appendChild(title);
-    body.appendChild(detail);
+
+  const titleEl = document.createElement('div');
+  titleEl.className = 'je-toast-title';
+  titleEl.textContent = msg;
+  body.appendChild(titleEl);
+
+  // Extra detail lines (HTML allowed)
+  if (opts.lines && opts.lines.length) {
+    const linesEl = document.createElement('div');
+    linesEl.className = 'je-toast-text';
+    linesEl.style.marginTop = '4px';
+    linesEl.innerHTML = opts.lines.join('<br>');
+    body.appendChild(linesEl);
   } else {
-    const title = document.createElement('div');
-    title.className = 'je-toast-title';
-    title.textContent = msg;
-    body.appendChild(title);
+    // Legacy: split long messages into title + detail
+    const parts = msg.split(/[:\—–]\s+/);
+    if (parts.length >= 2 && msg.length > 40) {
+      titleEl.textContent = parts[0];
+      const detail = document.createElement('div');
+      detail.className = 'je-toast-text';
+      detail.textContent = parts.slice(1).join(': ');
+      body.appendChild(detail);
+    }
+  }
+
+  if (opts.hint) {
+    const hintEl = document.createElement('div');
+    hintEl.className = 'je-toast-text';
+    hintEl.style.marginTop = '4px';
+    hintEl.style.opacity = '0.65';
+    hintEl.textContent = opts.hint;
+    body.appendChild(hintEl);
   }
 
   el.appendChild(iconEl);
