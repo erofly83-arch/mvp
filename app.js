@@ -1372,6 +1372,17 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         requestAnimationFrame(function() {
             if (typeof window._deltaHighlightCols === 'function') window._deltaHighlightCols();
         });
+        // ── Re-apply zoom & barcode visibility after render ──
+        requestAnimationFrame(function() {
+            var _zt = document.getElementById('mainTable');
+            if (_zt && window._tableZoomLevel && window._tableZoomLevel !== 1) {
+                _zt.style.zoom = window._tableZoomLevel;
+            }
+            var _zw = document.getElementById('mainTableWrap');
+            if (_zw) {
+                _zw.classList.toggle('barcode-col-hidden', !!window._barcodeColHidden);
+            }
+        });
     }
 
     function dividePrice(barcode, colKey, valueIndex, factorStr) {
@@ -1753,8 +1764,10 @@ return { barcode: item.barcode, packQty, autoDivFactor,
 
         const _msBox = document.getElementById('monitorSearchBox');
         const _mES = document.getElementById('monitorEmptyState');
+        const _zoomBar = document.getElementById('tableZoomBar');
         if (_msBox) _msBox.style.display = hasData ? '' : 'none';
         if (_mES) _mES.style.display = hasData ? 'none' : '';
+        if (_zoomBar) _zoomBar.style.display = hasData ? 'flex' : 'none';
 
         const _infoPanel = document.getElementById('infoPanel');
         if (_infoPanel) _infoPanel.style.display = hasData ? '' : 'none';
@@ -8358,6 +8371,43 @@ setTimeout(function() {
       if (modal && modal.classList.contains('open')) closeHelpModal();
     }
   });
+})();
+
+// ═══ TABLE ZOOM BAR ═══
+(function() {
+  window._tableZoomLevel = 1;
+  window._barcodeColHidden = false;
+
+  var slider    = document.getElementById('tableZoomSlider');
+  var zoomLabel = document.getElementById('tableZoomLabel');
+  var toggleBtn = document.getElementById('toggleBarcodeBtn');
+
+  function applyZoom(v) {
+    window._tableZoomLevel = v;
+    var t = document.getElementById('mainTable');
+    if (t) t.style.zoom = v === 1 ? '' : v;
+    if (zoomLabel) zoomLabel.textContent = Math.round(v * 100) + '%';
+  }
+
+  function applyBarcodeToggle() {
+    var wrap = document.getElementById('mainTableWrap');
+    if (!wrap) return;
+    wrap.classList.toggle('barcode-col-hidden', window._barcodeColHidden);
+    if (toggleBtn) toggleBtn.classList.toggle('active', window._barcodeColHidden);
+  }
+
+  if (slider) {
+    slider.addEventListener('input', function() {
+      applyZoom(parseInt(this.value, 10) / 100);
+    });
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function() {
+      window._barcodeColHidden = !window._barcodeColHidden;
+      applyBarcodeToggle();
+    });
+  }
 })();
 
 })();

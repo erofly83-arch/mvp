@@ -543,3 +543,17 @@ svg.lucide {
 
 /* ── [I3 FIX] col-meta: stock/name columns (no functional effect but prevents missing-class noise) ── */
 .col-meta{color:var(--text-secondary)}
+
+/* ── Table zoom bar ─────────────────────────────────── */
+#tableZoomBar{display:none;align-items:center;gap:8px;padding:5px 2px 1px;justify-content:flex-end;flex-wrap:wrap}
+#toggleBarcodeBtn{height:26px;padding:0 9px;font-size:var(--fz-sm);gap:4px;flex-shrink:0}
+.zoom-slider-group{display:flex;align-items:center;gap:5px;flex-shrink:0}
+#tableZoomSlider{-webkit-appearance:none;appearance:none;width:88px;height:3px;border-radius:2px;background:var(--border-strong);outline:none;cursor:pointer;accent-color:var(--accent)}
+#tableZoomSlider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.2);cursor:pointer;transition:background 100ms}
+#tableZoomSlider::-webkit-slider-thumb:hover{background:var(--accent-dark)}
+#tableZoomSlider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.2);cursor:pointer}
+#tableZoomLabel{font-size:var(--fz-xs);color:var(--text-muted);min-width:28px;text-align:right;font-variant-numeric:tabular-nums}
+/* Hide barcode column when toggle is on */
+#mainTableWrap.barcode-col-hidden .col-barcode{display:none}
+#mainTableWrap.barcode-col-hidden #mainTable th.col-name,
+#mainTableWrap.barcode-col-hidden #mainTable td.col-name{left:0!important}

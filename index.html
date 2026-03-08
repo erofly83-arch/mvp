@@ -816,6 +816,18 @@
 </div>
 </div>
 </div>
+<!-- ── Zoom bar: масштаб таблицы + скрыть штрихкод ── -->
+<div id="tableZoomBar">
+  <button id="toggleBarcodeBtn" class="btn btn-secondary" title="Скрыть / показать колонку штрихкода">
+    <i data-lucide="scan-barcode" style="width:13px;height:13px;"></i><span>Штрихкод</span>
+  </button>
+  <div class="zoom-slider-group">
+    <i data-lucide="zoom-out" style="width:13px;height:13px;color:var(--text-muted);flex-shrink:0;"></i>
+    <input type="range" id="tableZoomSlider" min="60" max="100" value="100" step="5" title="Масштаб таблицы">
+    <i data-lucide="zoom-in" style="width:13px;height:13px;color:var(--text-muted);flex-shrink:0;"></i>
+    <span id="tableZoomLabel">100%</span>
+  </div>
+</div>
 </div>
 </div><!-- /pane-monitor -->
 <!-- ═══ PANE: MATCHER ═══ -->
