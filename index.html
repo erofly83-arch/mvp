@@ -177,7 +177,7 @@
 </div>
 <div class="pane-title-extra" id="obrHeaderActions" style="margin-left:auto;">
 <button class="btn btn-success" disabled="" id="obrHeaderArchiveBtn" title="Скачать все CSV, Excel и JSON одним архивом">
-Скачать всё архивом
+<i data-lucide="archive"></i> Скачать всё архивом
         </button>
 <button class="btn help-btn" id="helpBtnPrepare" onclick="openHelpModal('prepare')" title="Инструкция по работе с этой вкладкой"><i data-lucide="help-circle"></i></button>
 </div>
@@ -444,25 +444,25 @@
 <div class="xl-toolbar">
 <div class="xl-group">
 <button class="btn xl-btn xl-btn-accent" data-tip="Сохранить CSV и передать в мониторинг." disabled="" id="obrDownloadBtn">
-Готово — передать в мониторинг
+<i data-lucide="check"></i> Готово — передать в мониторинг
         </button>
 </div>
 <div class="xl-toolbar-sep"></div>
 <div class="xl-group">
 <button class="btn xl-btn" data-tip="Снять выделение со всех колонок." id="obrResetBtn">
-Снять выделение колонок
+<i data-lucide="rotate-ccw"></i> Снять выделение колонок
         </button>
 </div>
 <div class="xl-toolbar-sep"></div>
 <div class="xl-group">
 <button class="btn xl-btn" data-tip="Редактировать список наименований колонок и кросскоды." id="obrManageTemplatesBtn">
-Настройка названий колонок
+<i data-lucide="settings"></i> Настройка названий колонок
         </button>
 </div>
 <div class="xl-toolbar-sep"></div>
 <div class="xl-group" style="margin-left:auto;">
 <button class="btn xl-btn" data-tip="Просмотреть пропущенные строки последнего экспорта." disabled="" id="obrShowSkippedBtn">
-Проверить пропущенные строки
+<i data-lucide="alert-circle"></i> Проверить пропущенные строки
         </button>
 </div>
 </div>
@@ -503,7 +503,7 @@
 <!-- Load more -->
 <div class="xl-load-more" id="obrLoadMoreContainer" style="display:none;">
 <button class="btn" data-tip="Показать все строки." id="obrLoadMoreBtn">
-        Показать все строки (ещё <span id="obrRemainingRows">0</span>)
+        <i data-lucide="chevron-down"></i> Показать все строки (ещё <span id="obrRemainingRows">0</span>)
       </button>
 </div>
 </div><!-- /obrTableContainer -->
@@ -525,10 +525,10 @@
 </div>
 </div>
 <button class="btn" disabled="" id="cartBtn" onclick="openCartModal()" style="position:relative;" title="Открыть корзину заказов">
-        Корзина <span id="cartBadge">0</span>
+        <i data-lucide="shopping-cart"></i> Корзина <span id="cartBadge">0</span>
 </button>
 <button class="btn btn-success" disabled="" id="monitorDownloadArchiveBtn" title="Скачать все CSV, Excel и JSON одним архивом">
-Скачать все архивом
+<i data-lucide="archive"></i> Скачать все архивом
       </button>
 <button class="btn help-btn" id="helpBtnMonitor" onclick="openHelpModal('monitor')" title="Инструкция по работе с этой вкладкой"><i data-lucide="help-circle"></i></button>
 </div>
@@ -597,10 +597,10 @@
 <div class="controls">
 <div class="controls-group">
 <button class="btn btn-secondary" disabled="" id="bigDiffBtn" title="Большая разница цен"><i data-lucide="trending-down"></i> Большая разница</button>
-<button class="btn btn-secondary" disabled="" id="deltaFilterBtn" title="Фильтр по разнице цены %"><span class="icon">Δ</span> Дельта %</button>
-<button class="btn btn-secondary" disabled="" id="showMyPriceBtn" title="Только мой прайс">Мой прайс</button>
+<button class="btn btn-secondary" disabled="" id="deltaFilterBtn" title="Фильтр по разнице цены %"><i data-lucide="percent"></i> Дельта %</button>
+<button class="btn btn-secondary" disabled="" id="showMyPriceBtn" title="Только мой прайс"><i data-lucide="tag"></i> Мой прайс</button>
 <button class="btn btn-secondary" disabled="" id="maxCoverageBtn" title="Поиск новинок"><i data-lucide="sparkles"></i> Поиск новинок</button>
-<button class="btn btn-secondary" disabled="" id="compactMatchesBtn" title="Компактный вид"><span class="icon">⊟</span> Компактный вид</button>
+<button class="btn btn-secondary" disabled="" id="compactMatchesBtn" title="Компактный вид"><i data-lucide="layout-list"></i> Компактный вид</button>
 <button class="btn btn-secondary" disabled="" id="minPriceBtn" title="Подсветить минимальную цену в каждой строке (нал + безнал + мой прайс)"><i data-lucide="arrow-down-narrow-wide"></i> Мин. цена</button>
 </div>
 <div class="controls-group export-group">
@@ -1013,10 +1013,10 @@
 </div>
 <div style="display:flex;gap:4px;align-items:center;padding:0 0 14px;border-bottom:1px solid var(--border);margin-bottom:14px;">
 <div class="syn-subtab active has-tip ax-012" data-subtab="barcodes" data-tip="Группы эквивалентных штрихкодов: один товар — разные коды у разных поставщиков. Добавьте их в одну группу, и система автоматически найдёт совпадения в мониторинге" id="subtab-barcodes">
-      Штрихкоды <span class="subtab-badge subtab-badge--green" id="bcCountBadge">0</span>
+      <i data-lucide="barcode"></i> Штрихкоды <span class="subtab-badge subtab-badge--green" id="bcCountBadge">0</span>
 </div>
 <div class="syn-subtab has-tip ax-012" data-subtab="brands" data-tip="Словарь брендов: канонические написания и их синонимы (аббревиатуры, варианты на кириллице/латинице). Используется для фильтрации по категории в мониторинге" id="subtab-brands">
-      Бренды <span class="subtab-badge subtab-badge--green" id="brandCountBadge">0</span>
+      <i data-lucide="tag"></i> Бренды <span class="subtab-badge subtab-badge--green" id="brandCountBadge">0</span>
 </div>
 </div>
 <!-- Barcodes subtab -->
@@ -1032,8 +1032,8 @@
 </label>
 <button class="btn btn-success" id="jeDownloadJsonBtn" onclick="downloadCurrentSynonyms()" title="Скачать файл-память: штрихкоды, бренды и настройки колонок"><i data-lucide="save"></i> Скачать файл памяти</button>
 <div class="toolbar-sep"></div>
-<button class="btn btn-secondary" disabled="" id="jeUndoBtn" title="Отменить (Ctrl+Z)">↩</button>
-<button class="btn btn-secondary" disabled="" id="jeRedoBtn" title="Повторить (Ctrl+Y)">↪</button>
+<button class="btn btn-secondary" disabled="" id="jeUndoBtn" title="Отменить (Ctrl+Z)"><i data-lucide="undo-2"></i></button>
+<button class="btn btn-secondary" disabled="" id="jeRedoBtn" title="Повторить (Ctrl+Y)"><i data-lucide="redo-2"></i></button>
 <div class="toolbar-sep"></div>
 <button class="btn btn-danger" disabled="" id="jeClearBtn"><i data-lucide="trash-2"></i> Очистить</button>
 </div>
@@ -1043,7 +1043,7 @@
 <input class="je-inp je-mono" id="jeNMainBC" placeholder="Главный ШК" style="flex:1;min-width:120px;"/>
 <input class="je-inp je-mono" id="jeNSyns" placeholder="Кросскоды через запятую" style="flex:2;min-width:180px;"/>
 <button class="btn btn-success" id="jeCreateBtn"><i data-lucide="plus"></i> Добавить</button>
-<button class="btn" id="jeClearFormBtn">Сбросить</button>
+<button class="btn" id="jeClearFormBtn"><i data-lucide="x"></i> Сбросить</button>
 </div>
 <div id="jeStatusRow" style="display:none;gap:16px;align-items:center;font-size:11px;color:var(--text-secondary);padding:4px 2px;">
 <span id="jeStatus">Наименований: 0</span>
