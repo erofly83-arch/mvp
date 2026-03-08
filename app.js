@@ -216,6 +216,7 @@ let barcodeAliasMap=new Map(),synonymsLoaded=false;
     const exportAllBtn = document.getElementById('exportAllBtn');
     const exportCurrentBtn = document.getElementById('exportCurrentBtn');
     const clearBtn=document.getElementById('clearBtn');
+    const infoPanel = document.getElementById('infoPanel');
 
     const tableContainer = document.getElementById('tableContainer');
     const _tableContainerInitialHTML = tableContainer ? tableContainer.innerHTML : '';
@@ -2035,54 +2036,51 @@ return { barcode: item.barcode, packQty, autoDivFactor,
     window._pmBuildCategoryDropdown = buildCategoryDropdown;
 
     function showCompletionToast() {
+
         if (window._pmRestoringSession) return;
+
         if (competitorFilesData.length === 0) return;
         const total = groupedData.length;
         const matched = groupedData.filter(i => i.isInMyPrice).length;
         const suppliers = competitorFilesData.length;
         if (total === 0) return;
 
-        // Remove previous toast if still visible
-        const prev = document.getElementById('_completionToast');
-        if (prev) { prev.classList.remove('show'); prev.remove(); }
+        let toast = document.getElementById('_completionToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = '_completionToast';
+            Object.assign(toast.style, {
+                position: 'fixed', bottom: '24px', right: '24px',
+                background: '#0f172a', color: '#f1f5f9',
+                border: '1px solid #22c55e',
+                padding: '14px 18px', borderRadius: '10px',
+                fontSize: '13px', lineHeight: '1.6',
+                boxShadow: '0 6px 28px rgba(0,0,0,.45)',
+                zIndex: '99998', maxWidth: '340px',
+                transition: 'opacity .4s, transform .4s',
+                transform: 'translateY(20px)', opacity: '0',
+                cursor: 'pointer'
+            });
+            toast.title = 'Перейти к мониторингу';
+            toast.addEventListener('click', () => switchMainPane('monitor'));
+            document.body.appendChild(toast);
+        }
+        toast.innerHTML =
+            `<div style="font-size:15px;font-weight:700;color:var(--green);margin-bottom:6px);">Мониторинг готов!</div>` +
+            `<div>Товаров: <b style="color:var(--accent)">${total.toLocaleString('ru')}</b></div>` +
+            (matched ? `<div>Совпало с прайсом: <b style="color:var(--accent)">${matched.toLocaleString('ru')}</b></div>` : '') +
+            `<div>Поставщиков: <b style="color:var(--accent)">${suppliers}</b></div>` +
+            `<div style="margin-top:8px;font-size:11px;color:var(--text-muted);">Нажмите, чтобы открыть таблицу →</div>`;
 
-        const rack = document.getElementById('toastRack');
-        const el = document.createElement('div');
-        el.id = '_completionToast';
-        el.className = 'je-toast ok';
-        el.style.cursor = 'pointer';
-        el.title = 'Перейти к мониторингу';
-
-        const iconEl = document.createElement('div');
-        iconEl.className = 'je-toast-icon';
-        iconEl.textContent = '✓';
-
-        const body = document.createElement('div');
-        body.className = 'je-toast-body';
-
-        const title = document.createElement('div');
-        title.className = 'je-toast-title';
-        title.textContent = 'Мониторинг готов!';
-
-        const detail = document.createElement('div');
-        detail.className = 'je-toast-text';
-        let parts = ['Товаров: ' + total.toLocaleString('ru'), 'поставщиков: ' + suppliers];
-        if (matched) parts.push('совпало: ' + matched.toLocaleString('ru'));
-        parts.push('Нажмите, чтобы открыть →');
-        detail.textContent = parts.join(' · ');
-
-        body.appendChild(title);
-        body.appendChild(detail);
-        el.appendChild(iconEl);
-        el.appendChild(body);
-        el.addEventListener('click', () => switchMainPane('monitor'));
-
-        rack.appendChild(el);
-        requestAnimationFrame(() => el.classList.add('show'));
-        setTimeout(() => {
-            el.classList.remove('show');
-            setTimeout(() => el.remove(), 250);
-        }, 6000);
+        requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+        });
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(20px)';
+        }, 4000);
     }
 
 
@@ -3793,7 +3791,7 @@ function matcherFileChipsRender() {
     const safeTitle = (f.fileName + (off ? ' — нажмите чтобы включить' : ' — нажмите чтобы отключить'))
       .replace(/"/g, '&quot;');
     const safeName = encodeURIComponent(f.fileName);
-    return `<button class="btn btn-secondary${off ? '' : ' active'}" data-mf-name="${safeName}" title="${safeTitle}" style="height:28px;padding:3px 10px;font-size:var(--fz-sm);">📦 ${label}</button>`;
+    return `<button class="btn btn-secondary${off ? '' : ' active'}" data-mf-name="${safeName}" title="${safeTitle}" style="height:28px;padding:3px 10px;font-size:var(--fz-sm);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/></svg> ${label}</button>`;
   }).join('');
 }
 

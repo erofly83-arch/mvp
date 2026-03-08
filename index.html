@@ -18,26 +18,32 @@
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="style.css" rel="stylesheet"/>
+<style>
+@keyframes _hc{0%,100%{transform:translateY(0);opacity:.25}50%{transform:translateY(-6px);opacity:1}}
+@keyframes _hg{0%,100%{box-shadow:0 2px 0 0 rgba(245,158,11,0)}60%{box-shadow:0 4px 18px rgba(245,158,11,.22),0 0 0 3px rgba(245,158,11,.07)}}
+@keyframes _hp{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
-
+</link>
 </head>
 <body>
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
-<symbol id="logo-icon" viewBox="0 0 100 100">
-<rect fill="white" height="10" rx="5" width="45" x="20" y="25"/><rect fill="white" height="10" rx="5" width="30" x="20" y="45"/><rect fill="white" height="10" rx="5" width="20" x="20" y="65"/><circle cx="65" cy="55" fill="none" r="14" stroke="white" stroke-width="8"/><line stroke="white" stroke-linecap="round" stroke-width="8" x1="75" x2="85" y1="65" y2="75"/>
-</symbol>
-</svg>
 <div class="app-layout">
 <!-- ═══ SIDEBAR ═══ -->
 <aside class="app-sidebar">
 <div class="sidebar-brand" onclick="toggleSidebar()" style="cursor:pointer;" title="Свернуть/развернуть меню">
 <div class="sidebar-brand-icon">
-<svg viewBox="0 0 100 100"><use href="#logo-icon"/></svg>
+<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<rect fill="white" height="10" rx="5" width="45" x="20" y="25"></rect>
+<rect fill="white" height="10" rx="5" width="30" x="20" y="45"></rect>
+<rect fill="white" height="10" rx="5" width="20" x="20" y="65"></rect>
+<circle cx="65" cy="55" fill="none" r="14" stroke="white" stroke-width="8"></circle>
+<line stroke="white" stroke-linecap="round" stroke-width="8" x1="75" x2="85" y1="65" y2="75"></line>
+</svg>
 </div>
 <div>
 <div class="sidebar-brand-text">Прайс-менеджер</div>
@@ -120,31 +126,38 @@
   Ошибки (<span id="errLogCount">0</span>)
 </button>
 <!-- Модальное окно журнала ошибок -->
-<div id="errLogModal" onclick="if(event.target===this)window.closeErrLog()">
-  <div class="err-log-box">
+<div id="errLogModal" onclick="if(event.target===this)window.closeErrLog()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;align-items:center;justify-content:center;">
+  <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;width:min(680px,95vw);max-height:82vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.6);overflow:hidden;">
     <!-- Заголовок -->
-    <div class="err-log-hdr">
-      <div class="err-log-hdr-text">
-        <div class="err-log-title">Журнал ошибок</div>
-        <div class="err-log-sub">Отправьте отчёт разработчику для исправления</div>
+    <div style="display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid #334155;background:#0f172a;">
+      
+      <div style="flex:1;">
+        <div style="font-family:'Inter',sans-serif;font-weight:700;color:#f1f5f9;font-size:15px;">Журнал ошибок</div>
+        <div style="font-family:'Inter',sans-serif;font-size:11px;color:#64748b;margin-top:1px;">Отправьте отчёт разработчику для исправления</div>
       </div>
-      <button class="err-log-close" onclick="window.closeErrLog()">✕</button>
+      <button onclick="window.closeErrLog()" style="background:none;border:none;color:#64748b;font-size:20px;cursor:pointer;padding:4px 6px;border-radius:6px;line-height:1;transition:color .15s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#64748b'">✕</button>
     </div>
     <!-- Список ошибок -->
-    <div id="errLogList">
+    <div id="errLogList" style="overflow-y:auto;flex:1;padding:14px 16px;font-family:'Courier New',monospace;font-size:11px;color:#e2e8f0;display:flex;flex-direction:column;gap:8px;">
       <span style="color:#64748b;font-family:'Inter',sans-serif;">Ошибок нет</span>
     </div>
     <!-- Подвал с кнопками -->
-    <div class="err-log-ftr">
-      <div class="err-log-ftr-hint">Скопируйте или отправьте напрямую</div>
-      <button class="err-log-btn-copy" onclick="window.copyErrLog()">Скопировать отчёт</button>
-      <button class="err-log-btn-tg" onclick="window.sendErrToTelegram()">Отправить в Telegram</button>
-      <button class="err-log-btn-clear" onclick="window.clearErrLog()">Очистить</button>
+    <div style="display:flex;align-items:center;gap:8px;padding:14px 16px;border-top:1px solid #334155;background:#0f172a;flex-wrap:wrap;">
+      <div style="font-family:'Inter',sans-serif;font-size:11px;color:#64748b;flex:1;min-width:120px;">Скопируйте или отправьте напрямую</div>
+      <button onclick="window.copyErrLog()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid #475569;background:#334155;color:#e2e8f0;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,border-color .15s;" onmouseover="this.style.background='#475569'" onmouseout="this.style.background='#334155'">Скопировать отчёт</button>
+      <button onclick="window.sendErrToTelegram()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid #2563eb;background:#1d4ed8;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s;" onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#1d4ed8'">Отправить в Telegram</button>
+      <button onclick="window.clearErrLog()" style="display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border-radius:8px;border:1px solid #475569;background:transparent;color:#64748b;font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:color .15s,border-color .15s;" onmouseover="this.style.color='#ef4444';this.style.borderColor='#ef4444'" onmouseout="this.style.color='#64748b';this.style.borderColor='#475569'">Очистить</button>
     </div>
   </div>
 </div>
 <button id="pwaInstallBtn" onclick="pwaInstall()" onmouseout="this.style.opacity='1'" onmouseover="this.style.opacity='.85'" style="display:none;width:100%;margin-top:4px;padding:8px 10px;background:linear-gradient(135deg,#3B6FD4,#5B8FEF);color:#fff;border:none;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;align-items:center;justify-content:center;gap:7px;transition:opacity .2s;line-height:1;">
-<svg width="20" height="20" style="flex-shrink:0;" viewBox="0 0 100 100"><use href="#logo-icon"/></svg>
+<svg height="20" style="flex-shrink:0;" viewbox="0 0 100 100" width="20" xmlns="http://www.w3.org/2000/svg">
+<rect fill="white" height="10" rx="5" width="45" x="20" y="25"></rect>
+<rect fill="white" height="10" rx="5" width="30" x="20" y="45"></rect>
+<rect fill="white" height="10" rx="5" width="20" x="20" y="65"></rect>
+<circle cx="65" cy="55" fill="none" r="14" stroke="white" stroke-width="8"></circle>
+<line stroke="white" stroke-linecap="round" stroke-width="8" x1="75" x2="85" y1="65" y2="75"></line>
+</svg>
         Установить приложение
       </button>
 </div>
@@ -582,7 +595,7 @@
 <button id="unifiedSaveJsonBtn"></button>
 </input></input></input></div>
 <div class="controls">
-<div class="controls-group">
+<div class="controls-group controls-group--fill">
 <button class="btn btn-secondary" disabled="" id="bigDiffBtn" title="Большая разница цен"><i data-lucide="trending-down"></i> Большая разница</button>
 <button class="btn btn-secondary" disabled="" id="deltaFilterBtn" title="Фильтр по разнице цены %"><i data-lucide="percent"></i> Дельта</button>
 <button class="btn btn-secondary" disabled="" id="showMyPriceBtn" title="Только мой прайс"><i data-lucide="tag"></i> Мой прайс</button>
@@ -1166,7 +1179,7 @@
 <div id="brandSearchArea" style="display:none;">
 <div class="brand-search-row search-box--above-table filter-row">
 <input class="search-input" id="brandSearchInp" placeholder="Поиск по брендам, кросскодам, антонимам..." style="flex:1;"/>
-<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><i data-lucide="alert-triangle"></i> Конфликты</button>
+<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Конфликты</button>
 </div>
 </div>
 <div class="brand-empty" id="brandEmpty">
