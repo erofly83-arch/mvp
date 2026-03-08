@@ -198,8 +198,65 @@ let barcodeAliasMap=new Map(),synonymsLoaded=false;
     let exactSearch = false;     // точный поиск — без расширения синонимами брендов
     let categoryFilter = '';
     let showFileBarcodes = false;
+    let _monitorZoom = 100;
+    let _monitorBarcodeHidden = false;
+    let _monitorOvfObserver = null;
+    let _monitorOvfTarget = null;
 
     let filterNewItems = false;
+
+    function _applyMonitorZoom(val) {
+        _monitorZoom = Math.max(55, Math.min(100, val));
+        const mt = document.getElementById('mainTable');
+        if (mt) mt.style.zoom = _monitorZoom + '%';
+        const lbl = document.getElementById('monitorZoomLabel');
+        if (lbl) lbl.textContent = _monitorZoom + '%';
+        const sl = document.getElementById('monitorZoomSlider');
+        if (sl) sl.value = _monitorZoom;
+    }
+
+    function _checkMonitorOverflow() {
+        const wrap = document.getElementById('mainTableWrap');
+        const zg = document.getElementById('monitorZoomGroup');
+        if (!zg) return;
+        if (wrap && wrap.scrollWidth > wrap.clientWidth + 10) {
+            zg.style.display = 'flex';
+        } else if (_monitorZoom >= 100) {
+            zg.style.display = 'none';
+        }
+    }
+
+    function _syncMonitorToolbar() {
+        const toolbar = document.getElementById('monitorTableToolbar');
+        if (!toolbar) return;
+        const wrap = document.getElementById('mainTableWrap');
+        if (!wrap) {
+            toolbar.style.display = 'none';
+            if (_monitorOvfObserver) { _monitorOvfObserver.disconnect(); _monitorOvfObserver = null; _monitorOvfTarget = null; }
+            return;
+        }
+        toolbar.style.display = 'flex';
+        // Apply persisted zoom
+        const mt = document.getElementById('mainTable');
+        if (mt) mt.style.zoom = _monitorZoom + '%';
+        // Apply persisted barcode state
+        wrap.classList.toggle('barcode-hidden', _monitorBarcodeHidden);
+        const bBtn = document.getElementById('monitorBarcodeToggle');
+        if (bBtn) bBtn.classList.toggle('active', !_monitorBarcodeHidden);
+        // Overflow check after layout settles
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                _checkMonitorOverflow();
+                // Setup ResizeObserver on wrap (reconnect if wrap was recreated)
+                if (wrap !== _monitorOvfTarget) {
+                    if (_monitorOvfObserver) _monitorOvfObserver.disconnect();
+                    _monitorOvfTarget = wrap;
+                    _monitorOvfObserver = new ResizeObserver(function() { _checkMonitorOverflow(); });
+                    _monitorOvfObserver.observe(wrap);
+                }
+            });
+        });
+    }
 
     let showMinPriceMode = false;
 
@@ -266,7 +323,31 @@ let barcodeAliasMap=new Map(),synonymsLoaded=false;
         });
     }
 
-    const categoryFilterSelect = document.getElementById('categoryFilterSelect');
+    // ── Monitor toolbar: barcode toggle + zoom ──────────────────────────────
+    const _monitorBarcodeBtn = document.getElementById('monitorBarcodeToggle');
+    if (_monitorBarcodeBtn) {
+        _monitorBarcodeBtn.addEventListener('click', function() {
+            _monitorBarcodeHidden = !_monitorBarcodeHidden;
+            this.classList.toggle('active', !_monitorBarcodeHidden);
+            const wrap = document.getElementById('mainTableWrap');
+            if (wrap) wrap.classList.toggle('barcode-hidden', _monitorBarcodeHidden);
+            requestAnimationFrame(function() { _checkMonitorOverflow(); });
+        });
+    }
+    const _monitorZoomSlider = document.getElementById('monitorZoomSlider');
+    if (_monitorZoomSlider) {
+        _monitorZoomSlider.addEventListener('input', function() {
+            _applyMonitorZoom(parseInt(this.value));
+            requestAnimationFrame(function() { _checkMonitorOverflow(); });
+        });
+    }
+    const _monitorZoomReset = document.getElementById('monitorZoomReset');
+    if (_monitorZoomReset) {
+        _monitorZoomReset.addEventListener('click', function() {
+            _applyMonitorZoom(100);
+            requestAnimationFrame(function() { _checkMonitorOverflow(); });
+        });
+    }
     if (categoryFilterSelect) {
       categoryFilterSelect.addEventListener('change', function() {
         categoryFilter = this.value;
@@ -1374,6 +1455,7 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         requestAnimationFrame(function() {
             if (typeof window._deltaHighlightCols === 'function') window._deltaHighlightCols();
         });
+        _syncMonitorToolbar();
     }
 
     function dividePrice(barcode, colKey, valueIndex, factorStr) {
@@ -1842,6 +1924,7 @@ return { barcode: item.barcode, packQty, autoDivFactor,
         if (minPriceBtn) minPriceBtn.classList.remove('active');
 
         tableContainer.innerHTML = _tableContainerInitialHTML;
+        _syncMonitorToolbar();
         const _lp=document.getElementById('obr-loaded-files');
         if(_lp){_lp.style.display='none';}
         const _ll=document.getElementById('obr-loaded-list');
