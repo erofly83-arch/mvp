@@ -1567,14 +1567,14 @@
 <!-- ═══ NEXT-STEP MODAL (after OBR save) ═══ -->
 <div id="obrNextStepModal">
 <div class="modal-inner modal-w480">
-<div class="modal-header modal-header--spread" style="background:var(--green-bg);border-bottom:1px solid #A7F3D0;">
-<div style="display:flex;align-items:center;gap:10px;">
-  <div style="width:28px;height:28px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-  </div>
-  <span class="modal-title-bold" style="color:var(--green-dark);" id="obrNextStepTitle">Файл сохранён!</span>
+<div class="modal-header modal-header--spread">
+<div style="display:flex;align-items:center;gap:8px;">
+  <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;background:var(--green-bg);border:1px solid #A7F3D0;border-radius:50%;flex-shrink:0;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </span>
+  <span class="modal-title-bold" id="obrNextStepTitle">Файл сохранён!</span>
 </div>
-<button class="modal-close-x" onclick="obrCloseNextStep()" style="color:var(--green-dark);">✕</button>
+<button class="modal-close-x" onclick="obrCloseNextStep()">✕</button>
 </div>
 <div class="modal-body">
 <p class="modal-sub-text" id="obrNextStepSub"></p>
