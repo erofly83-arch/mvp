@@ -543,20 +543,3 @@ svg.lucide {
 
 /* ── [I3 FIX] col-meta: stock/name columns (no functional effect but prevents missing-class noise) ── */
 .col-meta{color:var(--text-secondary)}
-
-/* ── Monitor table toolbar ── */
-#monitorTableToolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:5px 0 7px;border-bottom:1px solid var(--border);margin-bottom:8px;}
-.mtb-left{display:flex;align-items:center;gap:6px;}
-.mtb-zoom{display:flex;align-items:center;gap:6px;background:var(--amber-bg);border:1px solid var(--amber);border-radius:var(--radius-md);padding:4px 10px 4px 8px;animation:mtb-fadein 200ms ease;}
-@keyframes mtb-fadein{from{opacity:0;transform:translateX(8px);}to{opacity:1;transform:translateX(0);}}
-.mtb-zi{width:13px;height:13px;color:var(--amber-dark);flex-shrink:0;}
-.mtb-zoom-lbl{font-size:var(--fz-xs);font-weight:700;color:var(--amber-dark);min-width:30px;text-align:right;font-family:'Inter',sans-serif;}
-.mtb-zoom-range{-webkit-appearance:none;appearance:none;width:110px;height:3px;background:#FDE68A;border-radius:2px;outline:none;cursor:pointer;flex-shrink:0;}
-.mtb-zoom-range::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--amber);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.2);}
-.mtb-zoom-range::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--amber);cursor:pointer;border:2px solid #fff;border-style:solid;}
-
-/* ── Barcode column hide ── */
-#mainTableWrap.barcode-hidden th.col-barcode:not(.file-barcode-col),
-#mainTableWrap.barcode-hidden td.col-barcode:not(.file-barcode-col){display:none;}
-#mainTableWrap.barcode-hidden #mainTable th.col-name,
-#mainTableWrap.barcode-hidden #mainTable td.col-name{left:0 !important;}

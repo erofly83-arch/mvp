@@ -12,7 +12,6 @@ const SHELL_ASSETS = [
 ];
 
 const CDN_ASSETS = [
-  'https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js',
   'https://cdn.jsdelivr.net/npm/exceljs@4.3.0/dist/exceljs.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
