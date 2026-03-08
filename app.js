@@ -3764,7 +3764,7 @@ function matcherFileChipsRender() {
     const safeTitle = (f.fileName + (off ? ' — нажмите чтобы включить' : ' — нажмите чтобы отключить'))
       .replace(/"/g, '&quot;');
     const safeName = encodeURIComponent(f.fileName);
-    return `<button class="btn btn-secondary${off ? '' : ' active'}" data-mf-name="${safeName}" title="${safeTitle}" style="height:28px;padding:3px 10px;font-size:var(--fz-sm);display:inline-flex;align-items:center;gap:5px;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;vertical-align:middle;"><path d="M15.5 2H8.6c-.4 0-.8.2-1.1.5-.3.3-.5.7-.5 1.1v12.8c0 .4.2.8.5 1.1.3.3.7.5 1.1.5h9.8c.4 0 .8-.2 1.1-.5.3-.3.5-.7.5-1.1V6.5L15.5 2z"/><polyline points="15 2 15 7 20 7"/><path d="M10 12a1 1 0 0 0-1 1v1a1 1 0 0 1-1 1 1 1 0 0 1 1 1v1a1 1 0 0 0 1 1"/><path d="M14 18a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1 1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1"/></svg> ${label}</button>`;
+    return `<button class="btn btn-secondary${off ? '' : ' active'}" data-mf-name="${safeName}" title="${safeTitle}" style="height:28px;padding:3px 10px;font-size:var(--fz-sm);">📦 ${label}</button>`;
   }).join('');
 }
 
@@ -4122,32 +4122,25 @@ function renderMatcherTable(preserveScroll) {
     const botPad = Math.max(0, (total - end)) * PAIR_H;
     const view = _matchCurrentView;
     let html = '';
-    if (topPad > 0) html += `<tr class="mvs-spacer-row" style="height:${topPad}px"><td colspan="5"></td></tr>`;
+    if (topPad > 0) html += `<tr class="mvs-spacer-row" style="height:${topPad}px"><td colspan="4"></td></tr>`;
     for (let i = start; i < end; i++) {
       const r = list[i];
       const sc = r.sim;
       const cls = sc >= 80 ? 'm-score-hi' : sc >= 55 ? 'm-score-mid' : 'm-score-lo';
       const rowAttr = ` data-mrow="${i}" data-mview="${view}" style="cursor:pointer"`;
       const pairBg = r._confirmed ? 'background:#D1FAE5;' : (i % 2 === 1 ? 'background:#F4F5F7;' : '');
-      let tag;
-      tag = r.aInDB && r.bInDB && r.aKey !== r.bKey
-        ? '<span class="m-tag m-tag-mrg" title="Объединить группы">↔</span>'
-        : r.aInDB || r.bInDB
-          ? '<span class="m-tag m-tag-syn">кросскод</span>'
-          : '<span class="m-tag m-tag-new">новое</span>';
       html += `<tr class="mp-a"${rowAttr} style="cursor:pointer;${pairBg}">
         <td rowspan="2" class="${cls}" style="text-align:center;vertical-align:middle;width:46px;${pairBg}">${sc}%</td>
         <td style="${pairBg}"><span class="src-lbl">${esc(r.file1)}</span></td>
         <td style="${pairBg}">${esc(r.name1)}</td>
         <td style="font-family:Inter,sans-serif;font-size:11px;${pairBg}">${esc(r.bc1)}</td>
-        <td rowspan="2" style="text-align:center;vertical-align:middle;width:60px;${pairBg}">${tag}</td>
       </tr><tr class="mp-b"${rowAttr} style="${pairBg}">
         <td style="${pairBg}"><span class="src-lbl">${esc(r.file2)}</span></td>
         <td style="${pairBg}">${esc(r.name2)}</td>
         <td style="font-family:Inter,sans-serif;font-size:11px;${pairBg}">${esc(r.bc2)}</td>
       </tr>`;
     }
-    if (botPad > 0) html += `<tr class="mvs-spacer-row" style="height:${botPad}px"><td colspan="5"></td></tr>`;
+    if (botPad > 0) html += `<tr class="mvs-spacer-row" style="height:${botPad}px"><td colspan="4"></td></tr>`;
     document.getElementById('matcherTbody').innerHTML = html;
   }
 
@@ -5627,9 +5620,10 @@ function brandRender() {
 
   const cfBtn = document.getElementById('brandConflictFilterBtn');
   if (cfBtn) {
-    cfBtn.textContent = `Конфликты${totalConflicts ? ' (' + totalConflicts + ')' : ''}`;
     cfBtn.classList.toggle('active-warn', _brandFilterConflicts);
     cfBtn.classList.toggle('btn-secondary', !_brandFilterConflicts);
+    const cfLbl = document.getElementById('cfBtnLabel');
+    if (cfLbl) cfLbl.textContent = `Конфликты${totalConflicts ? ' (' + totalConflicts + ')' : ''}`;
   }
 
   let filtered = _brandFilterConflicts
