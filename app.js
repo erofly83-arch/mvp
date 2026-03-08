@@ -248,6 +248,9 @@ let barcodeAliasMap=new Map(),synonymsLoaded=false;
         _exactBtn.addEventListener('click', function() {
             exactSearch = !exactSearch;
             this.classList.toggle('active', exactSearch);
+            // Sync matcher button too
+            const _meb = document.getElementById('matcherExactBtn');
+            if (_meb) _meb.classList.toggle('active', exactSearch);
             if (searchQuery) renderTable(true);
         });
     }
@@ -553,9 +556,11 @@ function samePrice(a, b) {
 
         autoDetectColumns();
         processData();
+        if (typeof window._tvbRestoreHiddenCols === 'function') window._tvbRestoreHiddenCols();
         renderTable();
         buildCategoryDropdown();
         updateUI();
+        if (typeof window._tvbRenderCols === 'function') window._tvbRenderCols();
         showCompletionToast();
     }
 
@@ -2133,6 +2138,7 @@ function switchMainPane(name) {
   if (name === 'monitor' && typeof window._pmAppOnMonitorShow === 'function') {
     window._pmAppOnMonitorShow();
   }
+  if (typeof window._tvbShowHide === 'function') window._tvbShowHide(name);
 
   if (name === 'prepare') {
     setTimeout(function() {
@@ -8363,3 +8369,172 @@ setTimeout(function() {
 })();
 
 
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TABLE VIEW BAR — sticky bottom panel: presets, column pills, zoom slider
+// ═══════════════════════════════════════════════════════════════════════════
+(function () {
+  'use strict';
+
+  var TVB_LS_KEY    = 'tvb_settings_v1';
+  var BASE_ROW_H    = 42; // px at 100 % zoom — matches MVS.ROW_H default
+  var _settings     = { zoom: 100, hiddenCols: [] };
+  var _inited       = false;
+
+  // ── Persist ────────────────────────────────────────────────────────────
+  function _load() {
+    try {
+      var s = localStorage.getItem(TVB_LS_KEY);
+      if (s) { var p = JSON.parse(s); if (p && typeof p === 'object') _settings = Object.assign({ zoom: 100, hiddenCols: [] }, p); }
+    } catch (e) {}
+  }
+  function _save() {
+    try { localStorage.setItem(TVB_LS_KEY, JSON.stringify(_settings)); } catch (e) {}
+  }
+
+  // ── Column label (short) ───────────────────────────────────────────────
+  function _colLabel(col) {
+    if (col.metaType) return col.displayName || col.columnName;
+    if (col.fileName === MY_PRICE_FILE_NAME) return col.columnName;
+    var fn = col.fileName || '';
+    var short = fn.length > 12 ? fn.slice(0, 11) + '…' : fn;
+    return short + ' · ' + col.columnName;
+  }
+
+  // ── Zoom ───────────────────────────────────────────────────────────────
+  function _applyZoom(pct, skipSave) {
+    pct = Math.max(60, Math.min(100, pct));
+    _settings.zoom = pct;
+    var ratio = pct / 100;
+    var wrap = document.getElementById('mainTableWrap');
+    if (wrap) wrap.style.zoom = ratio;
+    MVS.ROW_H = Math.round(BASE_ROW_H * ratio);
+    if (document.getElementById('mainTbody')) { try { _mvsRenderVisible(); } catch (e) {} }
+    var sl  = document.getElementById('tvbZoom');
+    var lbl = document.getElementById('tvbZoomLbl');
+    if (sl)  sl.value = pct;
+    if (lbl) lbl.textContent = pct + '%';
+    if (!skipSave) _save();
+  }
+
+  // ── Preset logic ───────────────────────────────────────────────────────
+  function _hiddenForPreset(preset) {
+    var hidden = [];
+    if (preset === 'full' || preset === 'compact') return hidden;
+    allColumns.forEach(function (col) {
+      if (col.metaType) return;
+      var isMine = col.fileName === MY_PRICE_FILE_NAME;
+      var pg = getColPayGroup(col);
+      if (preset === 'nal'     && !isMine && pg === 'бн')    hidden.push(col.key);
+      if (preset === 'bn'      && !isMine && pg === 'нал')   hidden.push(col.key);
+      if (preset === 'myprice' && !isMine)                   hidden.push(col.key);
+      if (preset === 'compare' && !isMine && !isPriceLikeColumn(col.columnName)) hidden.push(col.key);
+    });
+    return hidden;
+  }
+
+  var PRESET_ZOOM = { full: 100, compact: 80, nal: 100, bn: 100, myprice: 100, compare: 100 };
+
+  function _applyPreset(preset) {
+    if (typeof allColumns === 'undefined') return;
+    // Restore all first
+    allColumns.forEach(function (col) { visibleColumns.add(col.key); });
+    var hidden = _hiddenForPreset(preset);
+    hidden.forEach(function (k) { visibleColumns.delete(k); });
+    _settings.hiddenCols = hidden;
+    var zoom = PRESET_ZOOM[preset] || 100;
+    _applyZoom(zoom, true);
+    try { renderTable(true); } catch (e) {}
+    _renderCols();
+    // Highlight active preset
+    document.querySelectorAll('.tvb-preset').forEach(function (b) {
+      b.classList.toggle('tvb-pill--active', b.dataset.preset === preset);
+    });
+    _save();
+  }
+
+  // ── Render column pills ────────────────────────────────────────────────
+  function _renderCols() {
+    var c = document.getElementById('tvbCols');
+    if (!c) return;
+    if (typeof allColumns === 'undefined' || !allColumns.length) {
+      c.innerHTML = '<span class="tvb-no-cols">Загрузите файлы для настройки колонок</span>';
+      return;
+    }
+    c.innerHTML = allColumns.map(function (col) {
+      var on = visibleColumns.has(col.key);
+      var lbl = _escHtml(_colLabel(col));
+      var title = _escHtml(col.displayName || col.columnName);
+      return '<button class="tvb-pill tvb-col-pill' + (on ? ' tvb-pill--active' : '') + '" data-colkey="' + _escHtml(col.key) + '" title="' + title + '">' + lbl + '</button>';
+    }).join('');
+
+    c.querySelectorAll('.tvb-col-pill').forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        var key = this.dataset.colkey;
+        if (visibleColumns.has(key)) { visibleColumns.delete(key); this.classList.remove('tvb-pill--active'); }
+        else                         { visibleColumns.add(key);    this.classList.add('tvb-pill--active'); }
+        _settings.hiddenCols = allColumns.filter(function (col) { return !visibleColumns.has(col.key); }).map(function (col) { return col.key; });
+        document.querySelectorAll('.tvb-preset').forEach(function (b) { b.classList.remove('tvb-pill--active'); });
+        try { renderTable(true); } catch (e) {}
+        _save();
+      });
+    });
+  }
+  function _escHtml(s) { return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  // ── Show / hide ────────────────────────────────────────────────────────
+  window._tvbShowHide = function (paneName) {
+    var bar = document.getElementById('tableViewBar');
+    if (!bar) return;
+    bar.style.display = (paneName === 'monitor') ? 'block' : 'none';
+  };
+
+  // ── Called from processAllData: restore hidden cols before renderTable ─
+  window._tvbRestoreHiddenCols = function () {
+    if (!_settings.hiddenCols || !_settings.hiddenCols.length) return;
+    var existingKeys = new Set(allColumns.map(function (c) { return c.key; }));
+    _settings.hiddenCols.forEach(function (k) { if (existingKeys.has(k)) visibleColumns.delete(k); });
+  };
+
+  // ── Called from processAllData: refresh pills after new data ──────────
+  window._tvbRenderCols = function () { _renderCols(); };
+
+  // ── Init ───────────────────────────────────────────────────────────────
+  function _init() {
+    if (_inited) return;
+    _inited = true;
+    _load();
+
+    document.querySelectorAll('.tvb-preset').forEach(function (btn) {
+      btn.addEventListener('click', function () { _applyPreset(this.dataset.preset); });
+    });
+
+    var slider = document.getElementById('tvbZoom');
+    if (slider) {
+      slider.value = _settings.zoom || 100;
+      slider.addEventListener('input', function () {
+        var pct = parseInt(this.value);
+        var lbl = document.getElementById('tvbZoomLbl');
+        if (lbl) lbl.textContent = pct + '%';
+        document.querySelectorAll('.tvb-preset').forEach(function (b) { b.classList.remove('tvb-pill--active'); });
+        _applyZoom(pct);
+      });
+    }
+
+    // Restore zoom from settings
+    if (_settings.zoom && _settings.zoom !== 100) _applyZoom(_settings.zoom, true);
+
+    // Show if already on monitor pane
+    var activePane = document.querySelector('.main-pane.active');
+    if (activePane && activePane.id === 'pane-monitor') {
+      var bar = document.getElementById('tableViewBar');
+      if (bar) bar.style.display = 'block';
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', _init);
+  } else {
+    _init();
+  }
+})();
