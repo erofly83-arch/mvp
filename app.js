@@ -739,11 +739,9 @@ function samePrice(a, b) {
 
             if (packQty) {
 
-                const cols2 = allColumns;
+                const supplierPriceCols2 = allColumns.filter(col => !col.metaType && col.fileName !== MY_PRICE_FILE_NAME && isPriceLikeColumn(col.columnName));
 
-                const supplierPriceCols2 = cols2.filter(col => !col.metaType && col.fileName !== MY_PRICE_FILE_NAME && isPriceLikeColumn(col.columnName));
-
-                const myPriceCols2 = cols2.filter(col => !col.metaType && col.fileName === MY_PRICE_FILE_NAME && isPriceLikeColumn(col.columnName));
+                const myPriceCols2 = allColumns.filter(col => !col.metaType && col.fileName === MY_PRICE_FILE_NAME && isPriceLikeColumn(col.columnName));
 
                 const myNums2 = [];
                 myPriceCols2.forEach(col => {
@@ -6231,7 +6229,6 @@ window._matcherUpdateJsonInfo = function() {
   }
 })();
 
-// [removed duplicate synonymsInput listener - AppBridge.emit already called in primary handler]
 
 function toggleSidebar() {
   const sidebar = document.querySelector('.app-sidebar');
@@ -6369,6 +6366,9 @@ function toggleSidebar() {
     } else {
       sfUpdateJson(null, null);
     }
+    setTimeout(function() {
+      if (typeof window._matcherUpdateJsonInfo === 'function') window._matcherUpdateJsonInfo();
+    }, 300);
   });
 
   watchStatus('myPriceStatus', function(txt) {
@@ -6400,11 +6400,6 @@ function toggleSidebar() {
     });
   }
 
-  watchStatus('synonymsStatus', function() {
-    setTimeout(function() {
-      if (typeof window._matcherUpdateJsonInfo === 'function') window._matcherUpdateJsonInfo();
-    }, 300);
-  });
 })();
 
 
