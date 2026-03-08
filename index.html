@@ -621,20 +621,20 @@
 <!-- Delta % filter panel -->
 <div id="deltaPanelWrap">
 <div class="delta-group">
-<label>Сравнивать</label>
+<label for="deltaColA">Сравнивать</label>
 <select class="delta-select" id="deltaColA">
 <option value="__myprice">Мой прайс</option>
 </select>
 </div>
 <div class="delta-group delta-arrow-label">↔</div>
 <div class="delta-group">
-<label>С колонкой</label>
+<label for="deltaColB">С колонкой</label>
 <select class="delta-select" id="deltaColB">
 <option value="__best">Лучший поставщик (мин)</option>
 </select>
 </div>
 <div class="delta-group">
-<label>Разница</label>
+<label for="deltaMin">Разница</label>
 <div class="delta-range-row">
 <input class="delta-inp" id="deltaMin" max="999" min="0" placeholder="от % (необяз.)" type="number" value=""/>
 <span class="delta-sep">—</span>
@@ -643,7 +643,7 @@
 </div>
 </div>
 <div class="delta-group">
-<label>Направление</label>
+<span class="delta-label-text">Направление</span>
 <div class="delta-dir-btns">
 <button class="delta-dir-btn active-cheaper" id="deltaDirCheaper" title="Поставщик дешевле моей цены"><i data-lucide="arrow-down"></i> Дешевле</button>
 <button class="delta-dir-btn" id="deltaDirPricier" title="Поставщик дороже моей цены"><i data-lucide="arrow-up"></i> Дороже</button>
@@ -1375,21 +1375,21 @@
 <div class="brand-fields-wrap">
 <!-- Канонический бренд -->
 <div class="brand-field-block">
-<label>Канонический бренд <span class="text-red">*</span></label>
+<label for="mcbCanon">Канонический бренд <span class="text-red">*</span></label>
 <div class="pills-label">Клик — добавить, повторный клик — убрать:</div>
 <div class="brand-word-pills" id="mcbPillsCanon"></div>
 <input autocomplete="off" class="modal-field modal-input-full" id="mcbCanon" placeholder="напр. nescafe" type="text"/>
 </div>
 <!-- Кросскоды -->
 <div class="brand-field-block">
-<label>Кросскоды</label>
+<label for="mcbSyns">Кросскоды</label>
 <div class="pills-label">Клик — добавить, повторный клик — убрать:</div>
 <div class="brand-word-pills" id="mcbPillsSyns"></div>
 <input autocomplete="off" class="modal-field modal-input-full" id="mcbSyns" placeholder="нескафе, nestle..." type="text"/>
 </div>
 <!-- Антонимы -->
 <div class="brand-field-block">
-<label class="lbl--anti">Антонимы</label>
+<label class="lbl--anti" for="mcbAnti">Антонимы</label>
 <div class="pills-label">Клик — добавить, повторный клик — убрать:</div>
 <div class="brand-word-pills" id="mcbPillsAnti"></div>
 <input autocomplete="off" class="modal-field modal-input-full--red" id="mcbAnti" placeholder="tchibo, jakobs..." type="text"/>
