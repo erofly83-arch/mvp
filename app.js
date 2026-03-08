@@ -3791,7 +3791,8 @@ function matcherFileChipsRender() {
     const safeTitle = (f.fileName + (off ? ' — нажмите чтобы включить' : ' — нажмите чтобы отключить'))
       .replace(/"/g, '&quot;');
     const safeName = encodeURIComponent(f.fileName);
-    return `<button class="btn btn-secondary${off ? '' : ' active'}" data-mf-name="${safeName}" title="${safeTitle}" style="height:28px;padding:3px 10px;font-size:var(--fz-sm);">📦 ${label}</button>`;
+    const fileIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;vertical-align:middle;margin-right:1px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>`;
+    return `<button class="btn btn-secondary${off ? '' : ' active'}" data-mf-name="${safeName}" title="${safeTitle}" style="height:28px;padding:3px 10px;font-size:var(--fz-sm);">${fileIconSvg} ${label}</button>`;
   }).join('');
 }
 
@@ -6213,44 +6214,50 @@ function toggleSidebar() {
   }
 
   function sfUpdateJson(fileName, entryCount) {
-    const item     = document.getElementById('sfJsonItem');
-    const nameEl   = document.getElementById('sfJsonName');
-    const meta     = document.getElementById('sfJsonMeta');
-    const saveWrap = document.getElementById('sfSaveWrap');
+    const item = document.getElementById('sfJsonItem');
+    const nameEl = document.getElementById('sfJsonName');
+    const badge = document.getElementById('sfJsonBadge');
+    const meta = document.getElementById('sfJsonMeta');
     if (!item) return;
     if (fileName) {
       item.classList.remove('sidebar-file-item--empty');
       item.classList.add('sidebar-file-item--loaded');
       nameEl.textContent = sfShorten(fileName, 22);
-      if (meta) meta.style.display = '';
-      if (saveWrap) saveWrap.style.display = '';
+      if (badge) badge.style.display = '';
+      if (entryCount != null) {
+        meta.style.display = '';
+        meta.innerHTML = '<strong>' + entryCount + '</strong> записей в базе';
+      }
     } else {
       item.classList.add('sidebar-file-item--empty');
       item.classList.remove('sidebar-file-item--loaded');
       nameEl.textContent = 'JSON не загружен';
-      if (meta) meta.style.display = 'none';
-      if (saveWrap) saveWrap.style.display = 'none';
+      if (badge) badge.style.display = 'none';
+      meta.style.display = 'none';
     }
   }
 
   function sfUpdateMyPrice(fileName, rows) {
-    const item   = document.getElementById('sfMyPriceItem');
+    const item = document.getElementById('sfMyPriceItem');
     const nameEl = document.getElementById('sfMyPriceName');
-    const meta   = document.getElementById('sfMyPriceMeta');
+    const badge = document.getElementById('sfMyPriceBadge');
+    const meta = document.getElementById('sfMyPriceMeta');
     if (!item) return;
     if (fileName) {
       item.classList.remove('sidebar-file-item--empty');
       item.classList.add('sidebar-file-item--myprice');
-      nameEl.textContent = 'Мой прайс';
-      if (meta && rows != null) {
-        meta.textContent = rows.toLocaleString('ru') + ' строк';
+      nameEl.textContent = sfShorten(fileName, 22);
+      if (badge) badge.style.display = '';
+      if (rows != null) {
         meta.style.display = '';
+        meta.innerHTML = '<strong>' + rows.toLocaleString('ru') + '</strong> строк';
       }
     } else {
       item.classList.add('sidebar-file-item--empty');
       item.classList.remove('sidebar-file-item--myprice');
       nameEl.textContent = 'Мой прайс не загружен';
-      if (meta) { meta.textContent = ''; meta.style.display = 'none'; }
+      if (badge) badge.style.display = 'none';
+      meta.style.display = 'none';
     }
   }
 

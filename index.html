@@ -79,20 +79,18 @@
 <div class="sf-row">
 <span class="sf-icon"><i data-lucide="hard-drive"></i></span>
 <span class="sf-name" id="sfJsonName">JSON не загружен</span>
-<span class="sf-type-badge" id="sfJsonMeta" style="display:none;">Файл памяти</span>
+
 </div>
-</div>
-<!-- Кнопка сохранения под блоком JSON -->
-<div id="sfSaveWrap" style="display:none;">
-<button class="sf-save-btn" onclick="downloadCurrentSynonyms()" title="Скачать файл памяти (JSON)"><i data-lucide="save"></i> Сохранить файл памяти</button>
+<div class="sf-meta" id="sfJsonMeta" style="display:none;"></div>
 </div>
 <!-- Мой прайс -->
 <div class="sidebar-file-item sidebar-file-item--empty" id="sfMyPriceItem">
 <div class="sf-row">
 <span class="sf-icon"><i data-lucide="tag"></i></span>
 <span class="sf-name" id="sfMyPriceName">Мой прайс не загружен</span>
-<span class="sf-inline-count" id="sfMyPriceMeta" style="display:none;"></span>
+
 </div>
+<div class="sf-meta" id="sfMyPriceMeta" style="display:none;"></div>
 </div>
 <!-- Поставщики -->
 <div class="sidebar-files-title" style="margin-top:6px;margin-bottom:4px;">Поставщики</div>
@@ -105,6 +103,9 @@
 <div class="sidebar-files-suppliers-list" id="sfSuppliersList" style="display:none;"></div>
 </div><!-- /sidebar-files-section -->
 <div class="sidebar-footer">
+<div class="unified-unsaved" id="unifiedUnsaved" title="Есть несохранённые изменения — скачайте файл памяти, чтобы не потерять данные">
+<button class="btn btn-success unified-unsaved-save-btn" onclick="downloadCurrentSynonyms()" title="Скачать файл памяти (JSON)"><i data-lucide="save"></i> Сохранить файл памяти</button>
+</div>
 <div class="sidebar-contact-block">
 <div class="sidebar-contact-label">Связаться с автором</div>
 <a class="sidebar-contact-card sidebar-contact-card--phone" href="tel:+79130998250" title="+7 913 099-82-50">
@@ -659,14 +660,14 @@
 <div class="select-wrapper">
 <select id="categoryFilterSelect" style="padding:0 32px 0 11px;border:1px solid var(--border-strong);border-radius:var(--radius-md);
                  font-size:var(--fz-base);font-family:'Inter',sans-serif;background:var(--surface);
-                 color:var(--text-primary);height:36px;min-width:200px;max-width:280px;
+                 color:var(--text-primary);height:32px;min-width:200px;max-width:280px;
                  cursor:pointer;appearance:none;-webkit-appearance:none;box-sizing:border-box;" title="Фильтр по категории (частые слова из прайсов)">
 <option value="">Категории</option>
 </select>
 <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;
                      font-size:10px;color:var(--text-muted);">▼</span>
 </div>
-<button id="catExclBtn" style="height:36px;padding:0 10px;border:1px solid var(--border-strong);border-radius:var(--radius-md);
+<button id="catExclBtn" style="height:32px;padding:0 10px;border:1px solid var(--border-strong);border-radius:var(--radius-md);
                background:var(--surface);color:var(--text-secondary);font-size:var(--fz-md);
                font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;transition:background 100ms,border-color 100ms,color 100ms;flex-shrink:0;" title="Список слов для фильтра категорий (белый список)">
         <span id="catExclBadge"></span>категории
@@ -871,7 +872,7 @@
 <div id="matcherCatRow" style="display:none;position:relative;flex-shrink:0;">
 <select id="matcherCatSelect" style="padding:0 32px 0 11px;border:1px solid var(--border-strong);border-radius:var(--radius-md);
                    font-size:var(--fz-base);font-family:'Inter',sans-serif;background:var(--surface);
-                   color:var(--text-primary);height:36px;min-width:200px;max-width:280px;
+                   color:var(--text-primary);height:32px;min-width:200px;max-width:280px;
                    cursor:pointer;appearance:none;-webkit-appearance:none;box-sizing:border-box;" title="Фильтр по категории (слова из найденных пар)">
 <option value="">Категории</option>
 </select>
@@ -1178,7 +1179,7 @@
 <div id="brandSearchArea" style="display:none;">
 <div class="brand-search-row search-box--above-table filter-row">
 <input class="search-input" id="brandSearchInp" placeholder="Поиск по брендам, кросскодам, антонимам..." style="flex:1;"/>
-<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;vertical-align:middle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Конфликты</button>
+<button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;vertical-align:middle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Конфликты</button>
 </div>
 </div>
 <div class="brand-empty" id="brandEmpty">
@@ -1566,9 +1567,14 @@
 <!-- ═══ NEXT-STEP MODAL (after OBR save) ═══ -->
 <div id="obrNextStepModal">
 <div class="modal-inner modal-w480">
-<div class="modal-header modal-header--spread">
-<span class="modal-title-bold" id="obrNextStepTitle">Файл сохранён!</span>
-<button class="modal-close-x" onclick="obrCloseNextStep()">✕</button>
+<div class="modal-header modal-header--spread" style="background:var(--green-bg);border-bottom:1px solid #A7F3D0;">
+<div style="display:flex;align-items:center;gap:10px;">
+  <div style="width:28px;height:28px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <span class="modal-title-bold" style="color:var(--green-dark);" id="obrNextStepTitle">Файл сохранён!</span>
+</div>
+<button class="modal-close-x" onclick="obrCloseNextStep()" style="color:var(--green-dark);">✕</button>
 </div>
 <div class="modal-body">
 <p class="modal-sub-text" id="obrNextStepSub"></p>
