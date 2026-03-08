@@ -1036,13 +1036,15 @@ return { barcode: item.barcode, packQty, autoDivFactor,
             }
             const _sqArr = [..._sqWords];
             data = data.filter(item => {
-                // Search by name
+                // Search by barcode (always direct, not expanded with synonyms)
+                if (item.barcode.toLowerCase().includes(searchQuery)) return true;
+                // Search by name (with optional synonym expansion)
                 if (item.names.some(n => {
                     if (!n.name) return false;
                     const nl = n.name.toLowerCase();
                     return _sqArr.some(w => nl.includes(w));
                 })) return true;
-                // Search by article/SKU values
+                // Search by article/SKU column values
                 for (const [key, valArr] of item.values.entries()) {
                     const colName = key.includes('|') ? key.split('|').slice(1).join('|') : key;
                     if (!isArticleLikeColumn(colName)) continue;
@@ -4787,7 +4789,7 @@ function jeUpdateStatus() {
   const jeStatusRow = document.getElementById('jeStatusRow');
   const jeSearchRow = document.getElementById('jeSearchRow');
   if (jeStatusRow) jeStatusRow.style.display = hasData ? 'flex' : 'none';
-  if (jeSearchRow) jeSearchRow.style.display = hasData ? '' : 'none';
+  if (jeSearchRow) jeSearchRow.style.display = hasData ? 'flex' : 'none';
 }
 function jeFindDuplicates() {
   if (_jeDupsCache) return _jeDupsCache;
