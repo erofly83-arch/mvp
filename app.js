@@ -6601,20 +6601,6 @@ function toggleSidebar() {
 /* ════════════════════════════════════════════════════
    1. STICKY FILTERS — persist active filters across tab switches
    ════════════════════════════════════════════════════ */
-var _stickyState = {
-  sortMode: 'default',
-  filterNewItems: false,
-  showMinPriceMode: false,
-  compactMatches: true,
-  searchQuery: '',
-  deltaActive: false,
-  deltaMin: '',
-  deltaMax: '',
-  deltaDir: 'cheaper',
-  deltaColA: '__myprice',
-  deltaColB: '__best'
-};
-
 // Снять все фильтры через кнопку «Сбросить все»
 var _stickyBarResetBtn = document.getElementById('stickyBarResetBtn');
 if (_stickyBarResetBtn) {
