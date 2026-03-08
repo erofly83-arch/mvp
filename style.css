@@ -308,90 +308,77 @@ body.order-mode .price-in-cart::after{content:'✓ в корзине' !important
 
 
 
+
+
 /* ══════════════════════════════════════
    Lucide Icons
+   createIcons() заменяет <i data-lucide> на <svg class="lucide lucide-{name}">
 ══════════════════════════════════════ */
 
-i[data-lucide] {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* Все Lucide SVG — inline, не ломают flow */
+svg.lucide {
+  display: inline-block !important;
+  vertical-align: middle;
   flex-shrink: 0;
-  line-height: 1;
-}
-
-/* Базовый размер для всех иконок (кроме nav) — 12px, линия 1 */
-i[data-lucide] svg {
-  display: block;
   width: 12px;
   height: 12px;
-  stroke-width: 1;
+  stroke-width: 1 !important;
+  overflow: visible;
 }
 
-/* Кнопки — не наследуют font-size */
-.btn i[data-lucide] svg { width:12px; height:12px; stroke-width:1 }
-
-/* ── Навигация (sidebar nav) — чуть крупнее, линия 1.6 ── */
-.nav-tab-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
+/* ── Навигация — оставляем крупнее ── */
+.nav-tab-icon svg.lucide {
+  width: 16px !important;
+  height: 16px !important;
+  stroke-width: 1.5 !important;
 }
-.nav-tab-icon i[data-lucide] svg { width:16px; height:16px; stroke-width:1.6 }
-.app-sidebar.collapsed .nav-tab-icon i[data-lucide] svg { width:18px; height:18px; stroke-width:1.6 }
+.app-sidebar.collapsed .nav-tab-icon svg.lucide {
+  width: 18px !important;
+  height: 18px !important;
+}
 
 /* ── Sidebar file icons ── */
-.sf-icon i[data-lucide] svg { width:12px; height:12px; stroke-width:1 }
+.sf-icon svg.lucide { width:12px !important; height:12px !important }
 
-/* ── Pane title (заголовок вкладки) ── */
-.pane-title-icon i[data-lucide] svg { width:16px; height:16px; stroke-width:1.2 }
+/* ── Pane title ── */
+.pane-title-icon svg.lucide { width:16px !important; height:16px !important; stroke-width:1.2 !important }
 
-/* ── Upload card icons ── */
-.obr-upload-card-icon i[data-lucide] svg { width:13px; height:13px; stroke-width:1 }
+/* ── Карточки загрузки ── */
+.obr-upload-card-icon svg.lucide { width:13px !important; height:13px !important }
 
-/* ── Очередь ── */
-.obr-queue-icon i[data-lucide] svg { width:16px; height:16px; stroke-width:1 }
+/* ── Очередь обработки ── */
+.obr-queue-icon svg.lucide { width:16px !important; height:16px !important }
 
-/* ── Help-кнопка (квадрат 32×32) ── */
-.help-btn i[data-lucide] svg { width:14px; height:14px; stroke-width:1.2 }
-
-/* ── Кнопки в шапке monitor: корзина, архив ── */
-#cartBtn i[data-lucide] svg { width:12px; height:12px; stroke-width:1 }
+/* ── Help-кнопка ── */
+.help-btn svg.lucide { width:14px !important; height:14px !important; stroke-width:1.2 !important }
 
 /* ── Cart modal header ── */
-.cq-header-icon i[data-lucide] svg { width:15px; height:15px; stroke-width:1 }
+.cq-header-icon svg.lucide { width:15px !important; height:15px !important }
 
 /* ── Category modal ── */
-.cem-header-icon i[data-lucide] svg { width:16px; height:16px; stroke-width:1 }
-.cem-search-icon i[data-lucide] svg { width:13px; height:13px; stroke-width:1 }
+.cem-header-icon svg.lucide { width:16px !important; height:16px !important }
+.cem-search-icon svg.lucide { width:13px !important; height:13px !important }
 
 /* ── Help modal ── */
-.help-modal-icon i[data-lucide] svg { width:16px; height:16px; stroke-width:1 }
+.help-modal-icon svg.lucide { width:16px !important; height:16px !important }
 
-/* ── Confirm modal — крупная иконка предупреждения ── */
+/* ── Confirm modal ── */
 .confirm-modal-icon {
   display: flex;
   justify-content: center;
   margin-bottom: 12px;
 }
-.confirm-modal-icon i[data-lucide] svg {
-  width:32px; height:32px; stroke-width:1;
+.confirm-modal-icon svg.lucide {
+  width: 32px !important; height: 32px !important;
+  stroke-width: 1 !important;
   color: var(--amber);
 }
 
 /* ── User contact ── */
-#userContactEmpty i[data-lucide] svg {
-  width:16px; height:16px; stroke-width:1;
-  color: var(--text-muted);
-}
+#userContactEmpty svg.lucide { width:16px !important; height:16px !important; color:var(--text-muted) }
 
-/* ── Subtab иконки ── */
-.syn-subtab i[data-lucide] svg { width:12px; height:12px; stroke-width:1 }
-
-/* ── undo/redo (icon-only кнопки) ── */
-#jeUndoBtn i[data-lucide] svg,
-#jeRedoBtn i[data-lucide] svg { width:13px; height:13px; stroke-width:1 }
+/* ── Subtabs ── */
+.syn-subtab svg.lucide { width:12px !important; height:12px !important }
 
 /* ── Tooltip copy button ── */
 .price-clickable::after { content:'скопировать штрихкод' }
