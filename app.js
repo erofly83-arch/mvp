@@ -8,7 +8,7 @@ const BRAND_CONFIG_SAVED = {};
 // ===== GLOBAL ERROR LOGGER =====
 (function() {
   var _errs = [];
-  var _GAS_URL = 'https://script.google.com/macros/s/AKfycbybOT3Fh0aXShOTDh_qRM1sYFzh_nJbvgmKN503eTjEqWjxplFKIZp8Rc9w3QMtlRYz/exec';
+  var _GAS_URL = 'https://script.google.com/macros/s/AKfycbzSSZnYA_ZFywn6c-DFGZSB-_14jcU3h9tze7u2LuJdMbqbfD-TgfpDPWgEwr1QPgBI/exec';
   var _autoSent = false; // отправляем автоматически только первую ошибку
 
   function _fmt(e, ctx) {
@@ -47,6 +47,7 @@ const BRAND_CONFIG_SAVED = {};
       + errEntry.full;
     fetch(_GAS_URL, {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: text })
     }).catch(function() {}); // тихий фейл, не мешаем работе
@@ -8440,7 +8441,7 @@ setTimeout(function() {
   var _imgBase64 = null;
   var _imgMime   = null;
   var _imgName   = null;
-  var _GAS = 'https://script.google.com/macros/s/AKfycbybOT3Fh0aXShOTDh_qRM1sYFzh_nJbvgmKN503eTjEqWjxplFKIZp8Rc9w3QMtlRYz/exec';
+  var _GAS = 'https://script.google.com/macros/s/AKfycbzSSZnYA_ZFywn6c-DFGZSB-_14jcU3h9tze7u2LuJdMbqbfD-TgfpDPWgEwr1QPgBI/exec';
 
   window.openFeedbackModal = function() {
     var modal   = document.getElementById('feedbackModal');
@@ -8527,6 +8528,7 @@ setTimeout(function() {
 
     fetch(_GAS, {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     }).then(function() {
