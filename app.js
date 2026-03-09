@@ -8,7 +8,7 @@ const BRAND_CONFIG_SAVED = {};
 // ===== GLOBAL ERROR LOGGER =====
 (function() {
   var _errs = [];
-  var _GAS_URL = 'https://script.google.com/macros/s/AKfycbzSSZnYA_ZFywn6c-DFGZSB-_14jcU3h9tze7u2LuJdMbqbfD-TgfpDPWgEwr1QPgBI/exec';
+  var _GAS_URL = 'https://script.google.com/macros/s/AKfycbx83p3j8SbXGjTCyEXNsfBCH9Np2G-2R00ZMlUP0jzIjjvXnMtQ6tAux0Hpt6nNrh_n/exec';
   var _autoSent = false; // отправляем автоматически только первую ошибку
 
   function _fmt(e, ctx) {
@@ -8441,7 +8441,7 @@ setTimeout(function() {
   var _imgBase64 = null;
   var _imgMime   = null;
   var _imgName   = null;
-  var _GAS = 'https://script.google.com/macros/s/AKfycbzSSZnYA_ZFywn6c-DFGZSB-_14jcU3h9tze7u2LuJdMbqbfD-TgfpDPWgEwr1QPgBI/exec';
+  var _GAS = 'https://script.google.com/macros/s/AKfycbx83p3j8SbXGjTCyEXNsfBCH9Np2G-2R00ZMlUP0jzIjjvXnMtQ6tAux0Hpt6nNrh_n/exec';
 
   window.openFeedbackModal = function() {
     var modal   = document.getElementById('feedbackModal');
