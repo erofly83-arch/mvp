@@ -258,7 +258,7 @@
 <div style="position:absolute;bottom:-40px;right:60px;width:100px;height:100px;background:rgba(255,255,255,0.03);border-radius:50%;"></div>
 <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.55);margin-bottom:8px;">Мониторинг цен поставщиков</div>
 <div style="font-size:18px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:12px;">Сравнение прайсов поставщиков —<br/>без Excel, формул и ручной работы.</div>
-<div style="font-size:var(--fz-sm);color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:18px;">Загрузите свой прайс и прайсы поставщиков в любом формате Excel или CSV — программа автоматически сопоставит товары по штрихкодам, покажет у кого дешевле и позволит сформировать заказ прямо в интерфейсе. Все данные остаются в вашем браузере — ничего не уходит на сервер.</div>
+<div style="font-size:var(--fz-sm);color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:18px;">Загрузите свой прайс и прайсы поставщиков или конкурентов в любом формате Excel или CSV — программа автоматически сопоставит товары по штрихкодам, покажет у кого дешевле и позволит сформировать заказ прямо в интерфейсе. Все данные остаются в вашем браузере — ничего не уходит на сервер.</div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;">
 <div class="marketing-stat-card">
 <div class="marketing-stat-val">10 000+</div>
@@ -281,6 +281,10 @@
 <!-- PAIN CARDS -->
 <div class="instr-section-label">Какие задачи решает программа</div>
 <div class="dash-instr-grid" style="margin-bottom:20px;">
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">«Нужно следить за ценами конкурентов»</span></div>
+<div class="dash-instr-card-body">Загрузите прайсы конкурентов вместо или вместе с поставщиками. Принцип тот же — сопоставление по штрихкодам. Сразу видно, где ваша цена выше или ниже рыночной.</div>
+</div>
 <div class="dash-instr-card ax-001">
 <div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">«У поставщика другой штрихкод на тот же товар»</span></div>
 <div class="dash-instr-card-body">База кросскодов связывает разные коды одного товара. «Поиск кросскодов» предлагает совпадения автоматически — по схожести наименований. Достаточно подтвердить нажатием.</div>
@@ -361,8 +365,11 @@
 <div class="instr-step-text">Храните в надёжном месте — облако, корпоративный диск. Без этого файла база кросскодов и настройки будут утеряны при закрытии браузера.</div>
 </div>
 </div>
-<div class="instr-section-label">Почему файл, а не облачная база?</div>
-<div class="instr-body-text--secondary-mb">Программа работает <b>полностью в браузере</b> — ваши прайсы, цены и данные о поставщиках не покидают компьютер. Никаких учётных записей, никакой подписки, никакого риска утечки коммерческих данных. JSON-файл — это вся «база данных», которую вы контролируете сами: можно скопировать, передать коллеге, открыть в текстовом редакторе.</div>
+<div class="instr-section-label">Почему файл памяти, а не облачная база?</div>
+<div class="instr-privacy-block">
+<div class="instr-privacy-block-title">Ваши данные не покидают ваш компьютер</div>
+<div class="instr-privacy-block-body">Программа работает полностью в браузере — прайсы, цены и данные о поставщиках и конкурентах никуда не отправляются. Никаких учётных записей, никакой подписки, никакого риска утечки коммерческих данных. JSON-файл — это вся «база данных», которую вы контролируете сами: можно скопировать, передать коллеге, открыть в текстовом редакторе.</div>
+</div>
 <div style="background:var(--surface-alt);border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 14px;">
 <div class="instr-section-label">Как работать с файлом памяти</div>
 <div class="instr-items-list">
