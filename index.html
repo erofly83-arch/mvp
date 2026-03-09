@@ -76,20 +76,18 @@
 <!-- JSON файл -->
 <div class="sidebar-file-item sidebar-file-item--empty" id="sfJsonItem">
 <div class="sf-row">
-<span class="sf-icon"><i data-lucide="hard-drive"></i></span>
-<span class="sf-name" id="sfJsonName">JSON не загружен</span>
-
+<span class="sf-name sf-name--accent" id="sfJsonName">Файл памяти не загружен</span>
+<span class="sf-meta-inline" id="sfJsonMeta" style="display:none;"></span>
+<button class="sf-supplier-del" id="sfJsonDel" style="display:none;" title="Удалить файл памяти" onclick="window.removeJsonFile()">✕</button>
 </div>
-<div class="sf-meta" id="sfJsonMeta" style="display:none;"></div>
 </div>
 <!-- Мой прайс -->
 <div class="sidebar-file-item sidebar-file-item--empty" id="sfMyPriceItem">
 <div class="sf-row">
-<span class="sf-icon"><i data-lucide="tag"></i></span>
-<span class="sf-name" id="sfMyPriceName">Мой прайс не загружен</span>
-
+<span class="sf-name sf-name--accent" id="sfMyPriceName">Мой прайс не загружен</span>
+<span class="sf-meta-inline" id="sfMyPriceMeta" style="display:none;"></span>
+<button class="sf-supplier-del" id="sfMyPriceDel" style="display:none;" title="Удалить Мой прайс" onclick="window.removeMyPriceFile()">✕</button>
 </div>
-<div class="sf-meta" id="sfMyPriceMeta" style="display:none;"></div>
 </div>
 <!-- Поставщики -->
 <div class="sidebar-files-title" style="margin-top:6px;margin-bottom:4px;">Поставщики</div>

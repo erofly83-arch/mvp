@@ -473,7 +473,12 @@ body.order-mode .price-in-cart::after{content:'✓ в корзине' !important
 .sidebar-contact-card--tg    .sidebar-contact-card-icon { color: #0088cc; }
 .sidebar-contact-card--write .sidebar-contact-card-icon { color: var(--red); }
 .sidebar-contact-card:hover .sidebar-contact-card-icon { color: inherit; }
+/* Phone hover — green */
+.sidebar-contact-card--phone:hover { background: var(--green-bg); color: var(--green-dark); border-left-color: var(--green); }
 .sidebar-contact-card-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Sidebar file items: dark blue name, inline meta */
+.sf-name--accent { color: var(--accent-dark) !important; font-weight: 600 !important; }
+.sf-meta-inline { font-size: 9px; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; font-weight: 600; margin-left: 2px; }
 
 /* ══════════════════════════════════════
    unified-unsaved-save-btn

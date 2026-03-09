@@ -6293,48 +6293,48 @@ function toggleSidebar() {
   function sfUpdateJson(fileName, entryCount) {
     const item = document.getElementById('sfJsonItem');
     const nameEl = document.getElementById('sfJsonName');
-    const badge = document.getElementById('sfJsonBadge');
     const meta = document.getElementById('sfJsonMeta');
+    const del = document.getElementById('sfJsonDel');
     if (!item) return;
     if (fileName) {
       item.classList.remove('sidebar-file-item--empty');
       item.classList.add('sidebar-file-item--loaded');
-      nameEl.textContent = sfShorten(fileName, 22);
-      if (badge) badge.style.display = '';
-      if (entryCount != null) {
+      nameEl.textContent = 'Файл памяти';
+      if (entryCount != null && meta) {
         meta.style.display = '';
-        meta.innerHTML = '<strong>' + entryCount + '</strong> записей в базе';
+        meta.textContent = entryCount + ' записей';
       }
+      if (del) del.style.display = '';
     } else {
       item.classList.add('sidebar-file-item--empty');
       item.classList.remove('sidebar-file-item--loaded');
-      nameEl.textContent = 'JSON не загружен';
-      if (badge) badge.style.display = 'none';
-      meta.style.display = 'none';
+      nameEl.textContent = 'Файл памяти не загружен';
+      if (meta) meta.style.display = 'none';
+      if (del) del.style.display = 'none';
     }
   }
 
   function sfUpdateMyPrice(fileName, rows) {
     const item = document.getElementById('sfMyPriceItem');
     const nameEl = document.getElementById('sfMyPriceName');
-    const badge = document.getElementById('sfMyPriceBadge');
     const meta = document.getElementById('sfMyPriceMeta');
+    const del = document.getElementById('sfMyPriceDel');
     if (!item) return;
     if (fileName) {
       item.classList.remove('sidebar-file-item--empty');
       item.classList.add('sidebar-file-item--myprice');
-      nameEl.textContent = sfShorten(fileName, 22);
-      if (badge) badge.style.display = '';
-      if (rows != null) {
+      nameEl.textContent = sfShorten(fileName, 18);
+      if (rows != null && meta) {
         meta.style.display = '';
-        meta.innerHTML = '<strong>' + rows.toLocaleString('ru') + '</strong> строк';
+        meta.textContent = rows.toLocaleString('ru') + ' строк';
       }
+      if (del) del.style.display = '';
     } else {
       item.classList.add('sidebar-file-item--empty');
       item.classList.remove('sidebar-file-item--myprice');
       nameEl.textContent = 'Мой прайс не загружен';
-      if (badge) badge.style.display = 'none';
-      meta.style.display = 'none';
+      if (meta) meta.style.display = 'none';
+      if (del) del.style.display = 'none';
     }
   }
 
@@ -6378,6 +6378,46 @@ function toggleSidebar() {
   window._sfUpdateSuppliers = function(list) {
     sfUpdateSuppliers(list);
     _monitorUpdateSupplierList(list);
+  };
+
+  window.removeJsonFile = function() {
+    if (typeof jeConfirmDialog === 'function') {
+      jeConfirmDialog('Удалить файл памяти из приложения?', 'Удаление').then(function(ok) {
+        if (!ok) return;
+        jeDB = {}; _jeDupsCache = null; jeChanges = 0;
+        if (typeof jeUpdateUndoUI === 'function') jeUpdateUndoUI();
+        if (typeof jeUpdateStatus === 'function') jeUpdateStatus();
+        if (typeof jeRenderEditor === 'function') jeRenderEditor();
+        sfUpdateJson(null, null);
+        if (typeof _slotClearJsonChip === 'function') _slotClearJsonChip();
+        if (typeof unifiedMarkUnsaved === 'function') unifiedMarkUnsaved(false);
+        if (typeof showToast === 'function') showToast('Файл памяти удалён', 'ok');
+      });
+    }
+  };
+
+  window.removeMyPriceFile = function() {
+    const pm = window._pmApp;
+    if (!pm || !pm.myPriceData) return;
+    if (typeof jeConfirmDialog === 'function') {
+      jeConfirmDialog('Удалить Мой прайс из мониторинга?', 'Удаление').then(function(ok) {
+        if (!ok) return;
+        pm.myPriceData = null;
+        const inp = pm.myPriceInput;
+        if (inp) inp.value = '';
+        const st = document.getElementById('myPriceStatus');
+        if (st) { st.className = 'upload-status upload-status--idle'; st.textContent = 'Не загружен'; st.style.display = ''; }
+        sfUpdateMyPrice(null, null);
+        if (typeof _slotClearMyPriceChip === 'function') _slotClearMyPriceChip();
+        if (pm.competitorFilesData && pm.competitorFilesData.length > 0) {
+          pm.processAllData();
+        } else {
+          const clearBtn = document.getElementById('clearAllBtn') || document.querySelector('[onclick*="clearAll"]');
+          if (clearBtn) clearBtn.click();
+        }
+        if (typeof showToast === 'function') showToast('Мой прайс удалён', 'ok');
+      });
+    }
   };
 
   function watchStatus(id, cb) {
