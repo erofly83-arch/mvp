@@ -324,11 +324,11 @@
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 3</span>
-<span class="instr-step-text">Файл откроется в редакторе. Программа <b>автоматически определяет</b> колонки по ключевым словам в заголовках. Если всё определено верно — ничего менять не нужно, сразу нажмите «Готово».</span>
+<span class="instr-step-text">Файл откроется в редакторе. Программа <b>автоматически определяет</b> колонки по ключевым словам в заголовках. Проверьте подсвеченные колонки: штрихкод (синий), наименование (серый), цена (зелёный). Если они определены верно — ничего менять не нужно, сразу нажмите «Готово».</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 4</span>
-<span class="instr-step-text">Нужно скорректировать? <b>Кликните на заголовок колонки</b> и введите или выберите из списка её роль: Штрихкод, Наименование, Цена, Остаток и другие. Одному поставщику можно назначить несколько ценовых колонок — например «Цена нал» и «Цена бн».</span>
+<span class="instr-step-text">Нужно скорректировать? <b>Кликните на заголовок колонки</b> и введите или выберите из списка её роль: Штрихкод, Наименование, Цена, Остаток и другие. Колонка «Штрихкод» — обязательна, без неё файл не попадёт в мониторинг. Одному поставщику можно назначить несколько ценовых колонок — например «Цена нал» и «Цена бн».</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 5</span>
@@ -679,7 +679,7 @@
 <div class="empty-state" id="monitorEmptyState">
 <div class="dash-instr ax-006">
 <!-- MARKETING HERO -->
-<div style="background:linear-gradient(135deg,#14532d 0%,#166534 55%,#15803d 100%);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden;">
+<div style="background:linear-gradient(135deg,#1e3a6e 0%,#1d4d2a 55%,#1a5c32 100%);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden;">
 <div style="position:absolute;top:-18px;right:-18px;width:130px;height:130px;background:rgba(255,255,255,0.04);border-radius:50%;pointer-events:none;"></div>
 <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);margin-bottom:8px;">Вкладка «Мониторинг цен»</div>
 <div style="font-size:17px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px;">Все прайсы — в одной таблице.<br/>Сразу видно у кого дешевле.</div>
@@ -697,14 +697,10 @@
 <div class="instr-steps-list">
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 1</span>
-<span class="instr-step-text">Перейдите на вкладку <b>«Загрузка прайсов»</b>. Загрузите файл памяти (если есть), затем свой прайс и прайсы поставщиков или конкурентов. Для каждого файла укажите колонки и нажмите «Готово».</span>
+<span class="instr-step-text">Загрузите файлы на вкладке <b>«Загрузка прайсов»</b> и нажмите «Готово» для каждого — таблица сравнения сформируется автоматически при переходе на эту вкладку. Вверху появится панель статистики: сколько товаров совпало и какое покрытие.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 2</span>
-<span class="instr-step-text">Вернитесь на эту вкладку — таблица сравнения сформируется автоматически. Вверху появится панель статистики: сколько товаров совпало и какое покрытие.</span>
-</div>
-<div class="instr-step-row">
-<span class="instr-step-badge">Шаг 3</span>
 <span class="instr-step-text">Если много позиций без совпадений — откройте <b>«Поиск кросскодов»</b> и свяжите товары по наименованию. После этого вернитесь: покрытие вырастет. Кросскоды сохраняются в файле памяти.</span>
 </div>
 </div>
@@ -900,6 +896,15 @@
 <div class="dash-instr-card-body">Чем больше кросскодов в базе — тем выше покрытие. Используйте «Поиск кросскодов» для полуавтоматического пополнения. После добавления кросскодов не забудьте сохранить файл памяти.</div>
 </div>
 </div>
+
+<!-- CATEGORIES EXPLANATION -->
+<div class="instr-section-label">Фильтр «Категории» — как он работает</div>
+<div class="instr-why-block">
+<div class="instr-block-title">Откуда берутся категории и при чём тут база брендов</div>
+<div class="instr-body-text--mb">Список категорий формируется <b>автоматически</b> из частых слов, встречающихся в наименованиях загруженных прайсов. Программа подбирает самые характерные слова и предлагает их как категории для фильтрации. Настроить белый список слов — кнопка <b>«категории»</b> рядом с фильтром.</div>
+<div class="instr-body-text">База брендов усиливает фильтр: если вы добавили синонимы (например, «чай» и «tea» в одну группу), то при выборе категории «чай» в результат попадут строки с «tea», «tea bags» и другими синонимами из вашей базы. Это работает автоматически — никаких дополнительных настроек не требуется. Чем полнее база брендов, тем точнее работает фильтр.</div>
+</div>
+
 <div class="dash-instr-tip"><b>Совет по работе:</b> включите «Мин. цена», выберите нужную категорию, затем включите режим заказа. Кликайте по зелёным ценам — товары быстро наберутся в корзину. Откройте корзину, задайте наценку, нажмите «Свой прайс» — и скачивайте готовую заявку в Excel.</div>
 </div>
 </div>
@@ -922,8 +927,8 @@
 <div class="pane-title">
 <div class="pane-title-icon"><i data-lucide="link-2"></i></div>
 <div class="pane-title-text">
-<h2>Поиск кросскодов <span style="font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-bg);border:1px solid var(--accent);border-radius:4px;padding:1px 6px;vertical-align:middle;letter-spacing:0.3px;">Beta</span></h2>
-<p>Поиск связей между товарами поставщиков по наименованию</p>
+<h2>Поиск кросскодов <span style="font-size:11px;font-weight:600;color:var(--accent);background:var(--accent-bg);border:1px solid var(--accent);border-radius:4px;padding:1px 6px;vertical-align:middle;letter-spacing:0.3px;" title="Алгоритм поиска продолжает улучшаться — всегда проверяйте пары перед подтверждением">Beta</span></h2>
+<p>Поиск связей между товарами по наименованию — всегда проверяйте пары перед подтверждением</p>
 </div>
 <div class="pane-title-extra">
 <button class="btn btn-success" id="matcherRunBtn" title="Запустить поиск"><i data-lucide="play"></i> Запустить поиск</button>
@@ -998,7 +1003,7 @@
 <div class="dash-instr ax-006">
 
 <!-- MARKETING HERO -->
-<div style="background:linear-gradient(135deg,#78350f 0%,#92400e 55%,#b45309 100%);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden;">
+<div style="background:linear-gradient(135deg,#1e3a6e 0%,#2d3f6e 55%,#3b5499 100%);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden;">
 <div style="position:absolute;top:-18px;right:-18px;width:130px;height:130px;background:rgba(255,255,255,0.04);border-radius:50%;pointer-events:none;"></div>
 <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);margin-bottom:8px;">Вкладка «Поиск кросскодов»</div>
 <div style="font-size:17px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px;">Один и тот же товар —<br/>разные штрихкоды. Программа их свяжет.</div>
@@ -1032,11 +1037,11 @@
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 3</span>
-<span class="instr-step-text">В строке статистики нажмите <b>«≥80% высокие»</b> — начните с них, там меньше всего ошибок. Для работы с конкретным ассортиментом используйте поиск по названию или фильтр по категории.</span>
+<span class="instr-step-text">В строке статистики нажмите <b>«≥80% высокие»</b> — начните с них, там меньше всего ошибок. Для работы с конкретным ассортиментом используйте поиск по названию или фильтр по категории — категории формируются автоматически из слов наименований найденных пар, и учитывают синонимы из вашей базы брендов.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 4</span>
-<span class="instr-step-text">Кликните на любую строку таблицы. Откроется окно подтверждения — в нём два наименования и два штрихкода. Прочитайте описание действия (что именно попадёт в базу) и нажмите <b>«Подтвердить»</b> или <b>«Отмена»</b>. Подтверждённая пара выделяется зелёным и сразу улучшает мониторинг.</span>
+<span class="instr-step-text">Кликните на любую строку таблицы. Откроется окно с двумя вкладками. <b>Вкладка «Штрихкоды»</b> — основная: здесь два наименования и два кода, прочитайте описание действия и нажмите <b>«Подтвердить»</b> или <b>«Отмена»</b>. <b>Вкладка «Бренды»</b> — дополнительная возможность прямо здесь, не уходя со страницы: слова из обоих наименований уже извлечены и предложены кнопками — нажмите нужные и они попадут в поля «Главная форма», «Синонимы» или «Антонимы». Нажмите «Сохранить бренд» — и словарь пополнится за секунды. Два дела в одном диалоге.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 5</span>
@@ -1089,7 +1094,7 @@
 </div>
 <div class="instr-step-row">
 <span class="instr-feature-btn" style="min-width:160px;">Вкладка «Бренды»</span>
-<span class="instr-desc-text">Дополнительная возможность: одновременно с подтверждением пары можно создать или пополнить запись в базе брендов — указать канонический бренд, его синонимы и антонимы. Слова из наименований предложены в виде кликабельных пилюль для быстрого заполнения.</span>
+<span class="instr-desc-text">Дополнительная возможность: прямо в окне пары можно создать или пополнить запись в базе брендов — указать главную форму, её синонимы и антонимы. Слова из наименований предложены кнопками для быстрого заполнения. Помните: каждая группа — одно понятие, не смешивайте бренд и тип товара в одних синонимах.</span>
 </div>
 </div>
 </div>
@@ -1344,7 +1349,7 @@
 </div>
 
 <!-- FAST WAY FROM MONITOR -->
-<div class="instr-privacy-block" style="background:linear-gradient(135deg,#14532d 0%,#166534 55%,#15803d 100%);">
+<div class="instr-privacy-block" style="background:linear-gradient(135deg,#1e3a6e 0%,#1d4d2a 55%,#1a5c32 100%);">
 <div class="instr-privacy-block-title">Быстрый способ: кнопка «+» прямо в таблице мониторинга</div>
 <div class="instr-privacy-block-body">В таблице мониторинга рядом со штрихкодом каждого товара есть маленькая кнопка <b>+</b>. Нажмите её — откроется диалог добавления в базу: главный штрихкод уже подставлен, а кросскоды от поставщиков предложены списком с чекбоксами. Выберите нужные, укажите название и нажмите «Добавить». Если штрихкод уже есть в базе — вместо «+» отображается зелёный значок <b>✓</b>. Это самый быстрый способ наполнять базу прямо в процессе работы с мониторингом.</div>
 </div>
@@ -1432,29 +1437,30 @@
 </div>
 <div id="brandSearchArea" style="display:none;">
 <div class="brand-search-row search-box--above-table filter-row">
-<input class="search-input" id="brandSearchInp" placeholder="Поиск по брендам, кросскодам, антонимам..." style="flex:1;min-width:0;"/>
+<input class="search-input" id="brandSearchInp" placeholder="Поиск по главной форме, синонимам, антонимам..." style="flex:1;min-width:0;"/>
 <button class="btn btn-secondary" id="brandConflictFilterBtn" title="Показать только бренды с конфликтами"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;vertical-align:middle"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Конфликты</button>
 </div>
 </div>
 <div class="brand-empty" id="brandEmpty">
 <div class="dash-instr ax-006">
 <!-- MARKETING HERO -->
-<div style="background:linear-gradient(135deg,#44403c 0%,#57534e 55%,#78716c 100%);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden;">
+<div style="background:linear-gradient(135deg,#1e3a6e 0%,#2a3d5e 55%,#334d72 100%);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden;">
 <div style="position:absolute;top:-18px;right:-18px;width:130px;height:130px;background:rgba(255,255,255,0.04);border-radius:50%;pointer-events:none;"></div>
 <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);margin-bottom:8px;">База кросскодов → Бренды</div>
-<div style="font-size:17px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px;">Научите программу понимать,<br/>что «Nescafé» и «нескафе» — одно и то же.</div>
-<div style="font-size:var(--fz-sm);color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:18px;">База брендов — это словарь синонимов для поиска кросскодов и фильтра категорий. Добавьте варианты написания бренда, типа упаковки, вкуса или объёма в одну группу — и система начнёт находить совпадения, которые раньше пропускала. Антонимы позволяют точно разграничить похожие группы и исключить ложные пары.</div>
+<div style="font-size:17px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px;">Научите программу понимать,<br/>что «нескафе» и «nescafe» — одно слово.</div>
+<div style="font-size:var(--fz-sm);color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:18px;">База брендов — это словарь синонимов для поиска кросскодов и фильтра категорий. Добавьте варианты написания одного и того же слова в одну группу — и система начнёт находить совпадения, которые раньше пропускала. Каждая группа описывает ровно одно понятие: бренд, вкус или тип упаковки — но не всё сразу. Антонимы позволяют точно разграничить похожие группы и исключить ложные пары.</div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;">
 <div class="marketing-stat-card"><div class="marketing-stat-val">+20%</div><div class="marketing-stat-lbl">бонус к оценке пары при совпадении синонимов</div></div>
 <div class="marketing-stat-card"><div class="marketing-stat-val">0%</div><div class="marketing-stat-lbl">оценка пары при совпадении антонима — пара исключена</div></div>
-<div class="marketing-stat-card"><div class="marketing-stat-val">Бренды</div><div class="marketing-stat-lbl">Nescafé = нескафе = nestle</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">Бренды</div><div class="marketing-stat-lbl">nescafe = нескафе = nescafé</div></div>
 <div class="marketing-stat-card"><div class="marketing-stat-val">Упаковка</div><div class="marketing-stat-lbl">пэт = pet = пластик = бутылка</div></div>
 </div>
 </div>
 <!-- WHY YOU NEED THIS -->
 <div class="instr-why-block">
 <div class="instr-block-title">Что делает эта база и как она связана с поиском кросскодов</div>
-<div class="instr-body-text--mb">Один и тот же товар в разных прайсах пишется по-разному: <b>«Nescafé»</b>, <b>«нескафе»</b>, <b>«NESCAFE GOLD»</b> — для системы это три разных слова. Когда «Поиск кросскодов» сравнивает наименования, база брендов применяется <b>до расчёта оценки</b>: синонимы приводятся к одному каноническому виду, и оценка схожести автоматически <b>вырастает на 20%</b>. Пара, которая без базы получила бы 62% (средняя), с базой получит 82% (высокая) — и сразу попадёт в первый список для проверки.</div>
+<div class="instr-body-text--mb">Один и тот же бренд в разных прайсах пишется по-разному: <b>«нескафе»</b>, <b>«nescafe»</b>, <b>«nescafé»</b> — для системы это три разных слова. Когда «Поиск кросскодов» сравнивает наименования, база брендов применяется <b>до расчёта оценки</b>: синонимы приводятся к одному главному виду, и оценка схожести автоматически <b>вырастает на 20%</b>. Пара, которая без базы получила бы 62% (средняя), с базой получит 82% (высокая) — и сразу попадёт в первый список для проверки.</div>
+<div class="instr-body-text--mb">⚠ <b>Важно:</b> каждая группа описывает ровно одно понятие. Не смешивайте бренд и тип товара в одной группе. Например, «nescafe» и «gold» — это две разные группы: «gold» встречается у многих брендов («Якобс Голд», «Нескафе Голд») и является признаком сорта, а не бренда. Если добавить «gold» как синоним «nescafe», программа начнёт связывать товары разных брендов.</div>
 <div class="instr-body-text">Антонимы работают жёстче: если в паре встретился антоним одной из групп — оценка становится <b>ровно 0%</b> и пара полностью исключается из результатов. Это защищает от ложных совпадений: «чёрный чай» и «зелёный чай» больше никогда не окажутся в одной паре, если «зелёный» стоит антонимом в группе «чёрный».</div>
 </div>
 
@@ -1462,25 +1468,26 @@
 <div class="instr-privacy-block" style="background:linear-gradient(135deg,#44403c 0%,#57534e 60%,#78716c 100%);">
 <div class="instr-privacy-block-title">Это не только про бренды — это про любые синонимы в наименованиях</div>
 <div class="instr-privacy-block-body">Называйте кнопку «Добавить бренд» условно — добавлять можно любые смысловые группы. Примеры того, что реально помогает находить совпадения:<br/><br/>
-<b>Типы упаковки:</b> пэт / pet / пластик / пл / бутылка / б — и «Сок 1л пэт» совпадёт с «Сок 1л пластик»<br/>
-<b>Стекло:</b> ст / ст.б / стб / стеклобанка / стекло / glass<br/>
-<b>Вкусы:</b> клубника / strawberry / клубн / strawb<br/>
-<b>Объёмы (если написаны словами):</b> полтора литра / 1.5л / 1,5 л / 1500мл<br/>
-<b>Типы продукта:</b> б/а / безалкогольный / non-alcoholic / безалк<br/>
-<b>Общие аббревиатуры:</b> ТМ / торговая марка, к/к / картонная коробка<br/><br/>
-Чем полнее словарь — тем больше пар найдёт поиск кросскодов и тем точнее работает фильтр категорий в мониторинге.</div>
+<b>Бренды (только варианты написания, без типов товара):</b> nescafe / нескафе / nescafé / нескафэ<br/>
+<b>Сорта и вкусы — отдельными группами:</b> classic / классик · gold / голд / голден · green / зелёный<br/>
+<b>Типы упаковки:</b> пэт / pet / пластик / бутылка<br/>
+<b>Стекло:</b> стекло / стеклобанка / стб / glass<br/>
+<b>Объёмы (если написаны словами):</b> полтора / 1.5л / 1500мл<br/>
+<b>Типы продукта:</b> безалкогольный / безалк / non-alcoholic<br/><br/>
+⚠ <b>Предпочитайте однословные записи</b> — они надёжнее и реже вызывают конфликты. Например, лучше добавить просто «классик» и «classic», чем «кофе классик» или «classic blend». Короткие аббревиатуры из 1–2 символов («б», «ст», «пл») лучше вообще не добавлять: они почти всегда окажутся в нескольких группах и создадут конфликт.<br/><br/>
+Чем полнее словарь однозначных синонимов — тем больше пар найдёт поиск кросскодов и тем точнее работает фильтр категорий в мониторинге.</div>
 </div>
 
 <!-- CONCEPTS GRID -->
 <div class="instr-section-label">Три ключевых понятия</div>
 <div class="dash-instr-grid">
 <div class="dash-instr-card ax-001">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Канонический ключ</span></div>
-<div class="dash-instr-card-body">Главное «эталонное» написание группы — именно его вы видите в таблице. Все синонимы при поиске приводятся к этому ключу. Используйте короткую и понятную форму: «nescafe», «чай», «пэт», «клубника».</div>
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Главная форма</span></div>
+<div class="dash-instr-card-body">Главное «эталонное» написание группы — именно его вы видите в таблице. Все синонимы при поиске приводятся к этой форме. Используйте короткое и понятное слово: «nescafe», «чай», «пэт», «клубника». Одна группа = одно понятие.</div>
 </div>
 <div class="dash-instr-card ax-001">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Кросскоды (синонимы)</span></div>
-<div class="dash-instr-card-body">Все варианты написания одного понятия: кириллица, латиница, аббревиатуры, опечатки, сокращения. При поиске кросскодов любой синоним приводится к каноническому ключу — оценка пары растёт на <b>+20%</b>.</div>
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Синонимы</span></div>
+<div class="dash-instr-card-body">Все варианты написания одного понятия: кириллица, латиница, аббревиатуры, опечатки, сокращения. При поиске кросскодов любой синоним приводится к главной форме — оценка пары растёт на <b>+20%</b>. Предпочитайте однословные записи.</div>
 </div>
 <div class="dash-instr-card" style="border-left:3px solid var(--red);">
 <div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title" style="color:var(--red);">Антонимы</span></div>
@@ -1497,15 +1504,15 @@
 <div class="instr-steps-list">
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 1</span>
-<span class="instr-step-text">Нажмите <b>«Добавить бренд»</b>. В поле <b>«Канонический ключ»</b> введите короткую эталонную форму: «nescafe», «чай», «пэт», «клубника», «ст/б». Чем короче и однозначнее ключ — тем лучше.</span>
+<span class="instr-step-text">Нажмите <b>«Добавить бренд»</b>. В поле <b>«Главная форма»</b> введите одно короткое слово: «nescafe», «чай», «пэт», «клубника», «classic». Одна группа — одно понятие. Не добавляйте сюда тип товара: «gold», «classic» или «light» — это отдельные группы, иначе программа начнёт смешивать разные товары.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 2</span>
-<span class="instr-step-text">В поле <b>«Кросскоды»</b> через запятую перечислите все варианты написания: «нескафе, nestle, necafe, нескафэ». Включайте опечатки и аббревиатуры — они часто встречаются в прайсах поставщиков.</span>
+<span class="instr-step-text">В поле <b>«Синонимы»</b> через запятую перечислите все варианты написания этого одного слова: «нескафе, nescafé, нескафэ». Включайте опечатки и аббревиатуры — они часто встречаются в прайсах поставщиков. Избегайте однобуквенных и двухбуквенных значений — они почти всегда вызывают конфликт.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 3</span>
-<span class="instr-step-text"><b>(Рекомендуется для схожих групп)</b> В поле <b>«Антонимы»</b> укажите слова-исключения. Для группы «чёрный» → антонимы «зелёный, белый, red, green, white» — без этого поиск кросскодов может смешать разные виды чая.</span>
+<span class="instr-step-text"><b>(Рекомендуется для схожих групп)</b> В поле <b>«Антонимы»</b> укажите слова-исключения. Для группы «чёрный» → антонимы «зелёный, белый, green, white» — без этого поиск кросскодов может смешать разные виды чая.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 4</span>
@@ -1521,8 +1528,8 @@
 <!-- SHORTCUTS FROM MATCHER -->
 <div class="instr-section-label">Быстрый способ: прямо из окна подтверждения пары</div>
 <div class="instr-why-block">
-<div class="instr-block-title">Добавление бренда без перехода на эту вкладку</div>
-<div class="instr-body-text">Когда вы работаете на вкладке «Поиск кросскодов» и открываете окно пары — в нём есть вкладка <b>«Бренды»</b>. Слова из обоих наименований уже извлечены и предложены кликабельными пилюлями — достаточно нажать нужные, они сразу попадут в поля «Канонический ключ», «Кросскоды» или «Антонимы». Нажмите «Сохранить бренд» — группа добавится в базу, не покидая страницу. Потом вернитесь на вкладку «Штрихкоды» в том же окне и подтвердите связь кодов. Два дела за один открытый диалог.</div>
+<div class="instr-block-title">Добавление синонимов без перехода на эту вкладку</div>
+<div class="instr-body-text">Когда вы работаете на вкладке «Поиск кросскодов» и открываете окно пары — в нём есть вкладка <b>«Бренды»</b>. Слова из обоих наименований уже извлечены и предложены кнопками — достаточно нажать нужные, они сразу попадут в поля «Главная форма», «Синонимы» или «Антонимы». Нажмите «Сохранить бренд» — группа добавится в базу, не покидая страницу. Затем переключитесь на вкладку «Штрихкоды» в том же окне и подтвердите связь кодов. Два дела за один открытый диалог.</div>
 </div>
 
 <!-- CONFLICTS SECTION -->
@@ -1541,7 +1548,7 @@
 </div>
 <div class="instr-step-row">
 <span class="instr-feature-btn" style="min-width:160px;color:var(--amber-dark);">Частые ошибки</span>
-<span class="instr-desc-text">Короткие аббревиатуры («ст», «б», «пл», «к») легко оказываются в нескольких группах. Лучше использовать более длинную форму: вместо «ст» → «стекло» или «стеклобанка». Одиночные буквы как кросскоды вообще лучше не добавлять.</span>
+<span class="instr-desc-text">Короткие аббревиатуры («ст», «б», «пл», «к») легко оказываются в нескольких группах. Используйте полную форму: вместо «ст» → «стекло» или «стеклобанка», вместо «б» → «бутылка». Одиночные буквы и двухбуквенные сочетания как синонимы лучше не добавлять вообще — они дадут больше вреда, чем пользы.</span>
 </div>
 </div>
 </div>
@@ -1552,7 +1559,7 @@
 <div class="instr-items-list">
 <div class="instr-feature-row">
 <button class="btn btn-success instr-demo-btn" disabled="">Добавить бренд</button>
-<span class="instr-desc-text">Открывает форму: канонический ключ, кросскоды, антонимы. Подходит для любой смысловой группы — бренд, вкус, упаковка, тип продукта.</span>
+<span class="instr-desc-text">Открывает форму: главная форма, синонимы, антонимы. Подходит для любой смысловой группы — бренд, вкус, упаковка, тип продукта. Одна группа = одно понятие.</span>
 </div>
 <div class="instr-feature-row">
 <button class="btn btn-secondary instr-demo-btn" disabled="">Конфликты (N)</button>
@@ -1578,7 +1585,7 @@
 <div class="dash-instr-grid ax-004">
 <div class="dash-instr-card ax-001">
 <div class="dash-instr-card-header"><span class="ax-002"></span><span class="dash-instr-card-title">Поиск по базе</span></div>
-<div class="dash-instr-card-body">Строка поиска ищет одновременно по каноническому ключу, всем кросскодам и антонимам — достаточно ввести любое слово из группы.</div>
+<div class="dash-instr-card-body">Строка поиска ищет одновременно по главной форме, всем синонимам и антонимам — достаточно ввести любое слово из группы.</div>
 </div>
 <div class="dash-instr-card ax-001">
 <div class="dash-instr-card-header"><span class="ax-002"></span><span class="dash-instr-card-title">Редактирование</span></div>
@@ -1590,7 +1597,7 @@
 </div>
 </div>
 <!-- TIP -->
-<div class="dash-instr-tip"><b>Рекомендуемый порядок:</b> сначала добавьте базу брендов (самые частые написания из ваших прайсов), затем запустите «Поиск кросскодов» — оценки сразу станут точнее. После подтверждения пар скачайте файл памяти: и бренды, и кросскоды сохранятся вместе. В мониторинге фильтр «Категории» автоматически учитывает все добавленные синонимы — написали «чай», получили все строки с «tea», «тea», «black tea» из вашей базы.</div>
+<div class="dash-instr-tip"><b>Рекомендуемый порядок:</b> сначала добавьте базу брендов (самые частые слова из ваших прайсов, по одному слову в группу), затем запустите «Поиск кросскодов» — оценки сразу станут точнее. После подтверждения пар скачайте файл памяти: и бренды, и кросскоды сохранятся вместе. В мониторинге фильтр «Категории» автоматически учитывает все добавленные синонимы — введите «чай», получите все строки с «tea», «чаёк», «tea bags» из вашей базы.</div>
 </div>
 </div>
 <div id="brandTableWrap" style="display:none;">
@@ -1605,8 +1612,8 @@
 <thead>
 <tr>
 <th style="width:36px;">#</th>
-<th style="width:160px;">Канонический бренд</th>
-<th>Кросскоды</th>
+<th style="width:160px;">Главная форма</th>
+<th>Синонимы</th>
 <th style="width:30%;">Антонимы</th>
 <th style="width:64px;text-align:center;">Действия</th>
 </tr>
@@ -1628,9 +1635,9 @@
 </div>
 <div class="modal-body" style="max-height:70vh;">
 <input id="beEditKey" type="hidden"/>
-<div class="modal-field"><label for="beCanon">Канонический бренд *</label><input id="beCanon" placeholder="tchibo"/></div>
-<div class="modal-field"><label for="beSyns">Кросскоды (через запятую)</label><textarea id="beSyns" placeholder="чибо, тибио, тчибо" rows="3"></textarea></div>
-<div class="modal-field"><label class="text-red" for="beAnti">Антонимы (через запятую)</label><textarea id="beAnti" placeholder="нескафе, якобс" rows="3"></textarea></div>
+<div class="modal-field"><label for="beCanon">Главная форма *</label><input id="beCanon" placeholder="tchibo"/></div>
+<div class="modal-field"><label for="beSyns">Синонимы (через запятую)</label><textarea id="beSyns" placeholder="чибо, тибио, тчибо" rows="3"></textarea></div>
+<div class="modal-field"><label class="text-red" for="beAnti">Антонимы (через запятую)</label><textarea id="beAnti" placeholder="другие бренды кофе, которые не должны совпасть" rows="3"></textarea></div>
 </div>
 <div class="modal-footer">
 <button class="btn" onclick="brandCloseEdit()">Отмена</button>
@@ -1676,17 +1683,17 @@
 <div class="brand-fields-wrap">
 <!-- Канонический бренд -->
 <div class="brand-field-block">
-<label for="mcbCanon">Канонический бренд <span class="text-red">*</span></label>
+<label for="mcbCanon">Главная форма <span class="text-red">*</span></label>
 <div class="pills-label">Клик — добавить, повторный клик — убрать:</div>
 <div class="brand-word-pills" id="mcbPillsCanon"></div>
-<input autocomplete="off" class="modal-field modal-input-full" id="mcbCanon" placeholder="напр. nescafe" type="text"/>
+<input autocomplete="off" class="modal-field modal-input-full" id="mcbCanon" placeholder="одно слово, напр. nescafe" type="text"/>
 </div>
 <!-- Кросскоды -->
 <div class="brand-field-block">
-<label for="mcbSyns">Кросскоды</label>
+<label for="mcbSyns">Синонимы</label>
 <div class="pills-label">Клик — добавить, повторный клик — убрать:</div>
 <div class="brand-word-pills" id="mcbPillsSyns"></div>
-<input autocomplete="off" class="modal-field modal-input-full" id="mcbSyns" placeholder="нескафе, nestle..." type="text"/>
+<input autocomplete="off" class="modal-field modal-input-full" id="mcbSyns" placeholder="нескафе, nescafé, нескафэ..." type="text"/>
 </div>
 <!-- Антонимы -->
 <div class="brand-field-block">
