@@ -128,7 +128,6 @@
 <!-- Модальное окно журнала ошибок -->
 <div id="errLogModal" onclick="if(event.target===this)window.closeErrLog()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:99999;align-items:center;justify-content:center;">
   <div style="background:#1e293b;border:1px solid #334155;border-radius:14px;width:min(680px,95vw);max-height:82vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.6);overflow:hidden;">
-    <!-- Заголовок -->
     <div style="display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid #334155;background:#0f172a;">
       
       <div style="flex:1;">
@@ -137,11 +136,9 @@
       </div>
       <button onclick="window.closeErrLog()" style="background:none;border:none;color:#64748b;font-size:20px;cursor:pointer;padding:4px 6px;border-radius:6px;line-height:1;transition:color .15s;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#64748b'">✕</button>
     </div>
-    <!-- Список ошибок -->
     <div id="errLogList" style="overflow-y:auto;flex:1;padding:14px 16px;font-family:'Courier New',monospace;font-size:11px;color:#e2e8f0;display:flex;flex-direction:column;gap:8px;">
       <span style="color:#64748b;font-family:'Inter',sans-serif;">Ошибок нет</span>
     </div>
-    <!-- Подвал с кнопками -->
     <div style="display:flex;align-items:center;gap:8px;padding:14px 16px;border-top:1px solid #334155;background:#0f172a;flex-wrap:wrap;">
       <div style="font-family:'Inter',sans-serif;font-size:11px;color:#64748b;flex:1;min-width:120px;">Скопируйте или отправьте напрямую</div>
       <button onclick="window.copyErrLog()" style="display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;border:1px solid #475569;background:#334155;color:#e2e8f0;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,border-color .15s;" onmouseover="this.style.background='#475569'" onmouseout="this.style.background='#334155'">Скопировать отчёт</button>
@@ -1609,15 +1606,12 @@
 <!-- ===== CART QTY MODAL ===== -->
 <div id="cartQtyModal" onclick="if(event.target===this)closeCartQtyModal()">
 <div class="cart-qty-box" id="cartQtyBox">
-<!-- header -->
 <div class="cq-header">
 <span class="cq-header-icon"><i data-lucide="shopping-cart"></i></span>
 <span class="cq-supplier" id="cqSupplier"></span>
 <button class="cq-close" onclick="closeCartQtyModal()">✕</button>
 </div>
-<!-- body -->
 <div class="cq-body">
-<!-- product info -->
 <div class="cq-product">
 <div class="cq-name" id="cqName"></div>
 <div class="cq-meta">
@@ -1825,7 +1819,7 @@ function showUpdateToast() {
   }
 </script>
 <!-- ═══ FEEDBACK MODAL ═══ -->
-<div id="feedbackModal" class="modal-overlay" onclick="if(event.target===this)window.closeFeedbackModal()">
+<div id="feedbackModal" class="modal-overlay" style="z-index:10050;" onclick="if(event.target===this)window.closeFeedbackModal()">
   <div class="modal-inner w560">
     <div class="modal-header">
       <span>Написать автору</span>

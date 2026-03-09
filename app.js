@@ -5,10 +5,13 @@ function reIcons(root) {
 
 const BRAND_CONFIG_SAVED = {};
 
+// ── GAS прокси (общий для логгера ошибок и формы обратной связи) ──
+const GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbx83p3j8SbXGjTCyEXNsfBCH9Np2G-2R00ZMlUP0jzIjjvXnMtQ6tAux0Hpt6nNrh_n/exec';
+
 // ===== GLOBAL ERROR LOGGER =====
 (function() {
   var _errs = [];
-  var _GAS_URL = 'https://script.google.com/macros/s/AKfycbx83p3j8SbXGjTCyEXNsfBCH9Np2G-2R00ZMlUP0jzIjjvXnMtQ6tAux0Hpt6nNrh_n/exec';
+  var _GAS_URL = GAS_PROXY_URL;
   var _autoSent = false; // отправляем автоматически только первую ошибку
 
   function _fmt(e, ctx) {
@@ -8481,7 +8484,7 @@ setTimeout(function() {
   var _imgBase64 = null;
   var _imgMime   = null;
   var _imgName   = null;
-  var _GAS = 'https://script.google.com/macros/s/AKfycbx83p3j8SbXGjTCyEXNsfBCH9Np2G-2R00ZMlUP0jzIjjvXnMtQ6tAux0Hpt6nNrh_n/exec';
+  var _GAS = GAS_PROXY_URL;
 
   window.openFeedbackModal = function() {
     var modal   = document.getElementById('feedbackModal');
