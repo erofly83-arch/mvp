@@ -555,7 +555,8 @@ svg.lucide {
 
 /* ── Feedback button & modal ──────────────────────────── */
 .sidebar-contact-card--write{cursor:pointer;border:none;font-family:'Inter',sans-serif;text-align:left}
-.sidebar-contact-card--write:hover{background:var(--accent-bg);color:var(--accent);border-left-color:var(--accent)}
+.sidebar-contact-card--write:hover{background:#fff1f2;color:#b91c1c;border-left-color:#b91c1c}
+.sidebar-contact-card--write:hover .sidebar-contact-card-icon{color:#b91c1c}
 .feedback-img-pick{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px dashed var(--border-strong);border-radius:var(--radius-md);font-size:var(--fz-sm);color:var(--text-secondary);cursor:pointer;transition:border-color 100ms,color 100ms,background 100ms;}
 .feedback-img-pick:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-lite)}
 .feedback-img-clear{position:absolute;top:4px;right:4px;width:20px;height:20px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:11px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background 100ms}
