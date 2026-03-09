@@ -678,10 +678,18 @@
 <div id="tableContainer">
 <div class="empty-state" id="monitorEmptyState">
 <div class="dash-instr ax-006">
-<!-- WHY -->
-<div class="instr-why-block">
-<div class="instr-block-title">Зачем нужен мониторинг цен?</div>
-<div class="instr-body-text">Здесь ваш прайс и прайсы поставщиков сводятся в одну таблицу. По каждому товару сразу видно: кто предлагает дешевле, у кого нет в наличии и насколько ваша цена отличается от рыночной. Сравнение ведётся по штрихкодам — если у вас и поставщика разные коды на один товар, используйте <b>базу штрихкодов</b> (вкладка «База кросскодов»), чтобы связать их вручную или через <b>«Поиск кросскодов»</b>, который автоматически находит похожие товары по наименованию. Если поставщик не указывает штрихкоды — его артикулы можно использовать как кросскоды и сопоставить с вашими штрихкодами напрямую.</div>
+<!-- MARKETING HERO -->
+<div style="background:linear-gradient(135deg,#14532d 0%,#166534 55%,#15803d 100%);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden;">
+<div style="position:absolute;top:-18px;right:-18px;width:130px;height:130px;background:rgba(255,255,255,0.04);border-radius:50%;pointer-events:none;"></div>
+<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);margin-bottom:8px;">Вкладка «Мониторинг цен»</div>
+<div style="font-size:17px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px;">Все прайсы — в одной таблице.<br/>Сразу видно у кого дешевле.</div>
+<div style="font-size:var(--fz-sm);color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:18px;">Программа сопоставляет ваш прайс с прайсами поставщиков и конкурентов по штрихкодам. По каждому товару вы видите все цены рядом — нал и безнал раздельно, минимум подсвечен зелёным. Можно фильтровать, искать, добавлять товары в корзину, задавать наценку и выгружать готовый заказ в Excel одним нажатием.</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;">
+<div class="marketing-stat-card"><div class="marketing-stat-val">Нал / Бн</div><div class="marketing-stat-lbl">цены по группам оплаты раздельно</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">Корзина</div><div class="marketing-stat-lbl">сформируйте заказ прямо в таблице</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">Наценка</div><div class="marketing-stat-lbl">рассчитайте свою цену в один клик</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">Excel</div><div class="marketing-stat-lbl">выгрузка таблицы и заказов</div></div>
+</div>
 </div>
 <!-- HOW TO START -->
 <div class="instr-how-block">
@@ -689,131 +697,210 @@
 <div class="instr-steps-list">
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 1</span>
-<span class="instr-step-text">Перейдите на вкладку <b>«Загрузка прайсов»</b>. Если есть файл-память с прошлой сессии — загрузите его первым: настройки колонок и база кросскодов восстановятся автоматически.</span>
+<span class="instr-step-text">Перейдите на вкладку <b>«Загрузка прайсов»</b>. Загрузите файл памяти (если есть), затем свой прайс и прайсы поставщиков или конкурентов. Для каждого файла укажите колонки и нажмите «Готово».</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 2</span>
-<span class="instr-step-text">Загрузите <b>ваш прайс</b> и <b>прайсы поставщиков</b>. Для каждого файла укажите колонки: штрихкод, наименование, цена. Колонок с ценой может быть несколько — например нал и безнал.</span>
+<span class="instr-step-text">Вернитесь на эту вкладку — таблица сравнения сформируется автоматически. Вверху появится панель статистики: сколько товаров совпало и какое покрытие.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 3</span>
-<span class="instr-step-text">Нажмите <b>«Готово — передать в мониторинг»</b> для каждого файла. Вернитесь на эту вкладку — таблица заполнится автоматически.</span>
-</div>
-<div class="instr-step-row">
-<span class="instr-step-badge">Шаг 4</span>
-<span class="instr-step-text">Используйте фильтры, поиск и категории для анализа. Выбранные позиции добавляйте в <b>Корзину</b> для формирования заказа поставщику.</span>
+<span class="instr-step-text">Если много позиций без совпадений — откройте <b>«Поиск кросскодов»</b> и свяжите товары по наименованию. После этого вернитесь: покрытие вырастет. Кросскоды сохраняются в файле памяти.</span>
 </div>
 </div>
 </div>
-<!-- ФИЛЬТРЫ И АНАЛИЗ -->
+<!-- STAT PANEL -->
+<div class="instr-section-label">Панель статистики</div>
+<div class="instr-why-block">
+<div class="instr-block-title">Что показывает статистика вверху</div>
+<div class="instr-body-text">Появляется сразу после загрузки данных. Показывает: <b>Товаров</b> — всего уникальных позиций в сводной таблице; <b>Файлов</b> — сколько прайсов поставщиков загружено; <b>Цен поставщиков</b> — сколько ценовых колонок участвует в сравнении. Блок «Сопоставление»: <b>Совпадений</b> — ваших товаров с ценой хотя бы одного поставщика; <b>По штрихкоду</b> — точные совпадения без кросскодов; <b>По кросскодам</b> — найдено через базу кросскодов; <b>Без совпадений</b> — ваши товары, которых нет ни у одного поставщика; <b>Покрытие %</b> — доля ваших товаров с найденной ценой. Чем выше — тем полнее сравнение.</div>
+</div>
+<!-- FILTERS -->
 <div class="instr-section-label">Кнопки фильтрации и анализа</div>
 <div class="instr-tool-panel">
 <div class="instr-items-list">
 <div class="instr-feature-row">
 <button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="trending-down"></i> Большая разница</button>
-<span class="instr-desc-text">Показывает товары, где разница цены между вашим прайсом и лучшим поставщиком значительна — быстрый способ найти позиции для пересмотра закупки.</span>
+<span class="instr-desc-text">Сортирует и выделяет товары, где разрыв цен между колонками значителен — быстрый способ найти позиции для пересмотра закупки или ценообразования. Повторный клик снимает режим.</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn btn-secondary instr-demo-btn" disabled="">Дельта %</button>
-<span class="instr-desc-text">Расширенный фильтр: выберите любые две колонки и задайте диапазон отклонения в процентах. Например — поставщик дешевле вашего прайса на 5–30%. Направление (дешевле / дороже) тоже настраивается.</span>
+<button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="percent"></i> Дельта</button>
+<span class="instr-desc-text">Расширенный фильтр. Раскрывает панель: выберите две любые колонки, задайте диапазон отклонения в процентах и направление — <b>Дешевле</b> (поставщик дешевле вашей цены) или <b>Дороже</b>. Нажмите «Применить». Например: «Лучший поставщик дешевле Моего прайса на 5–30%».</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn btn-secondary instr-demo-btn" disabled="">Мой прайс</button>
-<span class="instr-desc-text">Показывает только товары из вашего прайса — скрывает позиции, которые есть только у поставщиков. Удобно, когда нужно проверить именно свой ассортимент.</span>
+<button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="tag"></i> Мой прайс</button>
+<span class="instr-desc-text">Показывает только товары из вашего прайса — скрывает позиции, которые есть исключительно у поставщиков. Удобно для проверки своего ассортимента.</span>
 </div>
 <div class="instr-feature-row">
 <button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="sparkles"></i> Поиск новинок</button>
-<span class="instr-desc-text">Фильтрует товары, которых нет в вашем прайсе, но они есть у поставщиков — потенциальные новинки для расширения ассортимента.</span>
+<span class="instr-desc-text">Обратный фильтр: показывает только товары, которых <b>нет</b> в вашем прайсе, но они есть у поставщиков. Удобно для поиска позиций для расширения ассортимента.</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn btn-secondary instr-demo-btn" disabled="">Компактный вид</button>
-<span class="instr-desc-text">Сворачивает строки с несколькими вариантами наименований в одну компактную строку — удобно при большом числе поставщиков.</span>
+<button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="layout-list"></i> Компактный вид</button>
+<span class="instr-desc-text">Сворачивает несколько строк наименований одного товара в одну компактную строку. По умолчанию включён. Если у товара несколько вариантов названий от разных поставщиков — включите для удобства.</span>
 </div>
 <div class="instr-feature-row">
 <button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="arrow-down-narrow-wide"></i> Мин. цена</button>
-<span class="instr-desc-text">Подсвечивает зелёным минимальную цену в каждой строке — по нал, безнал и вашему прайсу отдельно. Сразу видно, у кого самая выгодная закупка.</span>
+<span class="instr-desc-text">Подсвечивает зелёным минимальную цену в каждой строке — раздельно для группы «нал», группы «бн» и вашего прайса. Сразу видно у кого самая выгодная закупка по каждому типу оплаты.</span>
 </div>
 </div>
 </div>
-<!-- ПОИСК И КАТЕГОРИИ -->
-<div class="instr-section-label">Поиск и фильтр категорий</div>
+<!-- ACTIVE FILTERS BAR -->
+<div class="instr-section-label">Строка активных фильтров</div>
+<div class="instr-why-block">
+<div class="instr-block-title">Контроль активных условий</div>
+<div class="instr-body-text">Когда включён хотя бы один фильтр, поиск или категория — под панелью кнопок появляется серая строка с перечнем всех активных условий. Кнопка <b>«Сбросить все»</b> справа снимает их все одновременно — не нужно искать, что было включено.</div>
+</div>
+<!-- SEARCH AND CATEGORIES -->
+<div class="instr-section-label">Поиск и фильтр по категориям</div>
 <div class="instr-tool-panel">
 <div class="instr-steps-list--md">
 <div class="instr-step-row">
 <span class="instr-feature-btn">Строка поиска</span>
-<span class="instr-desc-text">Фильтрует таблицу по наименованию товара в реальном времени. Работает совместно с фильтром категорий — оба условия применяются одновременно.</span>
+<span class="instr-desc-text">Фильтрует таблицу в реальном времени по наименованию товара или артикулу. Поиск работает совместно с фильтром категорий — оба условия применяются одновременно.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Точный поиск</span>
+<span class="instr-desc-text">По умолчанию поиск <b>расширяется синонимами брендов</b> из базы брендов — запрос «чай» найдёт и строки с «tea», если они связаны в базе. Кнопка «Точный поиск» отключает это расширение и ищет строго по введённому тексту.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-feature-btn">Категории</span>
-<span class="instr-desc-text">Выпадающий список часто встречающихся слов из наименований. При выборе категории таблица показывает только товары с этим словом в названии. Если в базе брендов есть кросскоды — поиск расширяется: выбрав «чай», вы увидите и строки с «tea».</span>
+<span class="instr-desc-text">Выпадающий список наиболее часто встречающихся слов из наименований всех загруженных прайсов. Выбор категории мгновенно фильтрует таблицу. Работает вместе со строкой поиска.</span>
 </div>
 <div class="instr-step-row">
-<span class="instr-feature-btn">Редактор категорий</span>
-<span class="instr-desc-text">Кнопка <b>«категории»</b> рядом с выпадающим списком открывает редактор: можно добавить нужные слова вручную или удалить лишние. Список формируется из наименований загруженных прайсов, но вы полностью контролируете его содержимое.</span>
+<span class="instr-feature-btn">Кнопка «категории»</span>
+<span class="instr-desc-text">Открывает редактор белого списка категорий. Можно добавить нужные слова вручную, удалить лишние или очистить список. Изменения сохраняются в файле памяти.</span>
 </div>
 </div>
 </div>
-<!-- КОРЗИНА -->
-<div class="instr-section-label">Корзина заказов</div>
+<!-- TABLE -->
+<div class="instr-section-label">Работа с таблицей</div>
 <div class="instr-tool-panel">
 <div class="instr-steps-list--md">
 <div class="instr-step-row">
-<span class="instr-feature-btn">Режим заказа</span>
-<span class="instr-desc-text">Переключатель в правом верхнем углу. Включив его, вы переходите в режим отбора товаров: каждый клик по цене поставщика копирует штрихкод этого товара и добавляет позицию в корзину для данного поставщика.</span>
+<span class="instr-feature-btn">Клик по цене</span>
+<span class="instr-desc-text">Без режима заказа — <b>копирует штрихкод</b> этого товара от данного поставщика в буфер обмена. В режиме заказа — открывает диалог добавления в корзину.</span>
 </div>
 <div class="instr-step-row">
-<span class="instr-feature-btn">Корзина</span>
-<span class="instr-desc-text">Открывает накопленный список позиций по поставщикам. В корзине можно задать количество для каждой позиции, просмотреть итоговую сумму заказа и выгрузить список в Excel — отдельно по каждому поставщику или все сразу.</span>
+<span class="instr-feature-btn">Кнопка ⎘ у штрихкода</span>
+<span class="instr-desc-text">Копирует штрихкод товара в буфер обмена одним кликом.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Кнопка ÷ у цены</span>
+<span class="instr-desc-text">Появляется рядом с ценой, если программа определила, что цена может быть указана <b>за блок или упаковку</b>, а не за штуку. Выберите делитель из списка (2–100) — цена пересчитается на единицу и сохранится для этой ячейки до перезагрузки.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Значок ÷ (серый)</span>
+<span class="instr-desc-text">Автоделение уже применено — цена была в прайсе указана за блок, программа разделила её автоматически. Цена в ячейке уже за штуку.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Нал / Бн колонки</span>
+<span class="instr-desc-text">Если колонка с ценой называется так, что в названии есть «нал» или «бн», программа автоматически группирует эти колонки. «Мин. цена» подсвечивает минимум в каждой группе отдельно — нал и безнал не смешиваются.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Масштаб таблицы</span>
+<span class="instr-desc-text">Ползунок в нижнем левом углу (80–100%) — уменьшает шрифт и размер строк, чтобы в одном экране помещалось больше колонок. Удобно при работе с большим числом поставщиков.</span>
 </div>
 </div>
 </div>
-<!-- ЭКСПОРТ -->
+<!-- ORDER MODE + CART MARKETING -->
+<div class="instr-privacy-block" style="background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 55%,#5b21b6 100%);">
+<div class="instr-privacy-block-title">Режим заказа и корзина — заказ за несколько кликов</div>
+<div class="instr-privacy-block-body">Включите переключатель «Режим заказа» в правом верхнем углу — и каждый клик по цене в таблице открывает диалог добавления товара в корзину. Выберите количество, подтвердите. Когда нужные позиции набраны — откройте корзину, задайте наценку, подставьте свои наименования и выгрузите готовый заказ в Excel. Отдельный лист для каждого поставщика, с итоговой суммой.</div>
+</div>
+<!-- CART DETAILS -->
+<div class="instr-section-label">Как работает корзина</div>
+<div class="instr-tool-panel">
+<div class="instr-steps-list--md">
+<div class="instr-step-row">
+<span class="instr-feature-btn">Переключатель режима заказа</span>
+<span class="instr-desc-text">Расположен в правом верхнем углу вкладки. Когда включён — клик по любой цене открывает диалог выбора количества вместо копирования штрихкода. Счётчик на кнопке «Корзина» показывает общее число позиций.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Диалог добавления</span>
+<span class="instr-desc-text">Показывает: наименование товара, поставщика, штрихкод, цену за штуку. Если программа обнаружила, что товар продаётся блоками — предлагает быстрые кнопки-чипы на типичные кратности (10, 20, 50 шт.). Введите количество вручную или выберите чип, нажмите «В корзину».</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Предупреждения в диалоге</span>
+<span class="instr-desc-text">Если у этого поставщика есть цена ниже выбранной — диалог покажет предупреждение с минимальной ценой. Если цена похожа на блочную, но деление не применено — программа об этом предупредит.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Кнопка «Корзина»</span>
+<span class="instr-desc-text">Открывает список всех добавленных позиций, сгруппированных по поставщикам. Количество любой позиции можно изменить прямо в таблице корзины. Позицию можно удалить кнопкой ✕. Корзина сохраняется при переключении между вкладками.</span>
+</div>
+</div>
+</div>
+<!-- MARKUP + MY PRICE -->
+<div class="instr-section-label">Наценка и формирование своего прайса</div>
+<div class="instr-tool-panel">
+<div class="instr-steps-list--md">
+<div class="instr-step-row">
+<span class="instr-feature-btn">Панель «Наценка»</span>
+<span class="instr-desc-text">В корзине для каждого поставщика есть панель: выберите процент наценки (1–100%) и нажмите <b>«% Применить»</b>. Наценка применяется к позициям без наценки, или к выбранным через чекбоксы. Колонка «Моя цена» появляется в таблице корзины и в экспортируемом Excel.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Выборочная наценка</span>
+<span class="instr-desc-text">Поставьте галочки только на нужных позициях — наценка применится только к ним. Снять наценку — кнопка <b>«✕ Отменить наценку»</b>. Кнопка «Применить» недоступна, если у всех позиций уже задана наценка.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Кнопка «Свой прайс»</span>
+<span class="instr-desc-text">Заменяет штрихкоды и наименования поставщика на <b>ваши</b> — из загруженного прайса. Совпадение ищется по кросскодам. В корзине и Excel появятся две колонки: «Штрихкод поставщика» и «Мой штрихкод», «Наименование поставщика» и «Моё наименование». Удобно для формирования заявки в своей номенклатуре.</span>
+</div>
+</div>
+</div>
+<!-- EXPORT -->
 <div class="instr-section-label">Скачивание и экспорт</div>
 <div class="instr-tool-panel">
 <div class="instr-items-list">
 <div class="instr-feature-row">
-<button class="btn btn-success instr-demo-btn" disabled="">Мой прайс</button>
-<span class="instr-desc-text">Выгружает только ваш прайс с ценами поставщиков по каждой позиции — удобно для сводки по вашему ассортименту.</span>
+<button class="btn btn-success instr-demo-btn" disabled=""><i data-lucide="save"></i> Мой прайс</button>
+<span class="instr-desc-text">Excel с вашим ассортиментом: только товары из вашего прайса, для каждого — все цены поставщиков рядом. Строки отсортированы в порядке вашего прайса.</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn btn-success instr-demo-btn" disabled="">Всё</button>
-<span class="instr-desc-text">Полный экспорт таблицы — все товары из всех загруженных файлов, включая позиции поставщиков, которых нет в вашем прайсе.</span>
+<button class="btn btn-success instr-demo-btn" disabled=""><i data-lucide="save"></i> Всё</button>
+<span class="instr-desc-text">Полная таблица: все товары из всех загруженных файлов, включая позиции поставщиков, которых нет в вашем прайсе.</span>
 </div>
 <div class="instr-feature-row">
-<button class="btn btn-success instr-demo-btn" disabled="">Текущий вид</button>
-<span class="instr-desc-text">Скачивает только то, что сейчас отображается на экране — с учётом активных фильтров, поиска и категории. Идеально для выгрузки конкретной выборки.</span>
+<button class="btn btn-success instr-demo-btn" disabled=""><i data-lucide="save"></i> Текущий вид</button>
+<span class="instr-desc-text">Выгружает только то, что сейчас отображается на экране — с учётом активных фильтров, поиска и категории. Идеально для выгрузки конкретной выборки.</span>
 </div>
 <div class="instr-feature-row">
 <button class="btn instr-demo-btn" disabled=""><i data-lucide="archive"></i> Скачать все архивом</button>
-<span class="instr-desc-text">Упаковывает в один ZIP-архив все CSV, Excel-файлы и файл-память JSON — для полного бэкапа текущей сессии.</span>
+<span class="instr-desc-text">ZIP-архив: все обработанные CSV, Excel-файлы «Мой прайс» и «Всё», Excel корзины (если есть позиции) и файл памяти JSON. Полный бэкап сессии одним файлом.</span>
 </div>
+</div>
+</div>
+<!-- DANGER ZONE -->
+<div class="instr-section-label">Сброс данных</div>
+<div class="instr-tool-panel">
+<div class="instr-items-list">
 <div class="instr-feature-row">
-<button class="btn btn-danger instr-demo-btn" disabled="">Сбросить всё</button>
-<span class="instr-desc-text">Удаляет все загруженные файлы и очищает таблицу. База брендов и штрихкодов при этом <b>не удаляется</b> — только данные прайсов.</span>
+<button class="btn btn-danger instr-demo-btn" disabled=""><i data-lucide="trash-2"></i> Сбросить всё</button>
+<span class="instr-desc-text"><b style="color:var(--red);">Внимание:</b> кнопка удаляет <b>все</b> загруженные прайсы, таблицу сравнения, а также <b>базу штрихкодов и базу брендов</b> из текущей сессии. Если вы не скачали файл памяти — кросскоды и бренды будут утеряны. Перед нажатием сохраните файл памяти через кнопку в левой панели.</span>
 </div>
 </div>
 </div>
 <!-- CONCEPTS -->
-<div class="instr-section-label--sm">Важные особенности</div>
+<div class="instr-section-label">Важные особенности</div>
 <div class="dash-instr-grid ax-004">
 <div class="dash-instr-card ax-001">
 <div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Сравнение по штрихкоду</span></div>
-<div class="dash-instr-card-body">Основной метод сопоставления. Если коды одинаковые — товары связаны автоматически. Если разные — нужна запись в базе кросскодов.</div>
+<div class="dash-instr-card-body">Основной метод сопоставления. Если коды одинаковые — товары связываются автоматически. Если разные — нужна запись в базе кросскодов. Артикулы поставщика тоже можно использовать как кросскоды.</div>
 </div>
 <div class="dash-instr-card ax-001">
 <div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Нал и безнал</span></div>
-<div class="dash-instr-card-body">Назовите колонки с ценами так, чтобы в названии было слово «нал» или «бн» — система разобьёт их по группам и будет искать минимум раздельно в каждой группе.</div>
+<div class="dash-instr-card-body">Назовите ценовые колонки так, чтобы в названии было слово «нал» или «бн». Программа автоматически разобьёт их по группам и найдёт минимум в каждой группе отдельно.</div>
 </div>
 <div class="dash-instr-card ax-001">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Статистика покрытия</span></div>
-<div class="dash-instr-card-body">Панель вверху показывает: сколько товаров совпало по штрихкоду, сколько — через кросскоды, и сколько осталось без совпадений. Низкое покрытие — сигнал пополнить базу кросскодов.</div>
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Конкуренты</span></div>
+<div class="dash-instr-card-body">Загружайте прайсы конкурентов вместо или вместе с поставщиками. Принцип тот же — сопоставление по штрихкодам. Сразу видно, где ваша цена выше или ниже рыночной.</div>
 </div>
-<div class="dash-instr-card ax-005">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Кросскоды улучшают результат</span></div>
-<div class="dash-instr-card-body">Чем больше связей в базе штрихкодов — тем выше покрытие. Используйте «Поиск кросскодов» для полуавтоматического пополнения базы по схожести наименований.</div>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Покрытие растёт с базой</span></div>
+<div class="dash-instr-card-body">Чем больше кросскодов в базе — тем выше покрытие. Используйте «Поиск кросскодов» для полуавтоматического пополнения. После добавления кросскодов не забудьте сохранить файл памяти.</div>
 </div>
 </div>
-<div class="dash-instr-tip"><b>Совет:</b> при первом запуске откройте «Поиск кросскодов» после загрузки прайсов — часть товаров без совпадений можно связать там автоматически. После этого вернитесь в мониторинг: покрытие вырастет.</div>
+<div class="dash-instr-tip"><b>Совет по работе:</b> включите «Мин. цена», выберите нужную категорию, затем включите режим заказа. Кликайте по зелёным ценам — товары быстро наберутся в корзину. Откройте корзину, задайте наценку, нажмите «Свой прайс» — и скачивайте готовую заявку в Excel.</div>
 </div>
 </div>
 </div>
