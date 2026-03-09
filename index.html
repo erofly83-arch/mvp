@@ -996,78 +996,158 @@
 </div>
 <div class="empty-state" id="matcherEmpty">
 <div class="dash-instr ax-006">
+
+<!-- MARKETING HERO -->
+<div style="background:linear-gradient(135deg,#78350f 0%,#92400e 55%,#b45309 100%);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden;">
+<div style="position:absolute;top:-18px;right:-18px;width:130px;height:130px;background:rgba(255,255,255,0.04);border-radius:50%;pointer-events:none;"></div>
+<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);margin-bottom:8px;">Вкладка «Поиск кросскодов»</div>
+<div style="font-size:17px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px;">Один и тот же товар —<br/>разные штрихкоды. Программа их свяжет.</div>
+<div style="font-size:var(--fz-sm);color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:18px;">Поставщик присваивает своему товару собственный код — он почти никогда не совпадает с вашим. В мониторинге такой товар остаётся без цены, хотя фактически он есть у поставщика. Этот инструмент сравнивает наименования из всех загруженных прайсов, находит похожие пары и предлагает их вам на проверку. Одно подтверждение — и связь сразу попадает в базу, мониторинг пересчитывается, покрытие растёт.</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;">
+<div class="marketing-stat-card"><div class="marketing-stat-val">0–100%</div><div class="marketing-stat-lbl">оценка схожести для каждой пары</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">≥80%</div><div class="marketing-stat-lbl">высокие — обычно один товар</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">Сразу</div><div class="marketing-stat-lbl">мониторинг обновляется при подтверждении</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">↩</div><div class="marketing-stat-lbl">каждое действие можно отменить</div></div>
+</div>
+</div>
+
 <!-- WHY -->
 <div class="instr-why-block">
-<div class="instr-block-title">Зачем нужен поиск кросскодов?</div>
-<div class="instr-body-text">Один и тот же товар у вас и у поставщика почти всегда записан по-разному: разные штрихкоды, разные сокращения в названии. Без связи между ними строки в мониторинге остаются без совпадений. Этот инструмент анализирует наименования из всех загруженных прайсов, находит похожие пары и предлагает их вам на проверку — вы подтверждаете нужные, и сопоставление становится точнее.</div>
+<div class="instr-block-title">Зачем это нужно и когда использовать</div>
+<div class="instr-body-text--mb">Мониторинг сопоставляет товары <b>по штрихкоду</b>. Если у вас и у поставщика разные коды на один и тот же товар — в таблице появится строка «без совпадений» и цена поставщика не отобразится. Поиск кросскодов решает именно эту проблему: он анализирует <b>наименования</b> и находит пары с высокой схожестью. Вы смотрите на каждую пару и решаете — один это товар или нет. Подтверждённая связь называется кросскодом и хранится в базе штрихкодов.</div>
+<div class="instr-body-text">Запускайте поиск в двух случаях: <b>при первом запуске</b> программы — чтобы сразу поднять покрытие, и <b>после загрузки нового прайса</b> — чтобы связать новые товары. Уже известные кросскоды повторно не предлагаются — поиск работает только с несвязанными парами.</div>
 </div>
-<!-- CONCEPTS GRID -->
-<div class="instr-section-label--sm">Как это работает</div>
-<div class="dash-instr-grid ax-008">
-<div class="dash-instr-card ax-001">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Анализ по наименованию</span></div>
-<div class="dash-instr-card-body">Система сравнивает названия товаров из всех загруженных файлов и вычисляет оценку схожести от 0 до 100%. Чем выше оценка — тем вероятнее это один и тот же товар.</div>
-</div>
-<div class="dash-instr-card ax-001">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Ручное подтверждение</span></div>
-<div class="dash-instr-card-body">Вы сами решаете, какие пары верны. Нажмите <b>«»</b> — пара попадёт в базу штрихкодов и сразу улучшит совпадения в мониторинге. Нажмите <b>«»</b> — пара будет скрыта.</div>
-</div>
-<div class="dash-instr-card ax-001">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Три уровня уверенности</span></div>
-<div class="dash-instr-card-body"><b style="color:var(--green);">≥80%</b> — высокие совпадения, скорее всего один товар. <b style="color:var(--amber);">55–79%</b> — средние, требуют внимания. Начните с высоких — там меньше всего ошибок.</div>
-</div>
-<div class="dash-instr-card ax-001">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Накапливаемая база</span></div>
-<div class="dash-instr-card-body">Подтверждённые связи сохраняются в базе штрихкодов и в файле-памяти. При следующей загрузке все кросскоды применяются автоматически — без повторного поиска.</div>
-</div>
-</div>
-<!-- HOW TO -->
+
+<!-- HOW TO START -->
 <div class="instr-how-block">
-<div class="instr-how-title">Как использовать</div>
+<div class="instr-how-title">Как пользоваться</div>
 <div class="instr-steps-list">
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 1</span>
-<span class="instr-step-text">Убедитесь, что прайсы загружены и переданы в мониторинг на вкладке <b>«Загрузка прайсов»</b>. Чем больше файлов — тем больше пар найдёт система.</span>
+<span class="instr-step-text">Убедитесь, что прайсы уже загружены на вкладке <b>«Загрузка прайсов»</b> и переданы в мониторинг. Чем больше файлов — тем больше пар найдёт система. Если есть файл памяти с кросскодами — загрузите его тоже: уже известные пары не будут предложены повторно.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 2</span>
-<span class="instr-step-text">Нажмите <b>«Запустить поиск»</b> в правом верхнем углу. Система проанализирует наименования и составит список кандидатов — это займёт несколько секунд.</span>
+<span class="instr-step-text">Нажмите <b>«Запустить поиск»</b> в правом верхнем углу. Анализ идёт в фоне и занимает несколько секунд. Когда закончит — появится таблица пар и статистика.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 3</span>
-<span class="instr-step-text">Отфильтруйте пары по уровню уверенности — нажмите на плитку <b>«≥80% высокие»</b> и начните с них. Используйте поиск и фильтр по категории для работы с конкретными товарами.</span>
+<span class="instr-step-text">В строке статистики нажмите <b>«≥80% высокие»</b> — начните с них, там меньше всего ошибок. Для работы с конкретным ассортиментом используйте поиск по названию или фильтр по категории.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 4</span>
-<span class="instr-step-text">Для каждой пары нажмите <b>«»</b> если товары одинаковые — или <b>«»</b> если нет. Подтверждённые пары сразу попадают в базу штрихкодов и улучшают мониторинг.</span>
+<span class="instr-step-text">Кликните на любую строку таблицы. Откроется окно подтверждения — в нём два наименования и два штрихкода. Прочитайте описание действия (что именно попадёт в базу) и нажмите <b>«Подтвердить»</b> или <b>«Отмена»</b>. Подтверждённая пара выделяется зелёным и сразу улучшает мониторинг.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 5</span>
-<span class="instr-step-text">После проверки перейдите в <b>«База кросскодов → Штрихкоды»</b> и нажмите <b>«Скачать файл памяти»</b> — все связи сохранятся для следующей сессии.</span>
+<span class="instr-step-text">После проверки сохраните файл памяти — кнопка появится в левой панели, или зайдите во вкладку <b>«Штрихкоды»</b> и нажмите <b>«Скачать файл памяти»</b>. Все кросскоды сохранятся для следующей сессии.</span>
 </div>
 </div>
 </div>
-<!-- FEATURES -->
-<div class="instr-section-label--sm">Дополнительные возможности</div>
+
+<!-- STATS BAR -->
+<div class="instr-section-label">Строка статистики и фильтрация пар</div>
+<div class="instr-tool-panel">
+<div class="instr-steps-list--md">
+<div class="instr-step-row">
+<span class="instr-feature-btn" style="min-width:130px;">Все пары</span>
+<span class="instr-desc-text">Все найденные пары с оценкой от 55% и выше. Плитка кликабельна — переключает режим отображения.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn" style="min-width:130px;color:var(--green-dark);">≥80% высокие</span>
+<span class="instr-desc-text">Пары с высокой уверенностью — <b>начинайте с них</b>. Здесь почти всегда один и тот же товар, ошибки редки.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn" style="min-width:130px;color:var(--amber-dark);">55–79% средние</span>
+<span class="instr-desc-text">Требуют внимательной проверки. Часть окажется верными — особенно если наименования сокращены по-разному. Не подтверждайте, если есть сомнения.</span>
+</div>
+</div>
+</div>
+
+<!-- TABLE STRUCTURE -->
+<div class="instr-section-label">Таблица пар</div>
+<div class="instr-why-block">
+<div class="instr-block-title">Как читать таблицу</div>
+<div class="instr-body-text">Каждая пара занимает <b>две строки</b>: первая — товар из одного файла, вторая — из другого. Колонки: <b>%</b> — оценка схожести (зелёный ≥80%, жёлтый 55–79%); <b>Источник</b> — из какого прайса; <b>Наименование</b>; <b>Штрихкод</b>. Подтверждённые пары подсвечены зелёным фоном — они уже в базе. Кликните на строку, чтобы открыть окно подтверждения.</div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="instr-section-label">Окно подтверждения пары</div>
+<div class="instr-tool-panel">
+<div class="instr-steps-list--md">
+<div class="instr-step-row">
+<span class="instr-feature-btn" style="min-width:160px;">Оценка схожести</span>
+<span class="instr-desc-text">Показана цветом вверху окна. Внимательно сравните оба наименования и штрихкода — иногда 85% может быть ошибкой, если названия случайно похожи.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn" style="min-width:160px;">Описание действия</span>
+<span class="instr-desc-text">Синяя строка под оценкой объясняет, что именно произойдёт в базе при подтверждении. Возможные варианты: <b>«Создать новую группу»</b> — оба кода новые; <b>«Добавить как кросскод к группе»</b> — один код уже в базе, второй добавится к нему; <b>«Объединить группы»</b> — оба кода уже есть в разных группах, группы сольются в одну.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn" style="min-width:160px;">Вкладка «Штрихкоды»</span>
+<span class="instr-desc-text">Основная вкладка окна — здесь происходит подтверждение связи штрихкодов. Кнопка <b>«Подтвердить»</b> записывает пару в базу и сразу пересчитывает таблицу мониторинга. Если пара уже в одной группе — кнопка скрыта.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn" style="min-width:160px;">Вкладка «Бренды»</span>
+<span class="instr-desc-text">Дополнительная возможность: одновременно с подтверждением пары можно создать или пополнить запись в базе брендов — указать канонический бренд, его синонимы и антонимы. Слова из наименований предложены в виде кликабельных пилюль для быстрого заполнения.</span>
+</div>
+</div>
+</div>
+
+<!-- KEY MARKETING BLOCK: HISTORY -->
+<div class="instr-privacy-block" style="background:linear-gradient(135deg,#1e3a6e 0%,#2d5ab5 60%,#3b6fd4 100%);">
+<div class="instr-privacy-block-title">↩ История действий — ни одна ошибка не фатальна</div>
+<div class="instr-privacy-block-body">Каждое подтверждение записывается в историю. Если вы случайно подтвердили неверную пару — разверните раздел «История действий» над таблицей и нажмите <b>«↩ Отменить»</b> рядом с нужной записью. Связь удалится из базы, пара вернётся в список. Работайте быстро — ошибки легко исправить.</div>
+</div>
+
+<!-- SEARCH AND FILTERS -->
+<div class="instr-section-label">Поиск, фильтры и настройки</div>
+<div class="instr-tool-panel">
+<div class="instr-steps-list--md">
+<div class="instr-step-row">
+<span class="instr-feature-btn">Строка поиска</span>
+<span class="instr-desc-text">Фильтрует пары по наименованию, штрихкоду или названию файла. По умолчанию поиск расширяется синонимами брендов из базы — «чай» найдёт и строки с «tea», если они связаны в базе брендов.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Точный поиск</span>
+<span class="instr-desc-text">Отключает расширение синонимами — ищет строго по введённому тексту. Удобно когда нужно найти конкретный артикул или штрихкод.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Категории</span>
+<span class="instr-desc-text">Выпадающий список слов из найденных наименований. Выбор категории оставляет только пары, в которых есть это слово — быстрый способ проработать конкретный товарный раздел.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Чипы файлов</span>
+<span class="instr-desc-text">Полоска с названиями загруженных файлов появляется после поиска. Нажмите на файл — пары с его участием скроются. Нажмите снова — вернутся. Удобно когда нужно сосредоточиться на парах между конкретными поставщиками.</span>
+</div>
+<div class="instr-step-row">
+<span class="instr-feature-btn">Чекбокс «Файл памяти»</span>
+<span class="instr-desc-text">Показывается, если файл памяти загружен. Когда включён — уже известные кросскоды исключаются из результатов и не предлагаются повторно. Отключите, чтобы увидеть все пары включая уже связанные.</span>
+</div>
+</div>
+</div>
+
+<!-- TIPS GRID -->
+<div class="instr-section-label">Важные особенности</div>
 <div class="dash-instr-grid ax-004">
-<div class="dash-instr-card">
-<div class="dash-instr-card-header"><span class="ax-002"></span><span class="dash-instr-card-title">Поиск и фильтры</span></div>
-<div class="dash-instr-card-body">Ищите пары по названию или штрихкоду. Фильтруйте по файлу-источнику или по категории (слова из найденных наименований).</div>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Мгновенный эффект</span></div>
+<div class="dash-instr-card-body">После каждого подтверждения таблица мониторинга пересчитывается автоматически — переходить на другую вкладку не нужно. Можно подтверждать пачкой и сразу видеть рост покрытия.</div>
 </div>
-<div class="dash-instr-card">
-<div class="dash-instr-card-header"><span class="ax-002">↩</span><span class="dash-instr-card-title">История действий</span></div>
-<div class="dash-instr-card-body">Раздел «История действий» хранит все подтверждения и отклонения текущей сессии. Ошибочное решение можно откатить прямо из истории.</div>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Предупреждение об изменениях</span></div>
+<div class="dash-instr-card-body">Если после запуска поиска состав файлов изменился — появится жёлтая плашка «результаты могут быть неактуальны». Запустите поиск повторно, чтобы учесть новые файлы.</div>
 </div>
-<div class="dash-instr-card">
-<div class="dash-instr-card-header"><span class="ax-002"></span><span class="dash-instr-card-title">Тип связи</span></div>
-<div class="dash-instr-card-body">Колонка «Тип» показывает, как будет записана пара: <b>новая группа</b> — создаётся новая запись в базе, <b>дополнение</b> — код добавляется в существующую группу.</div>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Артикулы как кросскоды</span></div>
+<div class="dash-instr-card-body">Если поставщик не даёт штрихкоды, а только артикулы — на вкладке «Загрузка прайсов» назначьте колонку с артикулом как «Штрихкод». Тогда поиск кросскодов свяжет артикулы поставщика с вашими кодами.</div>
 </div>
-<div class="dash-instr-card">
-<div class="dash-instr-card-header"><span class="ax-002"></span><span class="dash-instr-card-title">Учёт файла-памяти</span></div>
-<div class="dash-instr-card-body">Если загружен файл-память — уже известные кросскоды не предлагаются повторно. Поиск сосредоточится только на новых, ещё не связанных товарах.</div>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">База растёт с каждым запуском</span></div>
+<div class="dash-instr-card-body">Загружайте файл памяти в начале каждой сессии — и накопленные кросскоды сразу применятся. Поиск будет предлагать только действительно новые несвязанные пары.</div>
 </div>
 </div>
-<div class="dash-instr-tip"><b>Совет:</b> запускайте поиск кросскодов после каждой новой загрузки прайсов — так база будет пополняться постепенно и мониторинг станет точнее со временем.</div>
+<div class="dash-instr-tip"><b>Совет:</b> в первый раз начните с фильтра «≥80% высокие» и быстро подтвердите всё очевидное. Затем пройдитесь по «55–79%» с поиском по конкретным категориям — так можно поднять покрытие мониторинга с 60% до 90%+ за 10–15 минут.</div>
 </div>
 </div>
 </div>
