@@ -8435,6 +8435,118 @@ setTimeout(function() {
   }
 })();
 
+// ═══ FEEDBACK MODAL ═══
+(function() {
+  var _imgBase64 = null;
+  var _imgMime   = null;
+  var _imgName   = null;
+  var _GAS = 'https://script.google.com/macros/s/AKfycbybOT3Fh0aXShOTDh_qRM1sYFzh_nJbvgmKN503eTjEqWjxplFKIZp8Rc9w3QMtlRYz/exec';
+
+  window.openFeedbackModal = function() {
+    var modal   = document.getElementById('feedbackModal');
+    var contact = document.getElementById('feedbackContact');
+    var text    = document.getElementById('feedbackText');
+    if (!modal) return;
+    if (contact) contact.value = window._userContact || '';
+    if (text) text.value = '';
+    window._feedbackImgClear();
+    modal.classList.add('open');
+    document.documentElement.style.overflow = 'hidden';
+    setTimeout(function() { if (text) text.focus(); }, 80);
+    reIcons(modal);
+  };
+
+  window.closeFeedbackModal = function() {
+    var modal = document.getElementById('feedbackModal');
+    if (modal) modal.classList.remove('open');
+    document.documentElement.style.overflow = '';
+  };
+
+  window._feedbackImgChange = function(input) {
+    var file = input.files && input.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      _imgBase64 = e.target.result.split(',')[1];
+      _imgMime   = file.type;
+      _imgName   = file.name;
+      var thumb   = document.getElementById('feedbackImgThumb');
+      var preview = document.getElementById('feedbackImgPreview');
+      var label   = document.getElementById('feedbackImgLabel');
+      if (thumb)   thumb.src = e.target.result;
+      if (preview) preview.style.display = '';
+      if (label)   label.style.display   = 'none';
+    };
+    reader.readAsDataURL(file);
+  };
+
+  window._feedbackImgClear = function() {
+    _imgBase64 = null; _imgMime = null; _imgName = null;
+    var preview = document.getElementById('feedbackImgPreview');
+    var label   = document.getElementById('feedbackImgLabel');
+    var input   = document.getElementById('feedbackImgInput');
+    var thumb   = document.getElementById('feedbackImgThumb');
+    if (preview) preview.style.display = 'none';
+    if (label)   label.style.display   = '';
+    if (input)   input.value = '';
+    if (thumb)   thumb.src = '';
+  };
+
+  window._feedbackSend = function() {
+    var contactEl = document.getElementById('feedbackContact');
+    var textEl    = document.getElementById('feedbackText');
+    var sendBtn   = document.getElementById('feedbackSendBtn');
+    var contact   = (contactEl ? contactEl.value : '').trim();
+    var msg       = (textEl    ? textEl.value    : '').trim();
+
+    if (!msg) {
+      if (typeof showToast === 'function') showToast('Введите сообщение', 'warn');
+      if (textEl) textEl.focus();
+      return;
+    }
+
+    if (contact) {
+      window._userContact = contact;
+      try { localStorage.setItem('userContact', contact); } catch(e) {}
+      if (typeof window._userContactRender === 'function') window._userContactRender();
+    }
+
+    var ua = (navigator.userAgent.match(/(Chrome|Firefox|Safari|Edge)\/[\d.]+/) || [''])[0];
+    var text = '📩 Сообщение от пользователя\n'
+      + 'Дата: ' + new Date().toLocaleString('ru') + '\n'
+      + 'UA: ' + (ua || navigator.userAgent.slice(0, 40)) + '\n'
+      + (contact ? 'Контакт: ' + contact + '\n' : '')
+      + (_imgName  ? 'Изображение: ' + _imgName + '\n' : '')
+      + '─────────────────────────────────\n'
+      + msg;
+
+    if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = 'Отправка…'; }
+
+    var payload = { text: text };
+    if (_imgBase64) { payload.imageBase64 = _imgBase64; payload.imageMime = _imgMime; }
+
+    fetch(_GAS, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function() {
+      if (typeof showToast === 'function') showToast('Сообщение отправлено!', 'ok');
+      window.closeFeedbackModal();
+    }).catch(function() {
+      if (typeof showToast === 'function') showToast('Ошибка отправки — проверьте соединение', 'err');
+    }).finally(function() {
+      if (sendBtn) { sendBtn.disabled = false; sendBtn.innerHTML = '<i data-lucide="send" style="width:13px;height:13px;"></i> Отправить'; reIcons(sendBtn); }
+    });
+  };
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      var modal = document.getElementById('feedbackModal');
+      if (modal && modal.classList.contains('open')) window.closeFeedbackModal();
+    }
+  });
+})();
+
 })();
 
 

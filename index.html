@@ -119,6 +119,10 @@
 </span>
 <span class="sidebar-contact-card-text">@vorontsov_dmitriy</span>
 </a>
+<button class="sidebar-contact-card sidebar-contact-card--write" onclick="window.openFeedbackModal()">
+<span class="sidebar-contact-card-icon"><i data-lucide="send" style="width:14px;height:14px;"></i></span>
+<span class="sidebar-contact-card-text">Написать автору</span>
+</button>
 </div>
 <!-- PWA: кнопка установки (скрыта по умолчанию) -->
 <button id="errLogBtn" onclick="window.openErrLog()" style="display:none;width:100%;margin-top:4px;padding:7px 10px;background:#fff1f2;color:#b91c1c;border:1px solid #fca5a5;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;align-items:center;justify-content:center;gap:7px;transition:background .15s,border-color .15s;line-height:1;" onmouseover="this.style.background='#fee2e2';this.style.borderColor='#ef4444'" onmouseout="this.style.background='#fff1f2';this.style.borderColor='#fca5a5'" title="Открыть журнал ошибок">
@@ -1823,5 +1827,44 @@ function showUpdateToast() {
     window.addEventListener('load', function() { lucide.createIcons(); });
   }
 </script>
+<!-- ═══ FEEDBACK MODAL ═══ -->
+<div id="feedbackModal" class="modal-overlay" onclick="if(event.target===this)window.closeFeedbackModal()">
+  <div class="modal-inner w560">
+    <div class="modal-header">
+      <span>Написать автору</span>
+      <button class="modal-close-x" onclick="window.closeFeedbackModal()">✕</button>
+    </div>
+    <div class="modal-body" style="gap:10px;">
+      <div class="modal-field">
+        <label>Ваш контакт (телефон, email или Telegram)</label>
+        <input id="feedbackContact" type="text" placeholder="+7 900... / mail@... / @username"/>
+      </div>
+      <div class="modal-field">
+        <label>Сообщение</label>
+        <textarea id="feedbackText" placeholder="Опишите вопрос, пожелание или проблему..." style="min-height:110px;resize:vertical;"></textarea>
+      </div>
+      <div class="modal-field">
+        <label>Изображение (необязательно)</label>
+        <div id="feedbackImgWrap">
+          <label id="feedbackImgLabel" class="feedback-img-pick">
+            <i data-lucide="image-plus" style="width:14px;height:14px;"></i>
+            <span>Прикрепить изображение</span>
+            <input id="feedbackImgInput" type="file" accept="image/*" style="display:none;" onchange="window._feedbackImgChange(this)"/>
+          </label>
+          <div id="feedbackImgPreview" style="display:none;position:relative;margin-top:6px;">
+            <img id="feedbackImgThumb" style="max-height:120px;max-width:100%;border-radius:var(--radius-md);border:1px solid var(--border);display:block;"/>
+            <button onclick="window._feedbackImgClear()" class="feedback-img-clear" title="Удалить">✕</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="window.closeFeedbackModal()">Отмена</button>
+      <button class="btn btn-success" id="feedbackSendBtn" onclick="window._feedbackSend()">
+        <i data-lucide="send" style="width:13px;height:13px;"></i> Отправить
+      </button>
+    </div>
+  </div>
+</div>
 </body>
 </html>

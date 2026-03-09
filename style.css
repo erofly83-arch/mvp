@@ -552,3 +552,11 @@ svg.lucide {
 #tableZoomSlider::-webkit-slider-thumb:hover{background:var(--accent-dark)}
 #tableZoomSlider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--accent);border:2px solid var(--surface);box-shadow:0 1px 4px rgba(0,0,0,.2);cursor:pointer}
 #tableZoomLabel{font-size:var(--fz-xs);color:var(--text-muted);min-width:28px;text-align:right;font-variant-numeric:tabular-nums}
+
+/* ── Feedback button & modal ──────────────────────────── */
+.sidebar-contact-card--write{cursor:pointer;border:none;font-family:'Inter',sans-serif;text-align:left}
+.sidebar-contact-card--write:hover{background:var(--accent-bg);color:var(--accent);border-left-color:var(--accent)}
+.feedback-img-pick{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px dashed var(--border-strong);border-radius:var(--radius-md);font-size:var(--fz-sm);color:var(--text-secondary);cursor:pointer;transition:border-color 100ms,color 100ms,background 100ms;}
+.feedback-img-pick:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-lite)}
+.feedback-img-clear{position:absolute;top:4px;right:4px;width:20px;height:20px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;cursor:pointer;font-size:11px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background 100ms}
+.feedback-img-clear:hover{background:var(--red)}
