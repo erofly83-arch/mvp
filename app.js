@@ -8,8 +8,7 @@ const BRAND_CONFIG_SAVED = {};
 // ===== GLOBAL ERROR LOGGER =====
 (function() {
   var _errs = [];
-  var _TG_TOKEN = '8631173838:AAFscdoxT4JI5YbkJP-BjJq4dlkGDyzfEz4';
-  var _TG_CHAT  = '152003022';
+  var _GAS_URL = 'https://script.google.com/macros/s/AKfycbybOT3Fh0aXShOTDh_qRM1sYFzh_nJbvgmKN503eTjEqWjxplFKIZp8Rc9w3QMtlRYz/exec';
   var _autoSent = false; // отправляем автоматически только первую ошибку
 
   function _fmt(e, ctx) {
@@ -46,10 +45,10 @@ const BRAND_CONFIG_SAVED = {};
       + contact
       + '─────────────────────────────────\n'
       + errEntry.full;
-    fetch('https://api.telegram.org/bot' + _TG_TOKEN + '/sendMessage', {
+    fetch(_GAS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: _TG_CHAT, text: text })
+      body: JSON.stringify({ text: text })
     }).catch(function() {}); // тихий фейл, не мешаем работе
   }
 
