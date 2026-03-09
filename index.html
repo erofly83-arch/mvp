@@ -1231,100 +1231,130 @@
 </div>
 <div class="empty-state" id="jeEmpty">
 <div class="dash-instr ax-006">
+
+<!-- MARKETING HERO -->
+<div style="background:linear-gradient(135deg,#1e3a6e 0%,#1e4d8c 55%,#1a5fa3 100%);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px;position:relative;overflow:hidden;">
+<div style="position:absolute;top:-18px;right:-18px;width:130px;height:130px;background:rgba(255,255,255,0.04);border-radius:50%;pointer-events:none;"></div>
+<div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);margin-bottom:8px;">База кросскодов → Штрихкоды</div>
+<div style="font-size:17px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px;">Свяжите разные коды одного товара —<br/>мониторинг найдёт цену у любого поставщика.</div>
+<div style="font-size:var(--fz-sm);color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:18px;">Здесь хранятся группы эквивалентных штрихкодов: ваш код и коды того же товара у поставщиков. При сравнении система ищет совпадение по всем кодам группы сразу — не важно, что написано в прайсе поставщика. Чем полнее база — тем выше покрытие в мониторинге. База сохраняется в файле памяти JSON и мгновенно восстанавливается при следующей загрузке.</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;">
+<div class="marketing-stat-card"><div class="marketing-stat-val">Группа</div><div class="marketing-stat-lbl">главный ШК + кросскоды поставщиков</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">50</div><div class="marketing-stat-lbl">шагов отмены для любых изменений</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">Excel</div><div class="marketing-stat-lbl">импорт и экспорт всей базы</div></div>
+<div class="marketing-stat-card"><div class="marketing-stat-val">+</div><div class="marketing-stat-lbl">добавление прямо из таблицы мониторинга</div></div>
+</div>
+</div>
+
 <!-- WHY -->
 <div class="instr-why-block">
-<div class="instr-block-title">Зачем нужна база штрихкодов?</div>
-<div class="instr-body-text">Один и тот же товар у вас и у поставщика может иметь разные штрихкоды. Без этой базы система не свяжет их между собой и строки останутся без совпадений. Добавьте оба кода в одну группу — и при мониторинге они будут считаться одним товаром, цены сравнятся автоматически.</div>
+<div class="instr-block-title">Как база штрихкодов влияет на мониторинг</div>
+<div class="instr-body-text--mb">Мониторинг цен сопоставляет товары <b>по штрихкоду</b>. Если ваш код и код поставщика совпадают — всё работает автоматически. Если не совпадают — строка в мониторинге остаётся без цены, даже если товар фактически есть у поставщика. База кросскодов решает эту проблему: вы однажды записываете «ваш код = код поставщика», и с этого момента система всегда их связывает.</div>
+<div class="instr-body-text">Один и тот же штрихкод может быть главным <b>или</b> кросскодом, но не может входить в две разные группы одновременно — это дубль. Дубли подсвечиваются красным и показываются в строке статистики над таблицей.</div>
 </div>
-<!-- CONCEPTS GRID -->
-<div class="instr-section-label--sm">Из чего состоит запись</div>
-<div class="dash-instr-grid ax-008">
+
+<!-- CONCEPTS -->
+<div class="instr-section-label">Структура записи</div>
+<div class="dash-instr-grid">
 <div class="dash-instr-card ax-001">
 <div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Название товара</span></div>
-<div class="dash-instr-card-body">Произвольное описание для удобства — чтобы вы понимали, о каком товаре речь. В сравнении не участвует, используется только для отображения.</div>
+<div class="dash-instr-card-body">Произвольный текст для вашего удобства — чтобы понимать, о каком товаре речь. В сравнении не участвует. Программа подставляет название автоматически из ваших наименований.</div>
 </div>
 <div class="dash-instr-card ax-001">
 <div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Главный штрихкод</span></div>
-<div class="dash-instr-card-body">Ваш основной код товара — тот, что стоит в вашем прайсе. Именно вокруг него строится группа.</div>
+<div class="dash-instr-card-body">Ваш основной код товара — тот, что стоит в вашем прайсе. Именно вокруг него строится группа. При объединении двух групп главным становится код первой.</div>
 </div>
 <div class="dash-instr-card ax-001">
 <div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Кросскоды</span></div>
-<div class="dash-instr-card-body">Альтернативные коды того же товара у поставщиков. При сравнении система ищет совпадение по главному коду <b>и</b> по всем кросскодам группы.</div>
+<div class="dash-instr-card-body">Альтернативные коды того же товара у поставщиков. В группе может быть любое количество кросскодов. Система ищет совпадение по главному коду <b>и</b> по всем кросскодам одновременно.</div>
 </div>
-<div class="dash-instr-card ax-005">
-<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Дубли</span></div>
-<div class="dash-instr-card-body">Один штрихкод не может входить в две разные группы — это дубль. Повторяющиеся коды подсвечиваются красным прямо в таблице для быстрого исправления.</div>
-</div>
-</div>
-<!-- TOOLBAR GUIDE -->
-<div class="instr-tool-panel">
-<div class="ax-014">Панель инструментов</div>
-<div class="instr-items-list">
-<div class="instr-feature-row">
-<button class="btn btn-success ax-003" disabled="">Экспорт Excel</button>
-<span class="instr-desc-text">Выгружает базу штрихкодов в таблицу Excel для просмотра или редактирования вне приложения.</span>
-</div>
-<div class="instr-feature-row">
-<button class="btn ax-003" disabled="">Импорт Excel</button>
-<span class="instr-desc-text">Загружает группы кросскодов из Excel-файла — удобно при первоначальном наполнении большой базы.</span>
-</div>
-<div class="instr-feature-row">
-<button class="btn ax-003" disabled="">Загрузить файл памяти</button>
-<span class="instr-desc-text">Восстанавливает базу штрихкодов, бренды и настройки колонок из ранее сохранённого JSON.</span>
-</div>
-<div class="instr-feature-row">
-<button class="btn btn-success ax-003" disabled=""><i data-lucide="save"></i> Скачать файл памяти</button>
-<span class="instr-desc-text">Сохраняет <b>всё сразу</b>: штрихкоды, бренды и настройки колонок. Загрузите в следующей сессии — всё восстановится.</span>
-</div>
-<div class="instr-feature-row">
-<button class="btn btn-danger ax-003" disabled="">Очистить</button>
-<span class="instr-desc-text">Полностью удаляет базу штрихкодов. Действие требует подтверждения.</span>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title" style="color:var(--red);">Дубли</span></div>
+<div class="dash-instr-card-body">Один код не может входить в две группы. Дубль — ошибка: система не поймёт, к какой группе он относится. Дублирующие коды подсвечены <b style="color:var(--red);">красным</b>. Количество дублей видно в строке над таблицей.</div>
 </div>
 </div>
-</div>
-<!-- HOW TO ADD -->
+
+<!-- HOW TO ADD MANUALLY -->
 <div class="instr-how-block">
 <div class="instr-how-title">Как добавить группу вручную</div>
 <div class="instr-steps-list">
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 1</span>
-<span class="instr-step-text">Заполните строку над таблицей: <b>название товара</b> (для удобства), <b>главный ШК</b> — ваш основной код, <b>кросскоды</b> — коды того же товара у поставщиков через запятую.</span>
+<span class="instr-step-text">В строке над таблицей заполните: <b>Название товара</b> (для себя), <b>Главный ШК</b> — ваш код из прайса, <b>Кросскоды через запятую</b> — коды того же товара у поставщиков. Кросскоды необязательны: можно добавить позже прямо в таблице.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 2</span>
-<span class="instr-step-text">Нажмите <b>«Добавить»</b> — запись появится в таблице. Кросскоды можно дополнять прямо в строке таблицы: нажмите <b>Enter</b> в поле кросскодов.</span>
+<span class="instr-step-text">Нажмите <b>«Добавить»</b> — запись появится в таблице, мониторинг сразу пересчитается. Кросскоды можно добавлять прямо в строке таблицы: кликните в поле кросскодов, введите код и нажмите <b>Enter</b>.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 3</span>
-<span class="instr-step-text">Красный код в таблице означает дубль — этот штрихкод уже есть в другой группе. Исправьте или удалите его, чтобы избежать ошибок при сравнении.</span>
+<span class="instr-step-text">Если код отображается красным — это дубль. Найдите, в какой группе он уже есть, и удалите лишнюю запись. Кнопка ↩ <b>Отмена</b> откатит последнее действие.</span>
 </div>
 <div class="instr-step-row">
 <span class="instr-step-badge">Шаг 4</span>
-<span class="instr-step-text">Нажмите <b>«Скачать файл памяти»</b>, чтобы сохранить базу. При следующей сессии загрузите его — все группы восстановятся автоматически.</span>
+<span class="instr-step-text">Когда база пополнена — нажмите <b>«Скачать файл памяти»</b> в тулбаре. Кнопка сохранения также появляется в левой боковой панели сразу при любом изменении.</span>
 </div>
 </div>
 </div>
-<!-- FEATURES -->
-<div class="instr-section-label--sm">Дополнительные возможности</div>
+
+<!-- FAST WAY FROM MONITOR -->
+<div class="instr-privacy-block" style="background:linear-gradient(135deg,#14532d 0%,#166534 55%,#15803d 100%);">
+<div class="instr-privacy-block-title">Быстрый способ: кнопка «+» прямо в таблице мониторинга</div>
+<div class="instr-privacy-block-body">В таблице мониторинга рядом со штрихкодом каждого товара есть маленькая кнопка <b>+</b>. Нажмите её — откроется диалог добавления в базу: главный штрихкод уже подставлен, а кросскоды от поставщиков предложены списком с чекбоксами. Выберите нужные, укажите название и нажмите «Добавить». Если штрихкод уже есть в базе — вместо «+» отображается зелёный значок <b>✓</b>. Это самый быстрый способ наполнять базу прямо в процессе работы с мониторингом.</div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="instr-section-label">Панель инструментов</div>
+<div class="instr-tool-panel">
+<div class="instr-items-list">
+<div class="instr-feature-row">
+<button class="btn btn-success instr-demo-btn" disabled=""><i data-lucide="save"></i> Экспорт Excel</button>
+<span class="instr-desc-text">Выгружает всю базу в Excel-таблицу: три колонки — штрихкод, название, кросскоды через запятую. Удобно для просмотра, массового редактирования или передачи коллеге.</span>
+</div>
+<div class="instr-feature-row">
+<button class="btn instr-demo-btn" disabled=""><i data-lucide="file-up"></i> Импорт Excel</button>
+<span class="instr-desc-text">Загружает группы из Excel-файла. Программа сама определяет колонки штрихкода, названия и кросскодов по заголовкам. Если есть конфликты с существующей базой — предложит на выбор: <b>перезаписать</b>, <b>пропустить</b> или <b>объединить кросскоды</b>.</span>
+</div>
+<div class="instr-feature-row">
+<button class="btn instr-demo-btn" disabled=""><i data-lucide="hard-drive"></i> Загрузить файл памяти</button>
+<span class="instr-desc-text">Восстанавливает базу штрихкодов, базу брендов и настройки колонок из JSON-файла. Загружайте в начале каждой сессии — все накопленные кросскоды применятся сразу.</span>
+</div>
+<div class="instr-feature-row">
+<button class="btn btn-success instr-demo-btn" disabled=""><i data-lucide="save"></i> Скачать файл памяти</button>
+<span class="instr-desc-text">Сохраняет всё сразу: <b>штрихкоды + кросскоды, базу брендов и шаблоны колонок</b>. Один файл — полный бэкап настроек. Также доступна из боковой панели, когда есть несохранённые изменения.</span>
+</div>
+<div class="instr-feature-row">
+<button class="btn btn-secondary instr-demo-btn" disabled=""><i data-lucide="undo-2"></i> / <i data-lucide="redo-2"></i></button>
+<span class="instr-desc-text">Отмена и повтор действий — работают для любых изменений базы: добавление, удаление, переименование, добавление кросскода. Глубина истории <b>50 шагов</b>. Также доступны через Ctrl+Z / Ctrl+Y.</span>
+</div>
+<div class="instr-feature-row">
+<button class="btn btn-danger instr-demo-btn" disabled=""><i data-lucide="trash-2"></i> Очистить</button>
+<span class="instr-desc-text">Полностью удаляет все записи базы штрихкодов. Запрашивает подтверждение. Отменить через ↩ нельзя — убедитесь, что файл памяти скачан.</span>
+</div>
+</div>
+</div>
+
+<!-- TIPS -->
+<div class="instr-section-label">Важные особенности</div>
 <div class="dash-instr-grid ax-004">
-<div class="dash-instr-card">
-<div class="dash-instr-card-header"><span class="ax-002"></span><span class="dash-instr-card-title">Импорт / Экспорт Excel</span></div>
-<div class="dash-instr-card-body">Редактируйте базу в Excel и загружайте обратно. Удобно для первичного наполнения или массовых правок.</div>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Мгновенный эффект</span></div>
+<div class="dash-instr-card-body">После добавления или изменения группы мониторинг пересчитывается автоматически — не нужно переходить на другую вкладку или перезагружать страницу.</div>
 </div>
-<div class="dash-instr-card">
-<div class="dash-instr-card-header"><span class="ax-002">↩</span><span class="dash-instr-card-title">Отмена изменений</span></div>
-<div class="dash-instr-card-body">Кнопки ↩ и ↪ в тулбаре позволяют отменить или повторить последние действия — удаление, добавление кросскодов, переименование.</div>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Поиск по базе</span></div>
+<div class="dash-instr-card-body">Строка поиска над таблицей ищет одновременно по названию товара и по всем штрихкодам группы — и по главному, и по кросскодам. Достаточно ввести любой из кодов.</div>
 </div>
-<div class="dash-instr-card">
-<div class="dash-instr-card-header"><span class="ax-002"></span><span class="dash-instr-card-title">Поиск</span></div>
-<div class="dash-instr-card-body">Строка поиска появляется после добавления первой записи — ищет одновременно по названию товара и по всем штрихкодам группы.</div>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Артикулы вместо ШК</span></div>
+<div class="dash-instr-card-body">Если поставщик не даёт штрихкоды — назначьте его колонку с артикулом как «Штрихкод» на вкладке загрузки. Тогда артикулы можно связывать с вашими кодами через эту базу.</div>
 </div>
-<div class="dash-instr-card">
-<div class="dash-instr-card-header"><span class="ax-002"></span><span class="dash-instr-card-title">Автоматически через поиск</span></div>
-<div class="dash-instr-card-body">Вкладка «Поиск кросскодов» предложит пары товаров по схожести наименований. Подтверждённые пары попадут в базу автоматически.</div>
+<div class="dash-instr-card ax-001">
+<div class="dash-instr-card-header"><span class="ax-000"></span><span class="dash-instr-card-title">Автоматически: Поиск кросскодов</span></div>
+<div class="dash-instr-card-body">Вкладка «Поиск кросскодов» анализирует наименования и предлагает пары. Подтверждённые пары попадают прямо сюда — не нужно вводить коды вручную.</div>
 </div>
 </div>
-<div class="dash-instr-tip"><b>Совет:</b> начните с «Поиска кросскодов» после первой загрузки прайсов — система сама найдёт похожие товары с разными кодами. Это быстрее, чем заполнять базу вручную.</div>
+<div class="dash-instr-tip"><b>Оптимальный порядок работы:</b> (1) загрузите файл памяти в начале сессии; (2) запустите «Поиск кросскодов» — большинство связей добавится автоматически; (3) для оставшихся используйте кнопку «+» прямо в мониторинге; (4) скачайте обновлённый файл памяти в конце сессии.</div>
 </div>
 </div>
 <div class="table-wrapper" id="jeTableWrap" style="margin-top:0;max-height:60vh;padding-bottom:60px;">
